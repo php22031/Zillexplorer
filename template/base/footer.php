@@ -10,7 +10,7 @@
 </div>
 
 <footer class="container-fluid">
-  <p>Footer Text</p>
+  <p><a href='https://github.com/taoteh1221/Zillexplorer' target='_blank'>https://github.com/taoteh1221/Zillexplorer</a></p>
 </footer>
 
 </body>

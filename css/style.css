@@ -17,6 +17,14 @@
       padding: 15px;
     }
     
+    footer a {
+    color: #66ff33;
+    }
+    footer a:hover {
+    color: #99ffcc;
+    }
+    
+    
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {
