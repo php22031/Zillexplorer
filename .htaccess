@@ -1,0 +1,13 @@
+
+
+############################
+
+RewriteEngine On
+RewriteBase /
+
+### Disallow access to this file
+RewriteRule ^\.htaccess$ - [F]
+
+# Always run from HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
