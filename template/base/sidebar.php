@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
 ?>
     <div id="sidebar-content" class="col-sm-3 sidenav">
