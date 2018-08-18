@@ -4,13 +4,14 @@
  */
 ?>
 
-    </div> <!-- END #main-content -->
+    </div>
+    <!-- END #main-content -->
     
   </div>
 </div>
 
 <footer class="container-fluid">
-  <p><a href='https://github.com/taoteh1221/Zillexplorer' target='_blank'>https://github.com/taoteh1221/Zillexplorer</a></p>
+  <p><a href='https://github.com/taoteh1221/Zillexplorer' target='_blank'>Zillexplorer v<?=$version?></a></p>
 </footer>
 
 </body>

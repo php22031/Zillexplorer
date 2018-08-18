@@ -10,6 +10,14 @@
       height: 100%;
     }
     
+    td {
+    padding: 8px;
+    }
+    
+    tr:nth-child(odd) {
+    background-color: #f2f2f2
+	 }
+
     /* Set black background color, white text and some padding */
     footer {
       background-color: #555;

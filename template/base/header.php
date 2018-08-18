@@ -5,7 +5,7 @@
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>TITLE HERE</title>
+  <title>Zillexplorer</title>
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,6 +31,7 @@
   
   <?php include('template/base/sidebar.php'); ?>
 
+	 <!-- START #main-content -->
     <div id="main-content" class="col-sm-9">
     
     
