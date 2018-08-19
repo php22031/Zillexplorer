@@ -313,7 +313,7 @@ include('template/base/header.php');
       ?>
       
 
-      <h2>Network Stats</h2>
+      <h2>Zilliqa Network Stats</h2>
       <h5><span class="glyphicon glyphicon-time"></span> <?=date('Y-m-d h:i:sa')?></h5>
       <h5><!-- <span class="label label-danger">Lorem</span> --> <span class="label label-primary">Stats</span></h5>
       
@@ -382,7 +382,7 @@ include('template/base/header.php');
       
       <table width='100%' border='2'>
     		
-  		<tr><th class='table-header'> <h3>Zilliqa Network Stats:</h3></th></tr>
+  		<tr><th class='table-header'> <h3>Network:</h3></th></tr>
   		
       		<tr><td class='no-border'><span style='padding: 4px; display: block;'><b>API Server:</b> <?=$api_server?></a></span></td></tr>
       <?php

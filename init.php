@@ -9,7 +9,7 @@ session_start();
 $curl_setup = curl_version();
 
  
-$version = '0.0.2';  // 2018/AUGUST/18TH
+$version = '0.0.3';  // 2018/AUGUST/19TH
 
 $api_server = 'https://api-scilla.zilliqa.com/';
 
