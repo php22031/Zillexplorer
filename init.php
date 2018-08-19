@@ -11,7 +11,7 @@ $curl_setup = curl_version();
  
 $version = '0.0.2';  // 2018/AUGUST/18TH
 
-$zill_node = 'https://api-scilla.zilliqa.com/';
+$api_server = 'https://api-scilla.zilliqa.com/';
 
 $api_timeout = 10; // Seconds to wait for response from API
 

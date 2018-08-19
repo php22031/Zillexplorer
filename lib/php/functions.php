@@ -39,7 +39,7 @@ return get_data('array', $request);
 //////////////////////////////////////////////////////////
 function get_data($mode, $request) {
 
-global $version, $user_agent, $zill_node, $api_timeout;
+global $version, $user_agent, $api_server, $api_timeout;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -49,7 +49,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 	if ( !$_SESSION['api_cache'][$hash_check] ) {	
 	
-	$ch = curl_init( ( $mode == 'array' ? $zill_node : '' ) );
+	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
 	
 		if ( $mode == 'array' ) {
 		curl_setopt($ch, CURLOPT_POST, 1);

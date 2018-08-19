@@ -384,6 +384,7 @@ include('template/base/header.php');
     		
   		<tr><th class='table-header'> <h3>Zilliqa Network Stats:</h3></th></tr>
   		
+      		<tr><td class='no-border'><span style='padding: 4px; display: block;'><b>API Server:</b> <?=$api_server?></a></span></td></tr>
       <?php
       
       	foreach ( $network_id_results as $key => $value ) {
@@ -466,7 +467,7 @@ include('template/base/header.php');
       	////////////////////////////////////////////////////////////////
       	
       	?>
-      	}
+      	
   		<tr><th class='table-header'> <h3>Latest DS Blocks:</h3></th></tr>
   		
   		<?php
