@@ -11,8 +11,13 @@
 </div>
 
 <footer class="container-fluid">
-  <p><a href='https://github.com/taoteh1221/Zillexplorer' target='_blank'>Zillexplorer v<?=$version?></a></p>
+  <p><a href='https://github.com/taoteh1221/Zillexplorer/releases' target='_blank'>Zillexplorer v<?=$version?></a></p>
 </footer>
 
 </body>
 </html>
+<?php
+//var_dump($_SESSION['debugging_printout']);
+
+session_destroy();
+?>

@@ -41,35 +41,29 @@ include('template/base/header.php');
       	
       		if ( $key == 'result' ) {
       			
-      			foreach ( $value as $key2 => $value2 ) {
+      			foreach ( $value as $key2 => $value2 ) { // Results arrays depth 0
       				
-      				if ( $key2 == 'header' ) {			
-      	?>
+      				if ( is_array($value2) ) {			
+      				?>
       	
-  		<tr><th class='table-header'> <h3>Header:</h3></th></tr>
+  						<tr><th class='table-header'> <h3><?=ucfirst($key2)?></h3></th></tr>
   		
-  		<?php
+  						<?php
       					
-      					foreach ( $value2 as $key3 => $value3 ) {
+      					foreach ( $value2 as $key3 => $value3 ) { // Results arrays depth 1
       				
 					      	
       					?>
       					
-      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=strtoupper($key3)?>:</b> <?=$value3?></a></span></td></tr>
-      					
-      				 
+      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=ucfirst($key3)?>:</b> <?=$value3?></a></span></td></tr>
       				<?php
       					}
       					
       				}
       				else {
-      				
-					      	
-      					?>
+      				?>
       					
-      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=strtoupper($key2)?>:</b> <?=$value2?></a></span></td></tr>
-      					
-      				 
+      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=ucfirst($key2)?>:</b> <?=$value2?></a></span></td></tr>
       				<?php
       				}
       		
@@ -80,15 +74,12 @@ include('template/base/header.php');
       	
       	}
       	?>
-      	
-      	
       
       </table>
       
       </p>
       
       <?php
-      
       
       }
       elseif ( trim($_GET['tx_block']) != '' ) {
@@ -122,58 +113,38 @@ include('template/base/header.php');
       	
       		if ( $key == 'result' ) {
       			
-      			foreach ( $value as $key2 => $value2 ) {
+      			foreach ( $value as $key2 => $value2 ) { // Results arrays depth 0
       				
-      				if ( $key2 == 'body' ) {
-      	?>
+      				if ( is_array($value2) ) {
+      				?>
       	
-  		<tr><th class='table-header'> <h3>Body:</h3></th></tr>
+  						<tr><th class='table-header'> <h3><?=ucfirst($key2)?>:</h3></th></tr>
   		
-  		<?php
+  						<?php
       	
       					
-      					foreach ( $value2 as $key3 => $value3 ) {
+      					foreach ( $value2 as $key3 => $value3 ) { // Results arrays depth 1
       						
-      						if ( $key3 == 'MicroBlockEmpty' ) {
+      						if ( is_array($value3) ) {
       							
-      	?>
+      				?>
       	
-  		<tr><th class='table-header'> <h3>MicroBlockEmpty:</h3></th></tr>
+  		<tr><th class='table-header'> <h3><?=ucfirst($key3)?>:</h3></th></tr>
   		
   		<?php
-  									foreach ( $value3 as $key4 => $value4 ) {
+  									foreach ( $value3 as $key4 => $value4 ) { // Results arrays depth 2
       							?>
       					
-      							<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=strtoupper($key4)?>:</b> <?=$value4?></a></span></td></tr>
-      									
-      				 			
+      							<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=ucfirst($key4)?>:</b> <?=$value4?></a></span></td></tr>
       							<?php
   									}
       	
-      						}
-      						elseif ( $key3 == 'MicroBlockHashes' ) {
-      							
-      	?>
-      	
-  		<tr><th class='table-header'> <h3>MicroBlockHashes:</h3></th></tr>
-  		
-  		<?php
-  									foreach ( $value3 as $key5 => $value5 ) {
-      							?>
-      					
-      							<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=strtoupper($key5)?>:</b> <?=$value5?></a></span></td></tr>
-      									
-      				 			
-      							<?php
-  									}
-      							
       						}
       						else {
 					      	
       					?>
       					
-      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=strtoupper($key3)?>:</b> <?=$value3?></a></span></td></tr>
-      					
+      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=ucfirst($key3)?>:</b> <?=$value3?></a></span></td></tr>
       				 
       				<?php
       						}
@@ -181,32 +152,10 @@ include('template/base/header.php');
       					}
       					
       				}
-      				elseif ( $key2 == 'header' ) {			
-      				?>
-      				
-  						<tr><th class='table-header'> <h3>Header:</h3></th></tr>
-  						
-  						<?php
-      					
-      					foreach ( $value2 as $key6 => $value6 ) {
-      				
-					      	
-      					?>
-      					
-      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=strtoupper($key6)?>:</b> <?=$value6?></a></span></td></tr>
-      					
-      				 
-      				<?php
-      					}
-      					
-      				}
       				else {
-      				
-					      	
-      					?>
+      				?>
       					
-      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=strtoupper($key2)?>:</b> <?=$value2?></a></span></td></tr>
-      					
+      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=ucfirst($key2)?>:</b> <?=$value2?></a></span></td></tr>
       				 
       				<?php
       				}
@@ -218,8 +167,6 @@ include('template/base/header.php');
       	
       	}
       	?>
-      	
-      	
       
       </table>
       
@@ -439,21 +386,15 @@ include('template/base/header.php');
   		
       <?php
       
-      
-      
-      
       	foreach ( $network_id_results as $key => $value ) {
       	
       		if ( $key == 'result' ) {
-      			
-      				
 					      	
-      					?>
+      		?>
       					
-      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b>Network ID:</b> <?=$network_id_results[$key]?></a></span></td></tr>
-      					
+      		<tr><td class='no-border'><span style='padding: 4px; display: block;'><b>Network ID:</b> <?=$network_id_results[$key]?></a></span></td></tr>
       				 
-      				<?php
+      		<?php
       			
       		}
       		
@@ -469,15 +410,51 @@ include('template/base/header.php');
       	
       		if ( $key == 'result' ) {
       			
-      			foreach ( $value as $key2 => $value2 ) {
+      			foreach ( $value as $key2 => $value2 ) { // Results arrays depth 0
       				
-					      	
-      					?>
+      				if ( is_array($value2) ) {			
+      				?>
+      	
+  						<tr><th class='table-header'> <h3><?=ucfirst($key2)?>:</h3></th></tr>
+  		
+  						<?php
+  						
+      					foreach ( $value2 as $key3 => $value3 ) { // Results arrays depth 1
+      						
+      						if ( is_array($value3) ) {				
+      						?>
+      	
+  								<tr><th class='table-header'> <h3><?=ucfirst($key3)?>:</h3></th></tr>
+  		
+  								<?php
+  									foreach ( $value3 as $key4 => $value4 ) { // Results arrays depth 2
+      							?>
       					
-      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=$key2?>:</b> <?=$value2?></a></span></td></tr>
+      							<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=ucfirst($key4)?>:</b> <?=$value4?></a></span></td></tr>	
+      							<?php
+  										
+  									}
+  								
+      						}
+      						else {
+      						?>
       					
+      						<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=ucfirst($key3)?>:</b> <?=$value3?></a></span></td></tr>
       				 
+      						<?php
+      						}
+      				
+      					}
+      					
+      				}
+      				else {
+					      	
+      				?>
+      					
+      					<tr><td class='no-border'><span style='padding: 4px; display: block;'><b><?=ucfirst($key2)?>:</b> <?=$value2?></a></span></td></tr>
+      					
       				<?php
+      				}
       		
       			}
       			
@@ -489,11 +466,10 @@ include('template/base/header.php');
       	////////////////////////////////////////////////////////////////
       	
       	?>
-      	
+      	}
   		<tr><th class='table-header'> <h3>Latest DS Blocks:</h3></th></tr>
   		
   		<?php
-      	
       
       	foreach ( $ds_blocks_results as $key => $value ) {
       	
@@ -529,7 +505,6 @@ include('template/base/header.php');
       			
       		}
       		
-      	
       	}
       	$loop = NULL;
       	
@@ -558,11 +533,11 @@ include('template/base/header.php');
 					      while ( $loop < $stats_max )	{
 					      	
 					      	if ( $value2[$loop]['BlockNum'] != '' ) {
-      					?>
+      						?>
       					
-      					<span style='padding: 4px; display: block;'><a href='?tx_block=<?=$value2[$loop]['BlockNum']?>'>TX Block #<?=$value2[$loop]['BlockNum']?></a></span>
+      						<span style='padding: 4px; display: block;'><a href='?tx_block=<?=$value2[$loop]['BlockNum']?>'>TX Block #<?=$value2[$loop]['BlockNum']?></a></span>
       					
-      					<?php
+      						<?php
       						}
       					
       					$loop = $loop + 1;
@@ -576,7 +551,6 @@ include('template/base/header.php');
       			}
       			
       		}
-      		
       	
       	}
       	$loop = NULL;
@@ -597,11 +571,12 @@ include('template/base/header.php');
       			foreach ( $value as $key2 => $value2 ) {
       				
       				if ( $key2 == 'TxnHashes' ) {
-      		?>
+      				?>
       		
-      		<tr><td class='no-border'> 
+      				<tr><td class='no-border'> 
       		
-      		<?php		
+      				<?php		
+      				
 							$loop = 0;
 					      while ( $loop < $stats_max )	{
 					      	
@@ -623,7 +598,6 @@ include('template/base/header.php');
       			}
       			
       		}
-      		
       	
       	}
       	$loop = NULL;
@@ -642,3 +616,4 @@ include('template/base/header.php');
       
       
 <?php include('template/base/footer.php'); ?>
+

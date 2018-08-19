@@ -22,5 +22,17 @@ $user_agent = $_SERVER['SERVER_SOFTWARE'] . ' HTTP Server; PHP v' .phpversion().
 
 include('lib/php/functions.php'); 
 include('lib/php/cookies.php'); 
+
+
+if ( $_GET['search'] && trim($_GET['q']) != '' ) {
+$dyn_title = '- Search: ' . trim($_GET['q']);
+}
+elseif ( trim($_GET['ds_block']) != '' ) {
+$dyn_title = '- DS Block #' . trim($_GET['ds_block']);
+}
+elseif ( trim($_GET['tx_block']) != '' ) {
+$dyn_title = '- TX Block #' . trim($_GET['tx_block']);
+}
+
  
 ?>
