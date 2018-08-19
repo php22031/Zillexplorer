@@ -32,6 +32,14 @@
     color: #99ffcc;
     }
     
+    .no-border {
+    border: 0px solid black;
+    }
+    
+    .table-header {
+    padding-left: 15px; border: 2px solid black; border-bottom: 0px solid black;
+    }
+    
     
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {

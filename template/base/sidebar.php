@@ -5,7 +5,7 @@
 ?>
 	<!-- START #sidebar-content -->
     <div id="sidebar-content" class="col-sm-3 sidenav">
-      <h4>Zillexplorer</h4>
+      <h4><a href='./'>Zillexplorer</a></h4>
       <ul class="nav nav-pills nav-stacked">
         <li class="active"><a href="#section1">Section #1</a></li>
         <li><a href="#section2">Section #2</a></li>
@@ -13,8 +13,8 @@
       </ul><br>
       <div class="input-group">
       <form id='zill_search' method='get' action='./'>
-      <input type='hidden' name='main_search' value='1' />
-        <input type="text" name='search_value' value='<?=$_GET['search_value']?>' class="form-control" placeholder="Search...">
+      <input type='hidden' name='search' value='1' />
+        <input type="text" name='q' value='<?=$_GET['q']?>' class="form-control" placeholder="Search address / transaction...">
       </form>
         <span class="input-group-btn">
           <button class="btn btn-default" type="button" onclick='document.getElementById("zill_search").submit();'>

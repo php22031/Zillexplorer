@@ -4,3 +4,10 @@
 Initial early POC
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+0.0.2:
+Implemented using most of the current available API points (except some smart contract ones, which will be separated into tabs next)
+-------------------------------------------------------------------
+
+
+

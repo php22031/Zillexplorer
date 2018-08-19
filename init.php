@@ -9,11 +9,13 @@ session_start();
 $curl_setup = curl_version();
 
  
-$version = '0.0.1';  // 2018/AUGUST/18TH
+$version = '0.0.2';  // 2018/AUGUST/18TH
 
 $zill_node = 'https://api-scilla.zilliqa.com/';
 
-$api_timeout = 10; // Seconds to wait for response from API endpoint
+$api_timeout = 10; // Seconds to wait for response from API
+
+$stats_max = '25'; // Front page limit on stats shown per section
  
 $user_agent = $_SERVER['SERVER_SOFTWARE'] . ' HTTP Server; PHP v' .phpversion(). ' and Curl v' .$curl_setup["version"]. '; Zillexplorer v' . $version . ' API Parser;';
 
