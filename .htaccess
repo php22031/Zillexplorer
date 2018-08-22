@@ -1,6 +1,8 @@
 
 
 ############################
+#  Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
+############################
 
 RewriteEngine On
 RewriteBase /
@@ -11,3 +13,16 @@ RewriteRule ^\.htaccess$ - [F]
 # Always run from HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
+
+# Pretty / SEO URL Support #########################
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+ 
+RewriteRule dsblock/(\d+)*$ ?dsblock=$1
+RewriteRule txblock/(\d+)*$ ?txblock=$1
+ 
+RewriteRule search/(.*)$ ?q=$1
+RewriteRule tx/(.*)$ ?q=$1
+RewriteRule address/(.*)$ ?q=$1 [L]
+
+#####################################################

@@ -41,6 +41,39 @@
     }
     
     
+div.tabdiv {
+	padding:15px;
+	width:auto;
+	width: 100%;
+	min-height: 150px;
+	display:inline-block;
+	background:#fff;
+                            border: 1px solid #808080;
+}
+
+.tabs li {
+	list-style:none;
+	display:inline;
+}
+
+
+.tabs a {
+	padding:5px 10px;
+	display:inline-block;
+	background:#808080;
+	color:black;
+	text-decoration:none;
+}
+
+.tabs a.active {
+                            border-top: 1px solid #808080;
+                            border-left: 1px solid #808080;
+                            border-right: 1px solid #808080;
+	background:#fff;
+	color:#000;
+}
+
+    
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {

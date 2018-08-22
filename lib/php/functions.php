@@ -4,8 +4,18 @@
  */
  
 
+//////////////////////////////////////////////////////////
 
+function json_request($method, $params) {
 
+return array(
+      		'id' => '1',
+  				'jsonrpc' => '2.0',
+      		'method' => $method,
+      		'params' => $params,
+				);
+
+}
 
 //////////////////////////////////////////////////////////
 
@@ -30,13 +40,6 @@ return $request;
 
 //////////////////////////////////////////////////////////
 
-function zill_node_api($request) {
-
-return get_data('array', $request);
-
-}
-
-//////////////////////////////////////////////////////////
 function get_data($mode, $request) {
 
 global $version, $user_agent, $api_server, $api_timeout;
@@ -105,7 +108,6 @@ return $data;
 
 
 }
-//////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////
 
@@ -118,6 +120,7 @@ function trim_array($data) {
 return $data;
 
 }
+
 //////////////////////////////////////////////////////////
 
 function remove_formatting($data) {
@@ -129,6 +132,7 @@ $data = preg_replace("/,/i", "", $data); // Comma
 return $data;
 
 }
+
 //////////////////////////////////////////////////////////
 
 
