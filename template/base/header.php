@@ -30,11 +30,12 @@
 <div class="container-fluid">
   <div class="row content">
   
-  <?php include('template/base/sidebar.php'); ?>
+  <?php //include('template/base/sidebar.php'); ?>
 
 	 <!-- START #main-content -->
-    <div id="main-content" class="col-sm-9">
+    <!-- <div id="main-content" class="col-sm-9">  DISABLE WAS WITH SIDEBAR -->
+    <div id="main-content" class="col-sm-12" style="overflow-x:auto;">
     
-    
+  <?php include('template/base/topnav.php'); ?>
     
     

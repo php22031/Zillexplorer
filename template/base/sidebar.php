@@ -13,7 +13,7 @@
       </ul><br>
       <div class="input-group">
       <form id='zill_search' method='get' action='#'>
-        <input type="text" id='search_input' name='search_input' value='<?=$_GET['q']?>' class="form-control" placeholder="Search address / transaction...">
+        <input type="text" id='search_input' name='search_input' class="form-control" placeholder="Search address / transaction...">
       </form>
         <span class="input-group-btn">
           <button class="btn btn-default" type="button" onclick='window.location = "/search/" + document.getElementById("search_input").value;'>

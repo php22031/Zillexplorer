@@ -135,6 +135,891 @@ return $data;
 
 //////////////////////////////////////////////////////////
 
+function get_btc_usd($btc_in_usd) {
+
+  
+    if ( strtolower($btc_in_usd) == 'coinbase' ) {
+    
+    $json_string = 'https://api.coinbase.com/v2/prices/spot?currency=USD';
+    
+    $jsondata = @get_data('url', $json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['data']['amount'], 2, '.', '');
+  
+    }
+  
+  
+    elseif ( strtolower($btc_in_usd) == 'hitbtc' ) {
+  
+    $json_string = 'https://api.hitbtc.com/api/1/public/BTCUSD/ticker';
+    
+    $jsondata = @get_data('url', $json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['last'], 2, '.', '');
+  
+    }
+  
+  
+    elseif ( strtolower($btc_in_usd) == 'bitfinex' ) {
+  
+    $data = get_trade_price('bitfinex', 'tBTCUSD');
+    
+    return number_format( $data, 2, '.', '');
+  
+    }
+  
+
+    elseif ( strtolower($btc_in_usd) == 'gemini' ) {
+    
+    $json_string = 'https://api.gemini.com/v1/pubticker/btcusd';
+    
+      $jsondata = @get_data('url', $json_string);
+      
+      $data = json_decode($jsondata, TRUE);
+      
+    return number_format( $data['last'], 2, '.', '');
+      
+    }
+
+
+    elseif ( strtolower($btc_in_usd) == 'okcoin' ) {
+  
+    $json_string = 'https://www.okcoin.com/api/ticker.do?ok=1';
+    
+    $jsondata = @get_data('url', $json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['ticker']['last'], 2, '.', '');
+    
+  
+    }
+  
+  
+    elseif ( strtolower($btc_in_usd) == 'bitstamp' ) {
+ 	
+    $json_string = 'https://www.bitstamp.net/api/ticker/';
+    
+    $jsondata = @get_data('url', $json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['last'], 2, '.', '');
+    
+    }
+  
+ 
+   elseif ( strtolower($btc_in_usd) == 'gatecoin' ) {
+ 
+      
+      $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
+      
+      $jsondata = @get_data('url', $json_string);
+      
+      $data = json_decode($jsondata, TRUE);
+   
+   //var_dump($data);
+       if (is_array($data) || is_object($data)) {
+         
+             foreach ( $data['tickers'] as $key => $value ) {
+               
+               if ( $data['tickers'][$key]["currencyPair"] == 'BTCUSD' ) {
+                
+               return $data['tickers'][$key]["last"];
+                
+                
+               }
+             
+     
+             }
+             
+       }
+   
+   
+   }
+
+   elseif ( strtolower($btc_in_usd) == 'livecoin' ) {
+ 
+ 
+      $json_string = 'https://api.livecoin.net/exchange/ticker';
+      
+      $jsondata = @get_data('url', $json_string);
+      
+      $data = json_decode($jsondata, TRUE);
+   
+   
+   
+   //var_dump($data);
+       if (is_array($data) || is_object($data)) {
+         
+             foreach ( $data as $key => $value ) {
+               
+               if ( $data[$key]['symbol'] == 'BTC/USD' ) {
+                
+               return $data[$key]["last"];
+                
+                
+               }
+             
+     
+             }
+             
+       }
+   
+   
+   }
+
+   elseif ( strtolower($btc_in_usd) == 'kraken' ) {
+   
+   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD';
+   
+   $jsondata = @get_data('url', $json_string);
+   
+   $data = json_decode($jsondata, TRUE);
+   
+   //print_r($json_string);print_r($data);
+   
+       if (is_array($data) || is_object($data)) {
+   
+       foreach ($data as $key => $value) {
+         
+         //print_r($key);
+         
+         if ( $key == 'result' ) {
+     
+         //print_r($data[$key]);
+         
+     foreach ($data[$key] as $key2 => $value2) {
+       
+       //print_r($data[$key][$key2]);
+       
+       if ( $key2 == 'XXBTZUSD' ) {
+        
+       return $data[$key][$key2]["c"][0];
+        
+        
+       }
+     
+   
+     }
+       
+         }
+     
+       }
+       
+       }
+   
+   
+   }
+  
+
+}
+
+//////////////////////////////////////////////////////////
+
+function get_trade_price($chosen_market, $market_pairing) {
+
+global $btc_in_usd, $coins_array;
+ 
+
+  if ( strtolower($chosen_market) == 'gemini' ) {
+  
+  $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_pairing;
+  
+    $jsondata = @get_data('url', $json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['last'], 8, '.', '');
+    
+  
+  }
+
+
+  elseif ( strtolower($chosen_market) == 'bitstamp' ) {
+  	
+  
+  $json_string = 'https://www.bitstamp.net/api/v2/ticker/' . $market_pairing;
+  
+    $jsondata = @get_data('url', $json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['last'], 8, '.', '');
+    
+  
+  }
+
+
+
+  elseif ( strtolower($chosen_market) == 'okex' ) {
+  	
+  	// Available markets listed here: https://www.okex.com/v2/markets/products
+  
+  $json_string = 'https://www.okex.com/api/v1/ticker.do?symbol=' . $market_pairing;
+  
+    $jsondata = @get_data('url', $json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['ticker']['last'], 8, '.', '');
+    
+  
+  }
+
+
+
+  elseif ( strtolower($chosen_market) == 'binance' ) {
+  
+  $json_string = 'https://www.binance.com/api/v1/ticker/24hr?symbol=' . $market_pairing;
+  
+    $jsondata = @get_data('url', $json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['lastPrice'], 8, '.', '');
+    
+  
+  }
+
+
+  elseif ( strtolower($chosen_market) == 'coinbase' ) {
+  
+     $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $market_pairing;
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     return $data['data']['rates']['BTC'];
+   
+  }
+  
+
+  elseif ( strtolower($chosen_market) == 'cryptofresh' ) {
+  
+  $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_pairing;
+  
+    $jsondata = @get_data('url', $json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+	
+		if ( preg_match("/BRIDGE/", $market_pairing) ) {
+		return number_format( $data['BRIDGE.BTC']['price'], 8, '.', '');
+		}
+		elseif ( preg_match("/OPEN/", $market_pairing) ) {
+		return number_format( $data['OPEN.BTC']['price'], 8, '.', '');
+		}
+  
+    
+    
+    
+  
+  }
+
+
+  elseif ( strtolower($chosen_market) == 'bittrex' ) {
+     
+     $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+   
+  
+  $data = $data['result'];
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $data[$key]['MarketName'] == $market_pairing ) {
+         
+        return $data[$key]["Last"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+
+  elseif ( strtolower($chosen_market) == 'tradesatoshi' ) {
+
+     $json_string = 'https://tradesatoshi.com/api/public/getmarketsummaries';
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+  $data = $data['result'];
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $data[$key]['market'] == $market_pairing ) {
+         
+        return $data[$key]["last"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+  elseif ( strtolower($chosen_market) == 'liqui' ) {
+  
+  $json_string = 'https://api.liqui.io/api/3/ticker/' . $market_pairing;
+  
+  $jsondata = @get_data('url', $json_string);
+  
+  $data = json_decode($jsondata, TRUE);
+  
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $key == $market_pairing ) {
+         
+        return $data[$key]["last"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  }
+
+  elseif ( strtolower($chosen_market) == 'poloniex' ) {
+
+     $json_string = 'https://poloniex.com/public?command=returnTicker';
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+   
+  
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $key == $market_pairing ) {
+         
+        return $data[$key]["last"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+  elseif ( strtolower($chosen_market) == 'kucoin' ) {
+
+     $json_string = 'https://api.kucoin.com/v1/open/tick';
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+   
+  
+  $data = $data['data'];
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $data[$key]['symbol'] == $market_pairing ) {
+         
+        return $data[$key]["lastDealPrice"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+  elseif ( strtolower($chosen_market) == 'livecoin' ) {
+
+     $json_string = 'https://api.livecoin.net/exchange/ticker';
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $data[$key]['symbol'] == $market_pairing ) {
+         
+        return $data[$key]["last"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+  
+  elseif ( strtolower($chosen_market) == 'cryptopia' ) {
+
+     $json_string = 'https://www.cryptopia.co.nz/api/GetMarkets';
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+  $data = $data['Data'];
+  
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+            foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $data[$key]['Label'] == $market_pairing ) {
+         
+        return $data[$key]["LastPrice"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+  elseif ( strtolower($chosen_market) == 'hitbtc' ) {
+
+     $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $key == $market_pairing ) {
+         
+        return $data[$key]["last"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+  elseif ( strtolower($chosen_market) == 'bter' ) {
+
+     $json_string = 'http://data.bter.com/api/1/marketlist';
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //var_dump($data);
+        
+        if ( $data[$key]['pair'] == $market_pairing ) {
+         
+        return $data[$key]['rate'];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+  
+  
+  elseif ( strtolower($chosen_market) == 'graviex' ) {
+
+     $json_string = 'https://graviex.net//api/v2/tickers.json';
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //var_dump($data);
+        
+        if ( $data[$market_pairing] != '' ) {
+         
+        return $data[$market_pairing]['ticker']['last'];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+
+  elseif ( strtolower($chosen_market) == 'kraken' ) {
+  
+  $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $market_pairing;
+  
+  $jsondata = @get_data('url', $json_string);
+  
+  $data = json_decode($jsondata, TRUE);
+  
+  //print_r($json_string);print_r($data);
+  
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $key == 'result' ) {
+    
+        //print_r($data[$key]);
+        
+    foreach ($data[$key] as $key2 => $value2) {
+      
+      //print_r($data[$key][$key2]);
+      
+      if ( $key2 == $market_pairing ) {
+       
+      return $data[$key][$key2]["c"][0];;
+       
+       
+      }
+    
+  
+    }
+      
+        }
+    
+      }
+      
+      }
+  
+  
+  }
+
+
+
+  elseif ( strtolower($chosen_market) == 'gatecoin' ) {
+
+     $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+  //var_dump($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ( $data['tickers'] as $key => $value ) {
+        
+        if ( $data['tickers'][$key]["currencyPair"] == $market_pairing ) {
+         
+        return $data['tickers'][$key]["last"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+
+
+  elseif ( strtolower($chosen_market) == 'upbit' ) {
+  	
+  	
+  		foreach ( $coins_array as $markets ) {
+  		
+  			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
+  			
+  				if ( $exchange_pairs['upbit'] != '' ) {
+				
+				$upbit_pairs .= 'CRIX.UPBIT.' . $exchange_pairs['upbit'] . ',';
+				  				
+  				}
+  			
+  			}
+  			
+  		}
+
+
+     $json_string = 'https://crix-api-endpoint.upbit.com/v1/crix/recent?codes=' . $upbit_pairs;
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+  //var_dump($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ( $data as $key => $value ) {
+        
+        if ( $data[$key]["code"] == 'CRIX.UPBIT.' . $market_pairing ) {
+         
+        return $data[$key]["tradePrice"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+
+  elseif ( strtolower($chosen_market) == 'ethfinex' || strtolower($chosen_market) == 'bitfinex' ) {
+  	
+  	
+  		foreach ( $coins_array as $markets ) {
+  		
+  			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
+  			
+  				if ( $exchange_pairs['ethfinex'] != '' ) {
+				
+				$finex_pairs .= $exchange_pairs['ethfinex'] . ',';
+				  				
+  				}
+  				
+  				if ( $exchange_pairs['bitfinex'] != '' ) {
+				
+				$finex_pairs .= $exchange_pairs['bitfinex'] . ',';
+				  				
+  				}
+  			
+  			}
+  			
+  		}
+
+
+     $json_string = 'https://api.bitfinex.com/v2/tickers?symbols=' . $finex_pairs;
+     
+     $jsondata = @get_data('url', $json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+  //var_dump($data);
+  
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ( $data as $object ) {
+        
+        if ( $object[0] == $market_pairing ) {
+        	
+         //var_dump($object);
+         
+        return $object[( sizeof($object) - 4 )];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+
+  elseif ( strtolower($chosen_market) == 'usd_assets' ) {
+		
+	  $usdtobtc = ( 1 / get_btc_usd($btc_in_usd) );		
+		
+	  if ( $market_pairing == 'usdtobtc' ) {
+     return $usdtobtc;
+     }
+	  elseif ( $market_pairing == 'usdtoxmr' ) {
+     return ( 1 / ( get_trade_price('poloniex', 'BTC_XMR') / $usdtobtc ) );
+     }
+	  elseif ( $market_pairing == 'usdtoeth' ) {
+     return ( 1 / ( get_trade_price('poloniex', 'BTC_ETH') / $usdtobtc ) );
+     }
+	  elseif ( $market_pairing == 'usdtoltc' ) {
+     return ( 1 / ( get_trade_price('poloniex', 'BTC_LTC') / $usdtobtc ) );
+     }
+  
+  
+  }
+
+
+
+  
+}
+
+//////////////////////////////////////////////////////////
+
+function coinmarketcap_api($symbol) {
+	
+global $coinmarketcap_ranks_max;
+
+
+	if ( !$_SESSION['cmc_data'] ) {
+
+		if ( !$_SESSION['cmc_json_array'] ) {
+			
+			
+		//Coinmarketcap's new v2 API caps each API request at 100 assets, so we need to break requests up that are over 100 assets...
+		$offset = 1;
+		$rankings_left = $coinmarketcap_ranks_max;
+		
+			while ( $rankings_left > 0 ) {
+					
+				if ( $rankings_left > 99 ) {
+				$limit = 100;
+				}
+				else {
+				$limit = $rankings_left;
+				}
+			
+			$_SESSION['cmc_json_array'][] = "https://api.coinmarketcap.com/v2/ticker/?start=".$offset."&limit=".$limit;
+			
+			$offset = $offset + $limit;
+			$rankings_left = $rankings_left - $limit;
+			
+			}
+	
+		
+		}
+		
+		
+		foreach ( $_SESSION['cmc_json_array'] as $cmc_request ) {
+			
+     	$json_string = $cmc_request;
+     	     
+	  	$jsondata = @get_data('url', $json_string);
+	   
+   	$data = json_decode($jsondata, TRUE);
+    
+    	$array_merging[] = $data['data'];
+    	
+	
+		}
+		
+		$cmc_data = array(); // Empty array MUST be pre-defined for array_merge_recursive()
+		foreach ( $array_merging as $array ) {
+			
+ 	  	$cmc_data = array_merge_recursive($cmc_data, $array);
+	   
+ 	   }
+ 	   
+ 	   $_SESSION['cmc_data'] = $cmc_data;
+		
+
+	}
+	else {
+	$cmc_data = $_SESSION['cmc_data'];
+	}
+		
+	     	
+
+     if ( is_array($cmc_data) || is_object($cmc_data) ) {
+  		
+  	   	foreach ($cmc_data as $key => $value) {
+     	  	
+  	     	
+        		if ( $cmc_data[$key]['symbol'] == strtoupper($symbol) ) {
+  	      		
+        		return $cmc_data[$key];
+        
+        
+     	  		}
+    	 
+    
+  	   	}
+      	
+     
+     	}
+		  
+  
+}
+
+//////////////////////////////////////////////////////////
+
 
 
 
