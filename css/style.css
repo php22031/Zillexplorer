@@ -63,6 +63,10 @@
     border-bottom: 2px solid black;
     }
     
+    .all-borders {
+    border: 2px solid black;
+    }
+    
     
     
     .table-header-1deep {

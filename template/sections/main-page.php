@@ -81,7 +81,7 @@
       				if ( is_array($value2) ) {			
       				?>
       	
-  						<tr><th class='table-header'> <h4><b><?=ucfirst($key2)?>:</b></h4></th></tr>
+  						<tr><td class='side-borders'><span class='span-block'><b><?=ucfirst($key2)?>:</b></span></td></tr>
   		
   						<?php
   						
@@ -100,7 +100,7 @@
       						if ( is_array($value3) ) {				
       						?>
       	
-  								<tr><th class='table-header-1deep'><span class='span-block'><b><?=ucfirst($key3)?>:</b></span></th></tr>
+  								<tr><td class='side-borders-1deep'><span class='span-block'><b> --&gt; <?=ucfirst($key3)?>:</b></span></td></tr>
   		
   								<?php
   								
@@ -114,11 +114,17 @@
     									$last3 = 1;
   										}
     								//echo $i3.'!';
-    					
-      							?>
+    								
+    									if ( is_array($value4) ) {	
+      								echo 'Code array parsing needed here.';
+      								}
+      								else {
+      								?>
       					
-      							<tr><td class='<?=( $last3 == 1 ? 'u-borders-2deep' : 'side-borders-2deep' )?>'><span class='span-block'><b> --&gt; <?=ucfirst($key4)?>:</b> <?=$value4?></a></span></td></tr>	
+      								<tr><td class='<?=( $last3 == 1 && $last2 == 1 && $last == 1 ? 'u-borders-2deep' : 'side-borders-2deep' )?>'><span class='span-block'><b> --&gt; <?=ucfirst($key4)?>:</b> <?=$value4?></a></span></td></tr>	
+      								
       							<?php
+      								}
   										
   									}
   									$last3 = NULL;
@@ -127,7 +133,7 @@
       						else {
       						?>
       					
-      						<tr><td class='<?=( $last2 == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b><?=ucfirst($key3)?>:</b> <?=$value3?></a></span></td></tr>
+      						<tr><td class='<?=( $last2 == 1 && $last == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b><?=ucfirst($key3)?>:</b> <?=$value3?></a></span></td></tr>
       				 
       						<?php
       						}

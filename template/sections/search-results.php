@@ -58,12 +58,12 @@
       		
       				<?php
       				}
-      				elseif ( $key2 == 'balance' ) {
+      				elseif ( $key2 == 'balance' || $key2 == 'amount' ) {
       				?>
       				
       				<tr><td class='no-border'> <b><?=ucfirst($key2)?>:</b> <?=$value2?> ZIL</td></tr>
       				
-      				<tr><td class='no-border'> <b>ZIL Value:</b> $<?=number_format( ( $value2 * $zil_usd ), 2 )?> (@ $<?=$zil_usd?>/ZIL)</td></tr>
+      				<tr><td class='no-border'> <b><i>Current</i> ZIL Value:</b> $<?=number_format( ( $value2 * $zil_usd ), 2 )?> (@ $<?=$zil_usd?> / ZIL)</td></tr>
       		
       				<?php
       				}
