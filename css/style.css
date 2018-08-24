@@ -1,23 +1,132 @@
 /*
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
-    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-    .row.content {height: 1500px}
-    
-    /* Set gray background color and 100% height */
-    .sidenav {
-      background-color: #f1f1f1;
-      height: 100%;
-    }
-    
+	 #main-wrapper {margin: 0px; padding: 0px; width: 100%; min-height: 100%; height: auto;}
+	 
+	 #login-nav {
+	 padding-top: 10px;
+	 }
+	 
+	 .navbar-nav>li>a {
+		padding-left: 13px;
+		padding-right: 13px;	 
+	 }
+	 
     td {
     padding: 8px;
     }
     
-    tr:nth-child(odd) {
+    .stats-tables tr:nth-child(odd), .blockchain-tables tr:nth-child(odd) {
     background-color: #f2f2f2
 	 }
-
+	 
+	 .floating-table { margin-bottom: 30px; margin-right: 8px; min-width: 540px; float: left; }
+	 
+	 .stats-tables {
+	 table-layout: auto; 
+	 height: 100%;
+	 vertical-align: text-top;
+	 }
+    
+    .stats-tables .table-header, .stats-tables td {
+	 vertical-align: text-top;
+    }
+    
+    
+    .stats-tables tr {
+    padding: 0px; 
+    }
+    
+    #stats_table_1, #stats_table_2 {
+    background: none;
+    }
+    
+    
+    .table-header {
+    padding-left: 5px; border: 2px solid black; border-bottom: 0px solid black; height: 22px;
+    }
+    
+    .no-border {
+    border: 0px solid black;
+    }
+    
+    .side-borders {
+    border: 0px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    }
+    
+    .u-borders {
+    border: 0px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    }
+    
+    
+    
+    .table-header-1deep {
+    padding-left: 15px; 
+    border: 0px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;  
+    height: 22px;
+    }
+    
+    .no-border-1deep {
+    padding-left: 15px; 
+    border: 0px solid black;
+    }
+    
+    
+    .side-borders-1deep {
+    padding-left: 15px; 
+    border: 0px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    }
+    
+    .u-borders-1deep {
+    padding-left: 15px; 
+    border: 0px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    }
+    
+    
+    
+    .table-header-2deep {
+    padding-left: 30px; 
+    border: 0px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black; 
+    height: 22px;
+    }
+    
+    .no-border-2deep {
+    padding-left: 30px; 
+    border: 0px solid black;
+    }
+    
+    
+    .side-borders-2deep {
+    padding-left: 30px; 
+    border: 0px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    }
+    
+    .u-borders-2deep {
+    padding-left: 30px; 
+    border: 0px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    }
+	 
+	 .span-block {padding: 4px; display: block;}
+	 
     /* Set black background color, white text and some padding */
     footer {
       background-color: #555;
@@ -31,15 +140,6 @@
     footer a:hover {
     color: #99ffcc;
     }
-    
-    .no-border {
-    border: 0px solid black;
-    }
-    
-    .table-header {
-    padding-left: 15px; border: 2px solid black; border-bottom: 0px solid black;
-    }
-    
     
 div.tabdiv {
 	padding:15px;

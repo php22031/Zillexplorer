@@ -6,14 +6,14 @@
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
  
-$version = '0.0.4';  // 2018/AUGUST/22ND
+$version = '0.0.5';  // 2018/AUGUST/24TH
 
 $api_server = 'https://api-scilla.zilliqa.com/';
 //$api_server = 'https://testnet-l-api.aws.zilliqa.com/';
 
 $api_timeout = 10; // Seconds to wait for response from API
 
-$stats_max = '35'; // Front page limit on stats shown per section
+$stats_max = '20'; // Front page limit on stats shown per section
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 

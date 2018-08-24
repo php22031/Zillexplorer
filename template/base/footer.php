@@ -6,15 +6,17 @@
 
       <br/ ><br/ >
       
-    </div>
-    <!-- END #main-content -->
+  	  </div>
+    	<!-- END #main-content -->
     
-  </div>
-</div>
+  	</div>
+	</div>
 
-<footer class="container-fluid">
-  <p><a href='https://github.com/taoteh1221/Zillexplorer/releases' target='_blank'>Zillexplorer v<?=$version?></a></p>
-</footer>
+	<footer class="container-fluid">
+	  <p><a href='https://github.com/taoteh1221/Zillexplorer/releases' target='_blank'>Zillexplorer v<?=$version?></a></p>
+	</footer>
+
+</div>
 
 </body>
 </html>

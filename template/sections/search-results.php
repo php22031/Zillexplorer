@@ -20,7 +20,7 @@
       
 ?>
 
-      <h3><?=( preg_match("/address/i", $_SERVER['REQUEST_URI']) ? 'Address' : 'Search Results For' )?> "<?=trim($_GET['q'])?>"</h3>
+      <h3><b><?=( preg_match("/address/i", $_SERVER['REQUEST_URI']) ? 'Address' : 'Search Results For' )?> "<?=trim($_GET['q'])?>"</b></h3>
       <h5><span class="glyphicon glyphicon-time"></span> <?=date('Y-m-d h:i:sa')?></h5>
       <h5><span class="label label-primary"><?=ucfirst($search_type)?></span> <span id="sc-label" style="display: none;" class="label label-danger">Smart Contract</span> </h5>
       
@@ -33,7 +33,7 @@
       
       ?>
       
-      <table width='100%' border='2'>
+      <table class='blockchain-tables' width='100%' border='2'>
       
       <?php
       
@@ -126,7 +126,7 @@
  	 							if ( $value2['address'] != '' ) {
  	 					?>
  	   		
- 	 					<span style='padding: 4px; display: block;'><a href='/address/<?=$value2['address']?>'><?=$value2['address']?></a> </span>
+ 	 					<span class='span-block'><a href='/address/<?=$value2['address']?>'><?=$value2['address']?></a> </span>
  	 					
  	 					<?php
  	 							}
@@ -156,7 +156,7 @@
  	     	
 				<ul class='tabs' style='margin-bottom: 0px; padding: 0px;'>
 					<li><a href='#transactions'>Account Transactions</a></li>
-					<li><a href='#subtokentx'>Subtoken Transactions</a></li>
+					<li><a href='#tokentx'>Token Transactions</a></li>
 				</ul>
 				
 				<div id='transactions' class='tabdiv'>
@@ -164,8 +164,8 @@
 				Feature not built yet				</div>
 				
 				
-				<div id='subtokentx' class='tabdiv'>
-				<h4>Subtoken Transactions:</h4>
+				<div id='tokentx' class='tabdiv'>
+				<h4>Token Transactions:</h4>
 				Feature not built yet				</div>
 		
 		
