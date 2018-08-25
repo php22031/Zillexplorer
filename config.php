@@ -15,7 +15,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 /////////////////////////////////////////////////////
 
 
-$version = '0.0.5';  // 2018/AUGUST/24TH
+$version = '0.0.6';  // 2018/AUGUST/25TH
 
 //$api_server = 'https://api.zilliqa.com/';
 //$api_server = 'https://api-scilla.zilliqa.com/';
