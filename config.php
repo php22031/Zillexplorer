@@ -18,8 +18,8 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 $version = '0.0.5';  // 2018/AUGUST/24TH
 
 //$api_server = 'https://api.zilliqa.com/';
-$api_server = 'https://api-scilla.zilliqa.com/';
-//$api_server = 'https://testnet-n-api.aws.zilliqa.com/';
+//$api_server = 'https://api-scilla.zilliqa.com/';
+$api_server = 'https://testnet-n-api.aws.zilliqa.com/';
 
 $api_timeout = 10; // Seconds to wait for response from API
 

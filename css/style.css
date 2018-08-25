@@ -17,7 +17,7 @@
     }
     
     .stats-tables tr:nth-child(odd), .blockchain-tables tr:nth-child(odd) {
-    background-color: #f2f2f2
+    background-color: #e3eff2;
 	 }
 	 
 	 .floating-table { margin-bottom: 30px; margin-right: 8px; min-width: 540px; float: left; }
@@ -139,10 +139,10 @@
     }
     
     footer a {
-    color: #66ff33;
+    color: #9fe5f4;
     }
     footer a:hover {
-    color: #99ffcc;
+    color: #8bd2e0;
     }
     
 div.tabdiv {
@@ -176,8 +176,12 @@ div.tabdiv {
 	background:#fff;
 	color:#000;
 }
+.navbar-default {
+    background-color: #c0e5ed;
+    border-color: #bcd4d8;
+}
 
-    
+
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {

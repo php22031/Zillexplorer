@@ -9,6 +9,7 @@ $user_agent = $_SERVER['SERVER_SOFTWARE'] . ' HTTP Server; PHP v' .phpversion().
 
 include('lib/php/functions.php'); 
 include('lib/php/cookies.php'); 
+include('lib/php/zingchart/zc.php');
 
 
 // Dynamic title

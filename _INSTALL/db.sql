@@ -27,3 +27,12 @@ CREATE TABLE `transactions` (
   `block` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `charts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `timestamp` varchar(50) NOT NULL,
+  `difficulty` int NOT NULL,
+  `transactions_daily` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
