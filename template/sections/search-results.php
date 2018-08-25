@@ -150,6 +150,12 @@
  	 				}
  	 			
  	 			}
+ 	 			
+ 	 		// NOT IMPLEMENTED YET
+      	//$transaction_history = json_request('GetTransactionHistory' , array( strip_0x($sanitize_search) )  );
+      	//$transaction_history_results = json_decode( get_data('array', $transaction_history), TRUE );
+      	//var_dump( $transaction_history_results ); // DEBUGGING
+ 	 			
  	 		?>
  	 		
  	     	<tr><td>

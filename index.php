@@ -3,7 +3,7 @@
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
 
-include('init.php'); 
+include('config.php'); 
 include('template/base/header.php'); 
 
 $_GET['mode'] = trim( str_replace("/","", $_GET['mode']) );
@@ -48,9 +48,13 @@ $_GET['mode'] = trim( str_replace("/","", $_GET['mode']) );
       elseif ( $_GET['section'] == 'broadcast-transaction' ) {
 		include('template/sections/broadcast-transaction.php'); 
       }
-      // Top Accounts
-      elseif ( $_GET['section'] == 'top-accounts' ) {
-		include('template/sections/top-accounts.php'); 
+      // List Accounts
+      elseif ( $_GET['section'] == 'list-accounts' ) {
+		include('template/sections/list-accounts.php'); 
+		}
+      // List Transactions
+      elseif ( $_GET['section'] == 'list-transactions' ) {
+		include('template/sections/list-transactions.php'); 
 		}
 		
 		//////ONLINE ACCOUNT/////////////////////////////

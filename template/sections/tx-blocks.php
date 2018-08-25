@@ -76,7 +76,7 @@
       								else {
       								?>
       					
-      							<tr><td class='<?=( $last3 == 1 && $last2 == 1 && $last == 1 ? 'u-borders-2deep' : 'side-borders-2deep' )?>'><span class='span-block'><b> --&gt; <?=ucfirst($key4)?>:</b> <?=$value4?></a></span></td></tr>
+      							<tr><td class='<?=( $last3 == 1 && $last2 == 1 && $last == 1 ? 'u-borders-2deep' : 'side-borders-2deep' )?>'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key4)?>:</b> <?=$value4?></a></span></td></tr>
       							
       							<?php
       								}

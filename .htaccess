@@ -26,7 +26,8 @@ RewriteRule tokens/(.*)$ ?section=tokens&mode=$1
 RewriteRule charts/(.*)$ ?section=charts&mode=$1
 RewriteRule mining-calculator/(.*)$ ?section=mining-calculator&mode=$1
 RewriteRule broadcast-transaction/(.*)$ ?section=broadcast-transaction&mode=$1
-RewriteRule top-accounts/(.*)$ ?section=top-accounts&mode=$1
+RewriteRule list-accounts/(.*)$ ?section=list-accounts&mode=$1
+RewriteRule list-transactions/(.*)$ ?section=list-transactions&mode=$1
 RewriteRule online-account/(.*)$ ?section=online-account&mode=$1
 RewriteRule search/(.*)$ ?q=$1
 RewriteRule tx/(.*)$ ?q=$1

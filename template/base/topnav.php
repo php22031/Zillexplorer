@@ -27,19 +27,19 @@
         							'/charts/',
         							'/mining-calculator/',
         							'/broadcast-transaction/',
-        							'/top-accounts/'
+        							'/list-accounts/'
        							 );
         ?>
         <li class="dropdown <?=( in_array($_SERVER['REQUEST_URI'], $more_menu) ? 'active' : '' )?>">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span></a>
           <ul class="dropdown-menu">
+            <li<?=( preg_match("/list-accounts/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/list-accounts/">Accounts</a></li>
+            <li role="separator" class="divider"></li>
             <li<?=( preg_match("/charts/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/charts/">Charts</a></li>
             <li role="separator" class="divider"></li>
             <li<?=( preg_match("/mining-calculator/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/mining-calculator/">Mining Calculator</a></li>
             <li role="separator" class="divider"></li>
             <li<?=( preg_match("/broadcast-transaction/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/broadcast-transaction/">Broadcast Transaction</a></li>
-            <li role="separator" class="divider"></li>
-            <li<?=( preg_match("/top-accounts/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/top-accounts/">Top Accounts</a></li>
           </ul>
         </li>
       </ul>

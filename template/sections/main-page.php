@@ -100,7 +100,7 @@
       						if ( is_array($value3) ) {				
       						?>
       	
-  								<tr><td class='side-borders-1deep'><span class='span-block'><b> --&gt; <?=ucfirst($key3)?>:</b></span></td></tr>
+  								<tr><td class='side-borders-1deep'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?>:</b></span></td></tr>
   		
   								<?php
   								
@@ -121,7 +121,7 @@
       								else {
       								?>
       					
-      								<tr><td class='<?=( $last3 == 1 && $last2 == 1 && $last == 1 ? 'u-borders-2deep' : 'side-borders-2deep' )?>'><span class='span-block'><b> --&gt; <?=ucfirst($key4)?>:</b> <?=$value4?></a></span></td></tr>	
+      								<tr><td class='<?=( $last3 == 1 && $last2 == 1 && $last == 1 ? 'u-borders-2deep' : 'side-borders-2deep' )?>'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key4)?>:</b> <?=$value4?></a></span></td></tr>	
       								
       							<?php
       								}
@@ -295,9 +295,9 @@
       <tr>
       <td valign="top">
       
-      		<table width='auto' height='100%' class='stats-tables' border='1'>
+      		<table width='auto' height='100%' class='stats-tables' border='1' style='position: relative;'>
       	
-  				<tr><th class='table-header'> <h4><b>Latest Transactions:</b></h4></th></tr>
+  				<tr><th class='table-header'> <h4><b>Latest Transactions:</b> <a style='position: absolute; right: 10px;' href='/list-transactions/'>View All</a></h4> </th></tr>
   		
   		<?php
       

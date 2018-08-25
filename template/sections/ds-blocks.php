@@ -58,7 +58,7 @@
       						else {
       					?>
       					
-      					<tr><td class='<?=( $last2 == 1 && $last == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b> --&gt; <?=ucfirst($key3)?>:</b> <?=$value3?></a></span></td></tr>
+      					<tr><td class='<?=( $last2 == 1 && $last == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?>:</b> <?=$value3?></a></span></td></tr>
       					
       				<?php
 		      				}

@@ -23,5 +23,7 @@
 <?php
 //var_dump($_SESSION['debugging_printout']);
 
-session_destroy();
+// Destroy API cache session var / Close DB connection
+$_SESSION['api_cache'] = FALSE;
+mysqli_close($db_connect);
 ?>
