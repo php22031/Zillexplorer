@@ -2,7 +2,9 @@
 /*
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
- 
+
+$_GET['mode'] = trim( str_replace("/","", $_GET['mode']) );
+
 session_start();
 $curl_setup = curl_version();
 $user_agent = $_SERVER['SERVER_SOFTWARE'] . ' HTTP Server; PHP v' .phpversion(). ' and Curl v' .$curl_setup["version"]. '; Zillexplorer v' . $version . ' API Parser;';
@@ -26,12 +28,37 @@ if ( trim($_GET['q']) != '' ) {
 	}
 
 }
-elseif ( trim($_GET['dsblock']) != '' ) {
-$dyn_title = '- DS Block #' . trim($_GET['dsblock']);
+elseif ( $_GET['dsblock'] != '' ) {
+$dyn_title = '- DS Block #' . $_GET['dsblock'];
 }
-elseif ( trim($_GET['txblock']) != '' ) {
-$dyn_title = '- TX Block #' . trim($_GET['txblock']);
+elseif ( $_GET['txblock'] != '' ) {
+$dyn_title = '- TX Block #' . $_GET['txblock'];
 }
+elseif ( $_GET['section'] == 'live-stats' ) {
+$dyn_title = '- Live Stats';
+}
+elseif ( $_GET['section'] == 'tokens' ) {
+$dyn_title = '- Tokens';
+}
+elseif ( $_GET['section'] == 'charts' ) {
+$dyn_title = '- Charts';
+}
+elseif ( $_GET['section'] == 'mining-calculator' ) {
+$dyn_title = '- Mining Calculator';
+}
+elseif ( $_GET['section'] == 'broadcast-transaction' ) {
+$dyn_title = '- Broadcast Transaction';
+}
+elseif ( $_GET['section'] == 'list-accounts' ) {
+$dyn_title = '- List Accounts';
+}
+elseif ( $_GET['section'] == 'list-transactions' ) {
+$dyn_title = '- List Transactions';
+}
+elseif ( $_GET['section'] == 'online-account' ) {
+$dyn_title = '- Online Account' . ( $_GET['mode'] ? ' - ' . ucfirst($_GET['mode']) : '' );
+}
+
 
 // ZIL in BTC / USD
 $zil_btc = get_trade_price('binance', 'ZILBTC');

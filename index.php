@@ -6,8 +6,6 @@
 include('config.php'); 
 include('template/base/header.php'); 
 
-$_GET['mode'] = trim( str_replace("/","", $_GET['mode']) );
-
  //echo '"'.$_GET['mode'].'"'; exit;  //DEBUGGING
  //echo '"'.$_SERVER['REQUEST_URI'].'"'; exit;  //DEBUGGING
       
