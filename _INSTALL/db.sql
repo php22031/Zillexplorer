@@ -28,10 +28,23 @@ CREATE TABLE `transactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `charts` (
+CREATE TABLE `ds_charts` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `timestamp` varchar(50) NOT NULL,
+  `blocknum` varchar(50) NOT NULL,
   `difficulty` int NOT NULL,
-  `transactions` int NOT NULL,
+  `timestamp` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `tx_charts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `blocknum` varchar(50) NOT NULL,
+  `gas_used` int NOT NULL,
+  `micro_blocks` int NOT NULL,
+  `transactions` int NOT NULL,
+  `timestamp` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+

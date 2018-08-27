@@ -11,6 +11,9 @@ if ( $_POST['submit_login'] ) {
 	if ( trim($_POST['email']) == '' )	{
 	$login_result['error'][] = "Please enter your email.";
 	}
+	elseif ( $securimage->check( trim($_POST['captcha_code']) ) == false )	{
+	$login_result['error'][] = "Captcha code was not correct.";
+	}
 	else {
 		
 		// Login if user / pass match
@@ -71,6 +74,8 @@ if ( $_POST['submit_login'] ) {
 
     <div style="display: inline-block; text-align: right; width: 350px;">
 
+<p style='padding: 20px;'><a href='/online-account/reset/'><b class='red-underline'>Forgot Your Password?</b></a></p>
+
 <?php
 
 if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
@@ -83,13 +88,31 @@ if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
 
 <p><b>Password:</b> <input type='password' name='password' value='' /></p>
 
-<p><input type='submit' value='Login' /></p>
+
+  <div>
+    <?php
+    	// Captcha
+      $options = array();
+      $options['input_name'] = 'captcha_code'; // change name of input element for form post
+      $options['disable_flash_fallback'] = false; // allow flash fallback
+
+      if (!empty($_SESSION['ctform']['captcha_error'])) {
+        // error html to show in captcha output
+        $options['error_html'] = $_SESSION['ctform']['captcha_error'];
+      }
+
+      echo "<div id='captcha_container_1'>\n";
+      echo Securimage::getCaptchaHtml($options);
+      echo "\n</div>\n";
+
+    ?>
+  </div>
+  
+<p style='padding: 20px;'><input type='submit' value='Login' /></p>
 
 <input type='hidden' name='submit_login' value='1' />
 
 </form>
-
-<p><a href='/online-account/reset/'><b class='red-underline'>Forgot Your Password?</b></a></p>
 
 <?php
 }

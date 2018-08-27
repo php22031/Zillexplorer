@@ -20,11 +20,11 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li<?=( preg_match("/live-stats/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/live-stats/">Stats <span class="sr-only">(current)</span></a></li>
+        <li<?=( preg_match("/charts/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/charts/">Charts <span class="sr-only">(current)</span></a></li>
         <li<?=( preg_match("/tokens/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/tokens/">Tokens</a></li>        
         <?php
         $more_menu = array(
-        							'/charts/',
+        							'/live-stats/',
         							'/mining-calculator/',
         							'/broadcast-transaction/',
         							'/list-accounts/'
@@ -35,7 +35,7 @@
           <ul class="dropdown-menu">
             <li<?=( preg_match("/list-accounts/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/list-accounts/">Accounts</a></li>
             <li role="separator" class="divider"></li>
-            <li<?=( preg_match("/charts/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/charts/">Charts</a></li>
+            <li<?=( preg_match("/live-stats/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/live-stats/">Live Stats</a></li>
             <li role="separator" class="divider"></li>
             <li<?=( preg_match("/mining-calculator/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/mining-calculator/">Mining Calculator</a></li>
             <li role="separator" class="divider"></li>
@@ -54,10 +54,6 @@
         <li class="dropdown <?=( preg_match("/online-account/i", $_SERVER['REQUEST_URI']) ? 'active' : '' )?>">
           <a id='login-nav' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src='/images/login.png' width='30' border='0' /><span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li<?=( preg_match("/online-account\/summary/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/online-account/summary/">Summary</a></li>
-            <li<?=( preg_match("/online-account\/alerts/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/online-account/alerts/">Alerts</a></li>
-            <li<?=( preg_match("/online-account\/api/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/online-account/api/">API</a></li>
-            <li role="separator" class="divider"></li>
             <?php
             
             if ( !$_SESSION['user'] ) {
@@ -71,6 +67,10 @@
             else {
             	
             ?>
+            <li<?=( preg_match("/online-account\/summary/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/online-account/summary/">Summary</a></li>
+            <li<?=( preg_match("/online-account\/alerts/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/online-account/alerts/">Alerts</a></li>
+            <li<?=( preg_match("/online-account\/api/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/online-account/api/">API</a></li>
+            <li role="separator" class="divider"></li>
             <li><a href="/online-account/logout/">Logout</a></li>
             <?php
             

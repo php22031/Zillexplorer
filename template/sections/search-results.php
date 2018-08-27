@@ -115,7 +115,7 @@
  	 			
  	 				if ( $key == 'result' ) {
  	 				
- 	 					if ( is_array($value) ) {
+ 	 					if ( is_array($value) && !$value['Error'] ) { // Skip if the array is an error message
  	 					?>
  	   		
  	 					<tr><td class='no-border'> <b>Smart Contracts Created:</b> (<?=sizeof($value)?>) <p>

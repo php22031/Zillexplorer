@@ -4,19 +4,21 @@
  */
 
 
+session_start();
 date_default_timezone_set('UTC');
+
+include('lib/php/core/functions.php'); 
+include('lib/php/core/cookies.php'); 
+include('lib/php/zingchart/zc.php');
+include('lib/php/securimage/securimage.php');
 
 $_GET['mode'] = trim( str_replace("/","", $_GET['mode']) );
 $_GET['key'] = trim( str_replace("/","", $_GET['key']) );
 
-session_start();
 $curl_setup = curl_version();
 $user_agent = $_SERVER['SERVER_SOFTWARE'] . ' HTTP Server; PHP v' .phpversion(). ' and Curl v' .$curl_setup["version"]. '; Zillexplorer v' . $version . ' API Parser;';
 
-include('lib/php/functions.php'); 
-include('lib/php/cookies.php'); 
-include('lib/php/zingchart/zc.php');
-
+$securimage = new Securimage(); // Captcha
 
 // Dynamic title
 if ( trim($_GET['q']) != '' ) {

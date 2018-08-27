@@ -8,16 +8,23 @@ $register_result = array('');
 
 if ( $_POST['submit_registration'] ) {
 
-
 	// Run checks...
 	
+	if ( $securimage->check( trim($_POST['captcha_code']) ) == false )	{
+	$register_result['error'][] = "Captcha code was not correct.";
+	}
+	
+	//////////////
+
 	$query = "SELECT * FROM users WHERE email = '".trim($_POST['email'])."'";
 	
 	if ($result = mysqli_query($db_connect, $query)) {
-	   while ( $row = mysqli_fetch_array($result) ) {
+	   while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
 	   	
 		$register_result['error'][] = "An account already exists with the email address '".trim($_POST['email'])."'. Please <a href='/online-account/reset/' class='red-underline'>reset your password</a>.";
 		
+		 //echo $row["email"]." ".$row["api_key"]."<br />";
+		 
 	   }
 	mysqli_free_result($result);
 	}
@@ -134,7 +141,27 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 
 <p><b>Repeat Password:</b> <input type='password' id='password2' name='password2' value='' onblur='check_pass("pass_alert", "password", "password2", this.value);' /></p>
 
-<p><input type='submit' value='Create New Account' /></p>
+
+  <div>
+    <?php
+    	// Captcha
+      $options = array();
+      $options['input_name'] = 'captcha_code'; // change name of input element for form post
+      $options['disable_flash_fallback'] = false; // allow flash fallback
+
+      if (!empty($_SESSION['ctform']['captcha_error'])) {
+        // error html to show in captcha output
+        $options['error_html'] = $_SESSION['ctform']['captcha_error'];
+      }
+
+      echo "<div id='captcha_container_1'>\n";
+      echo Securimage::getCaptchaHtml($options);
+      echo "\n</div>\n";
+
+    ?>
+  </div>
+  
+<p style='padding: 20px;'><input type='submit' value='Create New Account' /></p>
 
 <input type='hidden' name='submit_registration' value='1' />
 
