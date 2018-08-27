@@ -56,11 +56,21 @@
       						echo 'Code array parsing needed here.';
       						}
       						else {
-      					?>
+					      	
+					      	 	if ( strtolower($key3) == 'timestamp' ) {
+      							?>
       					
-      					<tr><td class='<?=( $last2 == 1 && $last == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?>:</b> <?=$value3?></a></span></td></tr>
+      							<tr><td class='<?=( $last2 == 1 && $last == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?>:</b> <?=$value3?> (<?=date('M jS, Y @ H:i:s T', substr($value3, 0, 10))?>)</span></td></tr>
       					
-      				<?php
+      							<?php
+      							}
+					      	 	else {
+      							?>
+      					
+      							<tr><td class='<?=( $last2 == 1 && $last == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?>:</b> <?=$value3?></span></td></tr>
+      					
+      							<?php
+      							}
 		      				}
       				
       					}
@@ -70,7 +80,7 @@
       				else {
       				?>
       					
-      				<tr><td class='<?=( $last == 1 ? 'u-borders' : 'side-borders' )?>'><span class='span-block'><b><?=ucfirst($key2)?>:</b> <?=$value2?></a></span></td></tr>
+      				<tr><td class='<?=( $last == 1 ? 'u-borders' : 'side-borders' )?>'><span class='span-block'><b><?=ucfirst($key2)?>:</b> <?=$value2?></span></td></tr>
       				
       				<?php
       				}

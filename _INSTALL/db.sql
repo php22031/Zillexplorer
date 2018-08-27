@@ -2,9 +2,8 @@ CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `reset_key` varchar(100) DEFAULT NULL,
   `activated` varchar(10) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
   `api_key` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -33,6 +32,6 @@ CREATE TABLE `charts` (
   `id` int NOT NULL AUTO_INCREMENT,
   `timestamp` varchar(50) NOT NULL,
   `difficulty` int NOT NULL,
-  `transactions_daily` int NOT NULL,
+  `transactions` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -2,19 +2,151 @@
 /*
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
+
+
+$register_result = array('');
+
+if ( $_POST['submit_registration'] ) {
+
+
+	// Run checks...
+	
+	$query = "SELECT * FROM users WHERE email = '".trim($_POST['email'])."'";
+	
+	if ($result = mysqli_query($db_connect, $query)) {
+	   while ( $row = mysqli_fetch_array($result) ) {
+	   	
+		$register_result['error'][] = "An account already exists with the email address '".trim($_POST['email'])."'. Please <a href='/online-account/reset/' class='red-underline'>reset your password</a>.";
+		
+	   }
+	mysqli_free_result($result);
+	}
+	$query = NULL;
+	
+	
+	////////////////
+	
+	
+	if ( strlen( trim($_POST['password']) ) < 12 || strlen( trim($_POST['password']) ) > 40 ) {
+		
+	$register_result['error'][] = "Password must be between 12 and 40 characters long. Please choose a different password.";
+		
+	}
+	
+	
+	///////////////
+	
+	
+	$email_check = validate_email( trim($_POST['email']) );
+	if ( $email_check != 'valid' ) {
+		
+	$register_result['error'][] = $email_check;
+	
+	}
+
+
+	// Checks cleared, add user to DB ////////
+	if ( sizeof($register_result['error']) < 1 ) {
+		
+	$reset_key = md5(time().rand(9999999,9999999999));
+	
+	$query = "INSERT INTO users (id, reset_key, activated, email, password, api_key) VALUES ('', '".$reset_key."', 'no', '".trim($_POST['email'])."', 	'".md5( trim($_POST['password']) )."', '".md5(time().rand(9999999,9999999999))."')";
+	
+	
+	$sql_result = mysqli_query($db_connect, $query);
+	
+	
+		if ( $sql_result == true ) {
+		$send_email = 1;
+		}
+	$query = NULL;
+	
+	//////////////////////////
+	
+		if ( $send_email ) {
+		
+		$message = "
+
+Please confirm your recent new account creation for the email address ".trim($_POST['email']).". To activate your account, please visit this link below:
+https://".$_SERVER['SERVER_NAME']."/activate-account/".$reset_key."
+
+If you did NOT create this account, you can ignore this message, and the account WILL NOT BE ACTIVATED.
+
+Thanks,
+-".$_SERVER['SERVER_NAME']." Support <".$from_email.">
+
+";
+		
+		// Mail activation link
+		$mail_result = safe_mail( trim($_POST['email']), "Please Confirm To Activate Your Account", $message);
+		
+		
+			if ( $mail_result == true ) {
+			$register_result['success'][] = "An email has been sent to you for account activation. Please check your inbox (or spam folder and mark as 'not spam').";
+			}
+			elseif ( $mail_result['error'] != '' ) {
+			$register_result['error'][] = "Email validation error: " . $mail_result['error'];
+			}
+		
+		
+		}
+		else {
+		$register_result['error'][] = "Sorry, an unknown error has occurred and you're account could not be created. Please contact ".$_SERVER['SERVER_NAME']." support at: " . $from_email . " for assistance.";
+		}
+	
+	
+	}
+
+
+}
 ?>
-ACCOUNT REGISTER
+
+<div style="text-align: center;">
+
+<h3>Account Creation</h3>
+
+	<div style='font-weight: bold;' id='login_alert'>
+<?php
+	foreach ( $register_result['error'] as $error ) {
+	echo "<p><b style='color: red;'> $error </b></p>";
+	}
+
+
+	foreach ( $register_result['success'] as $success ) {
+	echo "<p><b style='color: green;'> $success </b></p>";
+	}
+?>
+	</div>
+
+
+    <div style="display: inline-block; text-align: right; width: 350px;">
+
 <?php
 
-if ( $register_allowed ) {
-	
-// Add user to DB
-$query = "INSERT INTO users (id, reset_key, activated, username, password, email, api_key) VALUES ('', '".md5(time().rand(9999999,9999999999))."', 'no', '".trim($_POST['username'])."', '".md5(trim($_POST['password']))."', '".trim($_POST['email'])."', '".md5(time().rand(9999999,9999999999))."')";
+if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
+?>
 
-mysqli_query($db_connect, $query);
+<form action='' method ='post' onsubmit='return check_pass("pass_alert", "password", "password2", this.value);'>
 
-$query = NULL;
+<p><b>Email:</b> <input type='text' name='email' value='<?=$_POST['email']?>' /></p>
 
+<p><b>Password:</b> <input type='password' id='password' name='password' value='' onblur='check_pass("pass_alert", "password", "password2", this.value);' /></p>
+
+<p><b>Repeat Password:</b> <input type='password' id='password2' name='password2' value='' onblur='check_pass("pass_alert", "password", "password2", this.value);' /></p>
+
+<p><input type='submit' value='Create New Account' /></p>
+
+<input type='hidden' name='submit_registration' value='1' />
+
+</form>
+
+<?php
 }
 
 ?>
+
+    </div>
+    	
+	<div style='font-weight: bold; color: red;' id='pass_alert'></div>
+
+</div>

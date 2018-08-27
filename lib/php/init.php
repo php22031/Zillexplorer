@@ -3,7 +3,11 @@
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
 
+
+date_default_timezone_set('UTC');
+
 $_GET['mode'] = trim( str_replace("/","", $_GET['mode']) );
+$_GET['key'] = trim( str_replace("/","", $_GET['key']) );
 
 session_start();
 $curl_setup = curl_version();

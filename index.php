@@ -69,6 +69,14 @@ include('template/base/header.php');
       elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'register' ) {
 		include('template/sections/online-account/register.php'); 
       }
+      // Reset
+      elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'reset' ) {
+		include('template/sections/online-account/reset.php'); 
+		}
+		//Activate
+      elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'activate' ) {
+		include('template/sections/online-account/activate.php'); 
+      }
       // Main
       elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'summary' ) {
 		include('template/sections/online-account/summary.php'); 

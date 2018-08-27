@@ -15,6 +15,7 @@
   <script src="/lib/js/jquery/jquery-3.3.1.min.js"></script>
   <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
   <script src="/lib/js/zingchart.min.js"></script>
+  <script src="/lib/js/functions.js"></script>
   <script src="/lib/js/init.js"></script>
   
   <link rel="stylesheet" href="/css/style.css">

@@ -16,6 +16,16 @@
     padding: 8px;
     }
     
+    .red-underline {
+		color: red;    
+		text-decoration: underline;
+    }
+    
+    .green-underline {
+		color: green;    
+		text-decoration: underline;
+    }
+    
     .stats-tables tr:nth-child(odd), .blockchain-tables tr:nth-child(odd) {
     background-color: #e3eff2;
 	 }

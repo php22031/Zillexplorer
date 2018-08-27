@@ -2,7 +2,59 @@
 /*
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
- 
+
+/////////////////////////////////////////////////////////
+
+function validate_email($email) {
+
+
+list($username,$domain) = split("@",$email);
+	
+	// Validate "To" address
+	if ( !$email || !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/", $email) ) {
+	return "Please enter a valid email address...";
+	}
+	elseif (function_exists("getmxrr") && !getmxrr($domain,$mxrecords)) {
+	return "The email domain \"$domain\" appears incorrect.";
+	}
+	else {
+	return "valid";
+	}
+			
+
+}
+
+/////////////////////////////////////////////////////////
+
+function safe_mail($to, $subject, $message) {
+	
+global $from_email;
+
+$email_check = validate_email($to);
+
+	if ( $email_check != 'valid' ) {
+	return $email_check;
+	}
+			
+
+	// Use array for safety from header injection >= PHP 7.2 
+	if ( phpversion() >= 7.2 ) {
+	
+	$headers = array(
+	    					'From' => $from_email
+	    					//'From' => $from_email,
+	    					//'Reply-To' => $from_email,
+	    					//'X-Mailer' => 'PHP/' . phpversion()
+							);
+	
+	}
+	else {
+	$headers = 'From: ' . $from_email;
+	}
+
+return mail($to, $subject, $message, $headers);
+
+}
 
 //////////////////////////////////////////////////////////
 

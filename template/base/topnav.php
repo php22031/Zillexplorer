@@ -58,9 +58,25 @@
             <li<?=( preg_match("/online-account\/alerts/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/online-account/alerts/">Alerts</a></li>
             <li<?=( preg_match("/online-account\/api/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/online-account/api/">API</a></li>
             <li role="separator" class="divider"></li>
+            <?php
+            
+            if ( !$_SESSION['user'] ) {
+            	
+            ?>
             <li<?=( preg_match("/online-account\/login/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/online-account/login/">Login</a></li>
-            <li><a href="/online-account/logout/">Logout</a></li>
             <li<?=( preg_match("/online-account\/register/i", $_SERVER['REQUEST_URI']) ? ' class="active"' : '' )?>><a href="/online-account/register/">Register</a></li>
+            <?php
+            }
+            
+            else {
+            	
+            ?>
+            <li><a href="/online-account/logout/">Logout</a></li>
+            <?php
+            
+            }
+            	
+            ?>
           </ul>
         </li>
       </ul>
