@@ -18,6 +18,12 @@
   <script src="/lib/js/functions.js"></script>
   <script src="/lib/js/init.js"></script>
   
+  <script>
+    zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
+  </script>
+  <script src="https://cdn.zingchart.com/modules/zingchart-zoom-buttons.min.js"></script>
+  
   <link rel="stylesheet" href="/css/style.css">
   
   <style>

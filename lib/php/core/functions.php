@@ -5,6 +5,47 @@
 
 /////////////////////////////////////////////////////////
 
+function chart_arrays($array1, $array2) {
+
+$format_array = array("");
+
+	foreach ( $array1 as $value ) {
+	
+		if ( trim($value) != '' ) {
+		$format_array[] = ' [' . $value . ', REPLACE]';
+		}
+
+	}
+	
+	$loop = 0;
+	foreach ( $array2 as $value ) {
+	
+		if ( trim($value) != '' ) {
+		$format_array[$loop] = preg_replace("/REPLACE/", $value, $format_array[$loop]);
+		}
+	
+	$loop = $loop + 1;
+	}
+	
+	//var_dump($format_array);
+	
+	foreach ( $format_array as $value ) {
+	
+		if ( trim($value) != '' ) {
+	
+		$format_string .= $value . ',';
+		
+		}
+	
+	}
+	
+return substr($format_string, 0, -1);
+
+}
+
+
+/////////////////////////////////////////////////////////
+
 function validate_email($email) {
 
 

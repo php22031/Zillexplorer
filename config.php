@@ -19,7 +19,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 /////////////////////////////////////////////////////
 
 
-$version = '0.0.6';  // 2018/AUGUST/27TH
+$version = '0.0.7';  // 2018/AUGUST/27TH
 
 $from_email = '';  // "From" address for email sent by website...must be set for email to work.
 
