@@ -100,7 +100,7 @@
       						if ( is_array($value3) ) {				
       						?>
       	
-  								<tr><td class='side-borders-1deep'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?>:</b></span></td></tr>
+  								<tr><td class='side-borders-1deep'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?> (<?=sizeof($value3)?>):</b></span></td></tr>
   		
   								<?php
   								

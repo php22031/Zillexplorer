@@ -5,15 +5,15 @@
 ?>
 
 
-	<br/><br/>
+	<br/>
   <div id="difficulty_chart" class='chart-border'></div>
-  <br/><br/><br/><br/>
+  <br/><br/><br/>
   <div id="transaction_chart" class='chart-border'></div>
-  <br/><br/><br/><br/>
+  <br/><br/><br/>
   <div id="gas_used_chart" class='chart-border'></div>
-  <br/><br/><br/><br/>
+  <br/><br/><br/>
   <div id="micro_blocks_chart" class='chart-border'></div>
-  <br/><br/><br/><br/>
+  <br/>
   
   
 <?php
@@ -85,7 +85,7 @@ $query = NULL;
     						},
           			"type":"area",
 		        		"plotarea":{
-      		  			"margin":"80 80 40 80"
+      		  			"margin":"80 45 40 55"
       		  			},
 						"preview":{
       					"border-width":1,
@@ -163,7 +163,7 @@ $query = NULL;
     						},
           			"type":"area",
 		        		"plotarea":{
-      		  			"margin":"80 80 40 80"
+      		  			"margin":"80 45 40 55"
       		  			},
 						"preview":{
       					"border-width":1,
@@ -241,7 +241,7 @@ $query = NULL;
     						},
           			"type":"area",
 		        		"plotarea":{
-      		  			"margin":"80 80 40 80"
+      		  			"margin":"80 45 40 55"
       		  			},
 						"preview":{
       					"border-width":1,
@@ -318,7 +318,7 @@ $query = NULL;
     						},
           			"type":"area",
 		        		"plotarea":{
-      		  			"margin":"80 80 40 80"
+      		  			"margin":"80 45 40 55"
       		  			},
 						"preview":{
       					"border-width":1,
