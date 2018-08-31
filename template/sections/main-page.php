@@ -4,8 +4,7 @@
  */
 ?>
 
-      <h3><b>Zilliqa Network Stats</b></h3>
-      <h5><span class="glyphicon glyphicon-time"></span> <?=date('Y-m-d h:i:sa')?></h5>
+      <h3><b>Zilliqa Block Explorer</b></h3>
       <h5><!-- <span class="label label-danger">Lorem</span> --> <span class="label label-primary">Stats</span></h5>
       
       
@@ -31,18 +30,22 @@
       $recent_transaction_results = json_decode( @get_data('array', $recent_transaction_data), TRUE );
       //var_dump( $recent_transaction_results ); // DEBUGGING
       
+      
+      //var_dump(coinmarketcap_api()); // DEBUGGING
+      
       ?>
       
-          
-      
-      <table id='stats_table_1' width='auto' height='100%' border='0' class='floating-table'>
-      <tr colspan='2'>
-      <td valign="top">
-    		
-    		<table class='stats-tables' height='100%' style='margin-top: 3px; min-width: 300px; max-width: 300px;' border='1'>
-  			<tr><th class='table-header'> <h4><b>Network:</b></h4></th></tr>
+
+<div class="col-xs-2 col-md-auto border-rounded no-padding zebra-stripe relative-table under-650-width" style='min-width: 285px; margin-right: 15px; margin-bottom: 25px;'>
+
+	<div style="padding: 7px;"><h4>Statistics</h4></div>
   		
-      		<tr><td valign="top" class='side-borders'><span class='span-block'><b>API Server:</b> <?=$api_server?></a></span></td></tr>
+  		
+      		<div class="stats-row"><b>Average Trade (globally):</b> $<?=coinmarketcap_api()['quotes']['USD']['price']?></div>
+      		
+      		<div class="stats-row"><b>Marketcap(ranked #<?=number_format(coinmarketcap_api()['rank'])?>):</b> <a href='http://coinmarketcap.com/currencies/zilliqa/' target='_blank'>$<?=number_format(coinmarketcap_api()['quotes']['USD']['market_cap'])?></a></div>
+      		
+      		<div class="stats-row"><b>API Server:</b> <?=$api_server?></a></div>
       <?php
       
       	foreach ( $network_id_results as $key => $value ) {
@@ -51,7 +54,7 @@
 					      	
       		?>
       					
-      		<tr><td class='side-borders'><span class='span-block'><b>Network ID:</b> <?=$network_id_results[$key]?></a></span></td></tr>
+      		<div class="stats-row"><b>Network ID:</b> <?=$network_id_results[$key]?></div>
       				 
       		<?php
       			
@@ -81,7 +84,7 @@
       				if ( is_array($value2) ) {			
       				?>
       	
-  						<tr><td class='side-borders'><span class='span-block'><b><?=ucfirst($key2)?>:</b></span></td></tr>
+  						<div class="stats-row"><b><?=ucfirst($key2)?>:</b></div>
   		
   						<?php
   						
@@ -100,7 +103,7 @@
       						if ( is_array($value3) ) {				
       						?>
       	
-  								<tr><td class='side-borders-1deep'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?> (<?=sizeof($value3)?>):</b></span></td></tr>
+  								<div class="stats-row is-1deep"><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?> (<?=sizeof($value3)?>):</b></div>
   		
   								<?php
   								
@@ -121,7 +124,7 @@
       								else {
       								?>
       					
-      								<tr><td class='<?=( $last3 == 1 && $last2 == 1 && $last == 1 ? 'u-borders-2deep' : 'side-borders-2deep' )?>'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key4)?>:</b> <?=$value4?></a></span></td></tr>	
+      								<div class="stats-row is-2deep"><b> &equals;&gt;&nbsp; <?=ucfirst($key4)?>:</b> <?=$value4?></div>	
       								
       							<?php
       								}
@@ -133,7 +136,7 @@
       						else {
       						?>
       					
-      						<tr><td class='<?=( $last2 == 1 && $last == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b><?=ucfirst($key3)?>:</b> <?=$value3?></a></span></td></tr>
+      						<div class="stats-row is-1deep"><b><?=ucfirst($key3)?>:</b> <?=$value3?></div>
       				 
       						<?php
       						}
@@ -146,7 +149,7 @@
 					      	
       				?>
       					
-      					<tr><td class='<?=( $last == 1 ? 'u-borders' : 'side-borders' )?>'><span class='span-block'><b><?=ucfirst($key2)?>:</b> <?=$value2?></a></span></td></tr>
+      					<div class="stats-row"><b><?=ucfirst($key2)?>:</b> <?=( preg_match("/num/i", $key2) || preg_match("/current/i", $key2) ? number_format($value2) : $value2 )?></div>
       					
       				<?php
       				}
@@ -163,14 +166,14 @@
       	////////////////////////////////////////////////////////////////
       	
       	?>
-      		</table>
-      		
-      	</td>      		
-      	<td valign="top">
-      	
-      		<table class='stats-tables' height='100%' style='margin-top: 3px; height: 50%; min-width: 190px; max-width: 190px;' border='1'>
-  				<tr><th class='table-header'> <h4><b>Latest DS Blocks:</b></h4></th></tr>
-  		
+	
+</div>
+      
+      
+<div class="col-xs-2 col-md-auto border-rounded no-padding zebra-stripe relative-table under-650-width" style='min-width: 260px; margin-right: 15px; margin-bottom: 25px;'>
+
+	<div style="padding: 5px;"><h4>Latest DS Blocks <span style="float: right;"><a href="/list-dsblocks/">View All</a></span></h4></div>
+	
   		<?php
       
       	foreach ( $dsblocks_results as $key => $value ) {
@@ -188,29 +191,19 @@
   						}
     				//echo $i.'!';
       				
-      		?>
-      		
-      		<tr><td valign="top" class='<?=( $last == 1 ? 'u-borders' : 'side-borders' )?>'> 
-      		
-      		<?php		
 							$loop = 0;
 					      while ( $loop < $stats_max )	{
 					      	
 					      	if ( $value2[$loop]['BlockNum'] != '' ) {
       					?>
       					
-      					<span class='span-block'><a href='/dsblock/<?=$value2[$loop]['BlockNum']?>'>DS Block #<?=$value2[$loop]['BlockNum']?></a></span>
+      					<div class="stats-row"><a href='/dsblock/<?=$value2[$loop]['BlockNum']?>'>DS Block #<?=$value2[$loop]['BlockNum']?></a></div>
       					
       					<?php
       						}
       					
       					$loop = $loop + 1;
       					}
-      					?>
-      					
-      				 </td></tr>
-      				 
-      				<?php
       		
       			}
   					$last = NULL;
@@ -223,11 +216,8 @@
       	////////////////////////////////////////////////////////////////
       	
       	?>
-      		</table>
-      
-      		<table class='stats-tables' style='margin-top: 12px; height: auto; min-width: 190px; max-width: 190px;' border='1'>
-      	
-  				<tr><th class='table-header'> <h4><b>Latest TX Blocks:</b></h4></th></tr>
+      		
+	<div style="padding: 7px;"><h4>Latest TX Blocks <span style="float: right;"><a href="/list-txblocks/">View All</a></span></h4></div>
   		
   		<?php
       	
@@ -247,29 +237,19 @@
   						}
     				//echo $i.'!';
       				
-      		?>
-      		
-      		<tr><td valign="top" class='<?=( $last == 1 ? 'u-borders' : 'side-borders' )?>'> 
-      		
-      		<?php		
 							$loop = 0;
 					      while ( $loop < $stats_max )	{
 					      	
 					      	if ( $value2[$loop]['BlockNum'] != '' ) {
       						?>
       					
-      						<span class='span-block'><a href='/txblock/<?=$value2[$loop]['BlockNum']?>'>TX Block #<?=$value2[$loop]['BlockNum']?></a></span>
+      						<div class="stats-row"><a href='/txblock/<?=$value2[$loop]['BlockNum']?>'>TX Block #<?=$value2[$loop]['BlockNum']?></a></div>
       					
       						<?php
       						}
       					
       					$loop = $loop + 1;
       					}
-      					?>
-      					
-      				 </td></tr>
-      				 
-      				<?php
       		
       			}
   					$last = NULL;
@@ -282,23 +262,14 @@
       	////////////////////////////////////////////////////////////////
       	
       	?>
-      		</table>
-      		
-      
-     </td>
-      
-     </tr></table>		
-     
-     
-      		
-      <table id='stats_table_2' width='auto' border='0' style='margin-top: 3px;' class='floating-table'>
-      <tr>
-      <td valign="top">
-      
-      		<table width='auto' height='100%' class='stats-tables' border='1' style='position: relative;'>
-      	
-  				<tr><th class='table-header'> <h4><b>Latest Transactions:</b> <a style='position: absolute; right: 10px;' href='/list-transactions/'>View All</a></h4> </th></tr>
-  		
+	
+</div>
+
+<div class="col-xs-2 col-md-auto border-rounded no-padding zebra-stripe relative-table under-650-width" style='min-width: 560px; margin-right: 15px; margin-bottom: 25px;'>
+
+	<div style="padding: 7px;"><h4>Recent Transactions <span style="float: right;"><a href="/list-transactions/">View All</a></span></h4></div>
+		
+	
   		<?php
       
       	foreach ( $recent_transaction_results as $key => $value ) {
@@ -311,8 +282,6 @@
       				if ( $key2 == 'TxnHashes' ) {
       				?>
       		
-      				<tr><td valign="top" class='u-borders'> 
-      		
       				<?php		
       				
 							$loop = 0;
@@ -320,7 +289,7 @@
 					      	
       					?>
       					
-      					<span class='span-block'><a href='/tx/<?=$value2[$loop]?>'><?=$value2[$loop]?></a></span>
+      					<div class="stats-row"><a href='/tx/<?=$value2[$loop]?>'><?=$value2[$loop]?></a></div>
       					
       					<?php
       					
@@ -328,7 +297,6 @@
       					}
       					?>
       					
-      				 </td></tr>
       				 
       				<?php
 						}		
@@ -341,12 +309,9 @@
       	$loop = NULL;
       
       ?>
-      
-      	</table>
-      		
-      </td>
-      </tr>
-      </table>
+	
+</div>
+
       
       <br/ clear='all'>
       <br/ >

@@ -3,47 +3,120 @@
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
  
-      $sanitize_search = sanitize_request($_GET['q']);
+      $sanitized_input = sanitize_request($_GET['q']);
       
-     	  if ( substr($sanitize_search, 0, 2) != '0x' && strlen($sanitize_search) > 40 
-     	  || strlen($sanitize_search) > 42 ) {
+     	  if ( substr($sanitized_input, 0, 2) != '0x' && strlen($sanitized_input) > 40 
+     	  || strlen($sanitized_input) > 42 ) {
     	  
    	   $search_type = 'transaction';
+      	$search_request = json_request( 'GetTransaction' , array( strip_0x($sanitized_input) )  );
+      
   	    
  	     }      
-	     elseif ( substr($sanitize_search, 0, 2) == '0x' && strlen($sanitize_search) <= 42 
-     	  || strlen($sanitize_search) <= 40 ) {
+	     elseif ( substr($sanitized_input, 0, 2) == '0x' && strlen($sanitized_input) == 42 
+     	  || strlen($sanitized_input) == 40 ) {
     	  
    	   $search_type = 'address';
+      	$search_request = json_request( 'GetBalance' , array( strip_0x($sanitized_input) )  );
+      
    	   
+   	  }
+   	  elseif ( substr($sanitized_input, 0, 2) != '0x' && strlen($sanitized_input) < 40 && is_numeric($sanitized_input) ) {
+    	  
+			//echo ' Block search '; // DEBUGGING
+    	  
+      	$search_ds = json_request( 'GetDsBlock' , array( $sanitized_input )  );
+      	$ds_results = json_decode( @get_data('array', $search_ds), TRUE );
+      	
+      		if ( $ds_results['result']['header']['timestamp'] > 0 ) {
+      		$search_type = 'block';
+      		$ds_exists = 1;
+      		}
+      	
+      	$search_tx = json_request( 'GetTxBlock' , array( $sanitized_input )  );
+      	$tx_results = json_decode( @get_data('array', $search_tx), TRUE );
+      	
+      		if ( $tx_results['result']['header']['Timestamp'] > 0 ) {  // Timestamp uppercase on API for some reason
+      		$search_type = 'block';
+      		$tx_exists = 1;
+      		}
+			   	  
    	  }
       
 ?>
 
-      <h3><b><?=( preg_match("/address/i", $_SERVER['REQUEST_URI']) ? 'Address' : 'Search Results For' )?> "<?=trim($_GET['q'])?>"</b></h3>
-      <h5><span class="glyphicon glyphicon-time"></span> <?=date('Y-m-d h:i:sa')?></h5>
+      <h3><b><?=( $search_type != '' ? ucfirst($search_type) . ' Search Results' : 'Search Results For' )?> "<?=trim($_GET['q'])?>"</b></h3>
       <h5><span class="label label-primary"><?=ucfirst($search_type)?></span> <span id="sc-label" style="display: none;" class="label label-danger">Smart Contract</span> </h5>
       
       <p>
       <?php
+      
+      if ( $search_type != 'block' ) {
       	
-      $search_request = json_request( ( $search_type == 'transaction' ? 'GetTransaction' : 'GetBalance' ) , array( strip_0x($sanitize_search) )  );
       $search_results = json_decode( @get_data('array', $search_request), TRUE );
       //var_dump( $search_results ); // DEBUGGING
       
+      }
+      
       ?>
       
-      <table class='blockchain-tables' width='100%' border='2'>
-      
+     <div class="col-xs-12 col-md-auto border-rounded no-padding zebra-stripe relative-table">
+
+       
       <?php
       
       	if ( $search_type == 'address' ) {
       	?>
       	
-      	<tr><td class='no-border'> <b>Address:</b> <a href='/address/<?=$sanitize_search?>'><?=$sanitize_search?></a> </td></tr>
+			<div style="padding: 7px;"><h4>Address</h4></div>
+			
+      	<div class="stats-row"><b>Address:</b> <a href='/address/<?=$sanitized_input?>'><?=$sanitized_input?></a> </div>
       	
       	<?php
       	}
+      	elseif ( $search_type == 'transaction' ) {
+      	?>
+      	
+			<div style="padding: 7px;"><h4>Transaction</h4></div>
+			
+      	<div class="stats-row"><b>Transaction:</b> <a href='/tx/<?=$sanitized_input?>'><?=$sanitized_input?></a> </div>
+      	
+      	<?php
+      	}
+      	elseif ( $search_type == 'block' ) {
+      	?>
+      	
+			<div style="padding: 7px;"><h4>Block</h4></div>
+				
+				<?php
+				if ( $ds_exists ) {
+				?>
+      		<div class="stats-row"><b>DS Block:</b> <a href='/dsblock/<?=$sanitized_input?>'>DS Block #<?=$sanitized_input?></a> </div>
+				<?php
+				}
+				if ( $tx_exists ) {
+				?>
+      		<div class="stats-row"><b>TX Block:</b> <a href='/txblock/<?=$sanitized_input?>'>TX Block #<?=$sanitized_input?></a> </div>
+				<?php
+				}
+				?>
+      	
+      	<?php
+      	}
+      	else {
+      	?>
+      	
+			<div style="padding: 7px;"><h4>Search Result</h4></div>
+			
+      	<div class="stats-row"><b>No search results found.</b></div>
+      	
+      	<?php
+      	}
+      	
+      	
+      	
+     if ( $search_type != '' ) {
+      	
       
       	foreach ( $search_results as $key => $value ) {
       	
@@ -54,23 +127,23 @@
       				if ( $key2 == 'toAddr' ) {
       				?>
       				
-      				<tr><td class='no-border'> <b><?=ucfirst($key2)?>:</b> <a href='/address/<?=$value2?>'><?=$value2?></a> </td></tr>
+      				<div class="stats-row"><b><?=ucfirst($key2)?>:</b> <a href='/address/<?=$value2?>'><?=$value2?></a> </div>
       		
       				<?php
       				}
       				elseif ( $key2 == 'balance' || $key2 == 'amount' ) {
       				?>
       				
-      				<tr><td class='no-border'> <b><?=ucfirst($key2)?>:</b> <?=$value2?> ZIL</td></tr>
+      				<div class="stats-row"><b><?=ucfirst($key2)?>:</b> <?=number_format($value2)?> ZIL</div>
       				
-      				<tr><td class='no-border'> <b><i>Current</i> ZIL Value:</b> $<?=number_format( ( $value2 * $zil_usd ), 2 )?> (@ $<?=$zil_usd?> / ZIL)</td></tr>
+      				<div class="stats-row"><b><i>Current</i> ZIL Value:</b> $<?=number_format( ( $value2 * $zil_usd ), 2 )?> (@ $<?=$zil_usd?> / ZIL)</div>
       		
       				<?php
       				}
       				else {
       				?>
       				
-      				<tr><td class='no-border'> <b><?=ucfirst($key2)?>:</b> <?=$value2?> </td></tr>
+      				<div class="stats-row"><b><?=ucfirst($key2)?>:</b> <?=$value2?> </div>
       		
       				<?php
       				}
@@ -84,7 +157,7 @@
       
       if ( $search_type == 'address' ) {
       	
-     	$contract_state = json_request('GetSmartContractState', array( strip_0x($sanitize_search) )  );
+     	$contract_state = json_request('GetSmartContractState', array( strip_0x($sanitized_input) )  );
      	$contract_state_results = json_decode( get_data('array', $contract_state), TRUE );
       //var_dump( $contract_state_results ); // DEBUGGING
       
@@ -92,7 +165,7 @@
      	  if ( $search_type == 'address' && $contract_state_results['result'][0] != '' ) {
      	 ?>
     		
-  			<tr><td class='no-border'> <b>Address Type:</b> Smart Contract </td></tr>
+  			<div class="stats-row"><b>Address Type:</b> Smart Contract </div>
    	 	
   			<?php
  	     }
@@ -100,14 +173,14 @@
  	     	
  	     	// SEEMS only accounts can create smart contracts, so only check for created smart contracts on accounts
       	if ( $search_results['result'] != '' ) {
-      	$created_contracts = json_request('GetSmartContracts' , array( strip_0x($sanitize_search) )  );
+      	$created_contracts = json_request('GetSmartContracts' , array( strip_0x($sanitized_input) )  );
       	$contract_results = json_decode( get_data('array', $created_contracts), TRUE );
       	//var_dump( $contract_results ); // DEBUGGING
       	}
       
  	     ?>
  	   		
- 	 		<tr><td class='no-border'> <b>Address Type:</b> User Account </td></tr>
+ 	 		<div class="stats-row"><b>Address Type:</b> User Account </div>
  	   	
  	 		<?php
  	 		
@@ -118,7 +191,8 @@
  	 					if ( is_array($value) && !$value['Error'] ) { // Skip if the array is an error message
  	 					?>
  	   		
- 	 					<tr><td class='no-border'> <b>Smart Contracts Created:</b> (<?=sizeof($value)?>) <p>
+ 	 					<div class="stats-row"><b>Smart Contracts Created:</b> (<?=sizeof($value)?>) 
+ 	 					<p>
  	 					
  	 					<?php
  	 						foreach ( $value as $key2 => $value2 ) {
@@ -134,7 +208,7 @@
  	 						}
  	 						?>
  	   					</p>
- 	 						</td></tr>
+ 	 						</div>
  	 					
  	 						<?php
  	 						
@@ -142,7 +216,7 @@
  	 					else {
  	 					?>
  	   		
- 	 					<tr><td class='no-border'> <b>Smart Contracts Created:</b> None </td></tr>
+ 	 					<div class="stats-row"><b>Smart Contracts Created:</b> None </div>
  	 					
  	 					<?php
  	 					}
@@ -152,13 +226,13 @@
  	 			}
  	 			
  	 		// NOT IMPLEMENTED YET
-      	//$transaction_history = json_request('GetTransactionHistory' , array( strip_0x($sanitize_search) )  );
+      	//$transaction_history = json_request('GetTransactionHistory' , array( strip_0x($sanitized_input) )  );
       	//$transaction_history_results = json_decode( get_data('array', $transaction_history), TRUE );
       	//var_dump( $transaction_history_results ); // DEBUGGING
  	 			
  	 		?>
  	 		
- 	     	<tr><td>
+ 	     	<div class="stats-row">
  	     	
 				<ul class='tabs' style='margin-bottom: 0px; padding: 0px;'>
 					<li><a href='#transactions'>Account Transactions</a></li>
@@ -175,7 +249,7 @@
 				Feature not built yet				</div>
 		
 		
- 	     	</td></tr>
+ 	     	</div>
  	     	
  	 		<?php
  	     }
@@ -207,7 +281,7 @@
  	     	if ( $iscontract == 1 ) {
  	     		
  	     	
-     		$contract_code = json_request('GetSmartContractCode', array( strip_0x($sanitize_search) )  );
+     		$contract_code = json_request('GetSmartContractCode', array( strip_0x($sanitized_input) )  );
      		$contract_code_results = json_decode( get_data('array', $contract_code), TRUE );
     	   //var_dump( $contract_code_results ); // DEBUGGING
  	     	
@@ -228,7 +302,7 @@
  	   	  	}
  	     		
  	     	
-     		$contract_init = json_request('GetSmartContractInit', array( strip_0x($sanitize_search) )  );
+     		$contract_init = json_request('GetSmartContractInit', array( strip_0x($sanitized_input) )  );
      		$contract_init_results = json_decode( get_data('array', $contract_init), TRUE );
     	   //var_dump( $contract_init_results ); // DEBUGGING
  	     	
@@ -249,7 +323,7 @@
  	   	  	}
  	     	
  	     	?>
- 	     	<tr><td>
+ 	     	<div class="stats-row">
  	     	
 				<ul class='tabs' style='margin-bottom: 0px; padding: 0px;'>
 					<li><a href='#transactions'>Contract Transactions</a></li>
@@ -276,16 +350,18 @@
 				<?=$cinit?>				</div>
 		
 		
- 	     	</td></tr>
+ 	     	</div>
  	     	<?php
  	     	
  	     	}
  	     	
       }
+      
+      
+    }
       ?>
       
-      </table>
-      </p>
+      </div>
       
       <?php
       

@@ -5,18 +5,25 @@
 ?>
       
       <h3><b>DS Block #<?=trim($_GET['dsblock'])?></b></h3>
-      <h5><span class="glyphicon glyphicon-time"></span> <?=date('Y-m-d h:i:sa')?></h5>
       <h5><!-- <span class="label label-danger">Lorem</span> --> <span class="label label-primary">DS Block</span></h5>
       
-      <p>
-      <table class='blockchain-tables' width='100%' border='2'>
-      
+      <div class="col-xs-12 col-md-auto border-rounded no-padding zebra-stripe relative-table">
+
+			<div style="padding: 7px;"><h4>DS Block</h4></div>
+  		
       <?php
 
 		$dsblock_request = json_request('GetDsBlock', array( trim($_GET['dsblock']) ) );
       $dsblock_results = json_decode( @get_data('array', $dsblock_request), TRUE );
       //var_dump( $dsblock_results ); // DEBUGGING
 
+		if ( $dsblock_results['result']['header']['timestamp'] == 0 ) {
+		?>
+		<div class="stats-row"><b>Block #<?=trim($_GET['dsblock'])?> does not exist.</b></div>
+		<?php
+		}
+		else {
+      
       
       	foreach ( $dsblock_results as $key => $value ) {
       	
@@ -36,7 +43,7 @@
       				if ( is_array($value2) ) {			
       				?>
       	
-  						<tr><td class='table-header'><span class='span-block'><b><?=ucfirst($key2)?>: </b></span></td></tr>
+  						<div class="stats-row"><b><?=ucfirst($key2)?>: </b></div>
   		
   						<?php
       					
@@ -60,14 +67,14 @@
 					      	 	if ( strtolower($key3) == 'timestamp' ) {
       							?>
       					
-      							<tr><td class='<?=( $last2 == 1 && $last == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?>:</b> <?=$value3?> (<?=date('M jS, Y @ H:i:s T', substr($value3, 0, 10))?>)</span></td></tr>
+      							<div class="stats-row is-1deep"><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?>:</b> <?=$value3?> (<?=date('M jS, Y @ H:i:s T', substr($value3, 0, 10))?>)</div>
       					
       							<?php
       							}
 					      	 	else {
       							?>
       					
-      							<tr><td class='<?=( $last2 == 1 && $last == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?>:</b> <?=$value3?></span></td></tr>
+      							<div class="stats-row is-1deep"><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?>:</b> <?=$value3?></div>
       					
       							<?php
       							}
@@ -80,7 +87,7 @@
       				else {
       				?>
       					
-      				<tr><td class='<?=( $last == 1 ? 'u-borders' : 'side-borders' )?>'><span class='span-block'><b><?=ucfirst($key2)?>:</b> <?=$value2?></span></td></tr>
+      				<div class="stats-row"><b><?=ucfirst($key2)?>:</b> <?=$value2?></div>
       				
       				<?php
       				}
@@ -91,9 +98,9 @@
       		}
       	
       	}
+      	
+      	
+      }
       	?>
       
-      </table>
-      
-      </p>
-      
+      </div>

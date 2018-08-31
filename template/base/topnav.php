@@ -43,11 +43,11 @@
           </ul>
         </li>
       </ul>
-      <form class="navbar-form navbar-left">
+      <form id='search_form' class="navbar-form navbar-left" action='#' onsubmit='return false;'>
         <div class="form-group">
           <input id='search_input' type="text" value='<?=$_GET['q']?>' class="form-control" placeholder="Address / Transaction...">
         </div>
-        <button type="button" class="btn btn-default" onclick='window.location = "/search/" + document.getElementById("search_input").value;'>Search</button>
+        <button type="button" class="btn btn-default" onclick='window.location = "/search/" + document.getElementById("search_input").value; '>Search</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
         <!-- <li><a href="#">Link</a></li> -->

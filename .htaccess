@@ -28,6 +28,8 @@ RewriteRule mining-calculator/(.*)$ ?section=mining-calculator&mode=$1
 RewriteRule broadcast-transaction/(.*)$ ?section=broadcast-transaction&mode=$1
 RewriteRule list-accounts/(.*)$ ?section=list-accounts&mode=$1
 RewriteRule list-transactions/(.*)$ ?section=list-transactions&mode=$1
+RewriteRule list-dsblocks/(.*)$ ?section=list-dsblocks&mode=$1
+RewriteRule list-txblocks/(.*)$ ?section=list-txblocks&mode=$1
 RewriteRule activate-account(.*)$ ?section=online-account&mode=activate&key=$1
 RewriteRule online-account/(.*)$ ?section=online-account&mode=$1
 RewriteRule search/(.*)$ ?q=$1

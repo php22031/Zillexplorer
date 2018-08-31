@@ -4,19 +4,21 @@
  */
 ?>
 
-      <br/ ><br/ >
+      <br clear='all' />
+      <br />
+      <br />
       
   	  </div>
     	<!-- END #main-content -->
     
   	</div>
 	</div>
+</div>
 
-	<footer class="container-fluid">
+	<footer class="container-fluid" style='padding:15px; width: 100%;'>
 	  <p><a href='https://github.com/taoteh1221/Zillexplorer/releases' target='_blank'>Zillexplorer v<?=$version?></a></p>
 	</footer>
 
-</div>
 
 </body>
 </html>

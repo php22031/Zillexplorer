@@ -54,6 +54,14 @@ include('template/base/header.php');
       elseif ( $_GET['section'] == 'list-transactions' ) {
 		include('template/sections/list-transactions.php'); 
 		}
+      // List DS Blocks
+      elseif ( $_GET['section'] == 'list-dsblocks' ) {
+		include('template/sections/list-dsblocks.php'); 
+		}
+      // List TX Blocks
+      elseif ( $_GET['section'] == 'list-txblocks' ) {
+		include('template/sections/list-txblocks.php'); 
+		}
 		
 		//////ONLINE ACCOUNT/////////////////////////////
       

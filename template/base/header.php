@@ -14,15 +14,19 @@
   
   <script src="/lib/js/jquery/jquery-3.3.1.min.js"></script>
   <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
-  <script src="/lib/js/zingchart.min.js"></script>
   <script src="/lib/js/functions.js"></script>
   <script src="/lib/js/init.js"></script>
+  
+  
+  <script src="/lib/js/zingchart.min.js"></script>
   
   <script>
     zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
     ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
   </script>
   <script src="https://cdn.zingchart.com/modules/zingchart-zoom-buttons.min.js"></script>
+  
+  
   
   <link rel="stylesheet" href="/css/style.css">
   
@@ -35,12 +39,14 @@
 </head>
 <body>
 <div id="main-wrapper">
-	<div class="container-fluid">
+
+  <?php include('template/base/topnav.php'); ?>
+    
+    
+	<div class="container-fluid" style="overflow-x:auto;">
  	 <div class="row content">
   
 		 <!-- START #main-content -->
-   	 <div id="main-content" class="col-sm-12" style="overflow-x:auto;">
-    
-  <?php include('template/base/topnav.php'); ?>
+   	 <div id="main-content" class="col-sm-12">
     
     

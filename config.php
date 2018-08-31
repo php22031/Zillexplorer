@@ -19,9 +19,9 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 /////////////////////////////////////////////////////
 
 
-$version = '0.0.8';  // 2018/AUGUST/30TH
+$version = '0.0.8';  // 2018/AUGUST/31ST
 
-$from_email = '';  // "From" address for email sent by website...must be set for email to work.
+$from_email = '';  // "From" address for email sent by website...MUST BE SET FOR EMAIL SENDING TO WORK.
 
 //$api_server = 'https://api.zilliqa.com/';
 //$api_server = 'https://api-scilla.zilliqa.com/';
@@ -29,7 +29,7 @@ $api_server = 'https://testnet-n-api.aws.zilliqa.com/';
 
 $api_timeout = 10; // Seconds to wait for response from API
 
-$stats_max = '28'; // Front page limit on stats shown per section
+$stats_max = '22'; // Front page limit on stats shown per section
 
 $chart_blocks = '25000'; // Number of blocks used to calculate charts
 

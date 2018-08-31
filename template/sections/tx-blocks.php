@@ -5,11 +5,11 @@
 ?>
       
       <h3><b>TX Block #<?=trim($_GET['txblock'])?></b></h3>
-      <h5><span class="glyphicon glyphicon-time"></span> <?=date('Y-m-d h:i:sa')?></h5>
       <h5><!-- <span class="label label-danger">Lorem</span> --> <span class="label label-primary">TX Block</span></h5>
       
-      <p>
-      <table class='blockchain-tables' width='100%' border='2'>
+		<div class="col-xs-12 col-md-auto border-rounded no-padding zebra-stripe relative-table">
+
+			<div style="padding: 7px;"><h4>TX Block</h4></div>
       
       <?php
 
@@ -17,6 +17,14 @@
       $txblock_results = json_decode( @get_data('array', $txblock_request), TRUE );
       //var_dump( $txblock_results ); // DEBUGGING
 
+
+		if ( $txblock_results['result']['header']['Timestamp'] == 0 ) { // Timestamp uppercase on API for some reason
+		?>
+		<div class="stats-row"><b>Block #<?=trim($_GET['txblock'])?> does not exist.</b></div>
+		<?php
+		}
+		else {
+      
       
       	foreach ( $txblock_results as $key => $value ) {
       	
@@ -36,7 +44,7 @@
       				if ( is_array($value2) ) {
       				?>
       	
-  						<tr><th class='table-header'> <h4><b><?=ucfirst($key2)?>:</b></h4></th></tr>
+  						<div class="stats-row"><h4><b><?=ucfirst($key2)?>:</b></h4></div>
   		
   						<?php
       					
@@ -55,7 +63,7 @@
       							
       						?>
       	
-  								<tr><th class='table-header-1deep'><span class='span-block'><b><?=ucfirst($key3)?>:</b></span></th></tr>
+  								<div class="stats-row is-1deep"><b><?=ucfirst($key3)?>:</b></span></div>
   		
   								<?php
   								
@@ -76,7 +84,7 @@
       								else {
       								?>
       					
-      							<tr><td class='<?=( $last3 == 1 && $last2 == 1 && $last == 1 ? 'u-borders-2deep' : 'side-borders-2deep' )?>'><span class='span-block'><b> &equals;&gt;&nbsp; <?=ucfirst($key4)?>:</b> <?=$value4?></span></td></tr>
+      							<div class="stats-row is-2deep"><b> &equals;&gt;&nbsp; <?=ucfirst($key4)?>:</b> <?=$value4?></div>
       							
       							<?php
       								}
@@ -90,14 +98,14 @@
 					      	 	if ( strtolower($key3) == 'timestamp' ) {
       							?>
       					
-      							<tr><td class='<?=( $last2 == 1 && $last == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b><?=ucfirst($key3)?>:</b> <?=$value3?> (<?=date('M jS, Y @ H:i:s T', substr($value3, 0, 10))?>)</span></td></tr>
+      							<div class="stats-row is-1deep"><b><?=ucfirst($key3)?>:</b> <?=$value3?> (<?=date('M jS, Y @ H:i:s T', substr($value3, 0, 10))?>)</div>
       				 
       							<?php
 					      	 	} 
 					      	 	else {
       					?>
       					
-      							<tr><td class='<?=( $last2 == 1 && $last == 1 ? 'u-borders-1deep' : 'side-borders-1deep' )?>'><span class='span-block'><b><?=ucfirst($key3)?>:</b> <?=$value3?></span></td></tr>
+      							<div class="stats-row is-1deep"><b><?=ucfirst($key3)?>:</b> <?=( preg_match("/num/i", $key3) ? number_format($value3) : $value3 )?></div>
       				 
       				<?php
       							}
@@ -110,7 +118,7 @@
       				else {
       				?>
       					
-      					<tr><td class='<?=( $last == 1 ? 'u-borders' : 'side-borders' )?>'><span class='span-block'><b><?=ucfirst($key2)?>:</b> <?=$value2?></span></td></tr>
+      					<div class="stats-row"><b><?=ucfirst($key2)?>:</b> <?=$value2?></div>
       				 
       				<?php
       				}
@@ -121,8 +129,11 @@
       		}
       	
       	}
+      	
+      	
+      	
+      }
       	?>
       	
-      </table>
-      </p>
+      </div>
       

@@ -1126,59 +1126,20 @@ global $btc_in_usd, $coins_array;
 
 //////////////////////////////////////////////////////////
 
-function coinmarketcap_api($symbol) {
+function coinmarketcap_api() {
 	
 global $coinmarketcap_ranks_max;
 
 
 	if ( !$_SESSION['cmc_data'] ) {
 
-		if ( !$_SESSION['cmc_json_array'] ) {
-			
-			
-		//Coinmarketcap's new v2 API caps each API request at 100 assets, so we need to break requests up that are over 100 assets...
-		$offset = 1;
-		$rankings_left = $coinmarketcap_ranks_max;
 		
-			while ( $rankings_left > 0 ) {
-					
-				if ( $rankings_left > 99 ) {
-				$limit = 100;
-				}
-				else {
-				$limit = $rankings_left;
-				}
-			
-			$_SESSION['cmc_json_array'][] = "https://api.coinmarketcap.com/v2/ticker/?start=".$offset."&limit=".$limit;
-			
-			$offset = $offset + $limit;
-			$rankings_left = $rankings_left - $limit;
-			
-			}
-	
-		
-		}
-		
-		
-		foreach ( $_SESSION['cmc_json_array'] as $cmc_request ) {
-			
-     	$json_string = $cmc_request;
+     	$json_string = 'https://api.coinmarketcap.com/v2/ticker/2469/';
      	     
 	  	$jsondata = @get_data('url', $json_string);
 	   
-   	$data = json_decode($jsondata, TRUE);
+   	$cmc_data = json_decode($jsondata, TRUE);
     
-    	$array_merging[] = $data['data'];
-    	
-	
-		}
-		
-		$cmc_data = array(); // Empty array MUST be pre-defined for array_merge_recursive()
-		foreach ( $array_merging as $array ) {
-			
- 	  	$cmc_data = array_merge_recursive($cmc_data, $array);
-	   
- 	   }
  	   
  	   $_SESSION['cmc_data'] = $cmc_data;
 		
@@ -1195,7 +1156,7 @@ global $coinmarketcap_ranks_max;
   	   	foreach ($cmc_data as $key => $value) {
      	  	
   	     	
-        		if ( $cmc_data[$key]['symbol'] == strtoupper($symbol) ) {
+        		if ( $cmc_data[$key]['symbol'] == 'ZIL' ) {
   	      		
         		return $cmc_data[$key];
         

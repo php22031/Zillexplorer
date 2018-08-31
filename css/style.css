@@ -7,6 +7,40 @@
 	 padding-top: 10px;
 	 }
 	 
+	.border-rounded {
+	border-radius: 4px;
+	border: 2px solid #d6d4d4;
+	}	 
+	
+	.stats-row-top {
+	padding: 7px;
+	}
+	
+	.stats-row {
+	border-top: 2px solid #d6d4d4;
+	padding: 7px;
+	}
+	
+	div.zebra-stripe > div:nth-of-type(odd) {
+    background-color: #e3eff2;
+	}
+	
+	.no-padding {
+	padding: 0px;
+	}
+	 
+    .is-1deep {
+    padding-left: 15px; 
+    }
+    
+    .is-2deep {
+    padding-left: 30px; 
+    }
+    
+    .relative-table {
+    position: relative; display: table;
+    }
+    
 	 .navbar-nav>li>a {
 		padding-left: 13px;
 		padding-right: 13px;	 
@@ -203,4 +237,11 @@ div.tabdiv {
         padding: 15px;
       }
       .row.content {height: auto;} 
+    }
+    
+    
+    @media screen and (max-width: 650px) {
+      .under-650-width {
+        width: 100%;
+      } 
     }

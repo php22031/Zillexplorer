@@ -5,7 +5,7 @@
 
 // Delete user login session data
 $_SESSION['user'] = FALSE;
-header("Location: " . $_SERVER['PHP_SELF']);
+header("Location: /");
 exit;
 
 ?>
