@@ -29,9 +29,10 @@ $query = "SELECT difficulty,timestamp FROM ds_blocks ORDER BY timestamp ASC limi
 if ($result = mysqli_query($db_connect, $query)) {
    while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
    	
-	 $diff_array[] = intval($row["difficulty"]);
-	 //$dstime_array[] = date('Y-n-j', substr($row["timestamp"], 0, 10));
-	 $dstime_array[] = intval(substr($row["timestamp"], 0, 13));
+   	if ( $row["timestamp"] > 1000 ) { // Skip genesis block
+		$diff_array[] = intval($row["difficulty"]);
+		$dstime_array[] = intval(substr($row["timestamp"], 0, 13));
+	 	}
 	
    }
 mysqli_free_result($result);
@@ -49,11 +50,12 @@ $query = "SELECT gas_used,micro_blocks,transactions,timestamp FROM tx_blocks ORD
 if ($result = mysqli_query($db_connect, $query)) {
    while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
    	
-	 $gas_used_array[] = intval($row["gas_used"]);
-	 $micro_blocks_array[] = intval($row["micro_blocks"]);
-	 $txamount_array[] = intval($row["transactions"]);
-	 //$txtime_array[] = date('Y-n-j', substr($row["timestamp"], 0, 10));
-	 $txtime_array[] = intval(substr($row["timestamp"], 0, 13));
+   	if ( $row["timestamp"] > 1000 ) { // Skip genesis block
+	 	$gas_used_array[] = intval($row["gas_used"]);
+		$micro_blocks_array[] = intval($row["micro_blocks"]);
+		$txamount_array[] = intval($row["transactions"]);
+		$txtime_array[] = intval(substr($row["timestamp"], 0, 13));
+	 	}
 	
    }
 mysqli_free_result($result);
