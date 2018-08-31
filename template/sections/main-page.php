@@ -11,11 +11,11 @@
       
       <?php
       
-      $network_id_data = json_request('GetNetworkId', array('') );
+      $network_id_data = json_request('GetNetworkId', array() );
       $network_id_results = json_decode( @get_data('array', $network_id_data), TRUE );
       //var_dump( $network_id_results ); // DEBUGGING
       
-      $blockchain_data = json_request('GetBlockchainInfo', array('') );
+      $blockchain_data = json_request('GetBlockchainInfo', array() );
       $blockchain_results = json_decode( @get_data('array', $blockchain_data), TRUE );
       //var_dump( $blockchain_results ); // DEBUGGING
       
@@ -27,7 +27,7 @@
       $txblocks_results = json_decode( @get_data('array', $txblocks_data), TRUE );
       //var_dump( $txblocks_results ); // DEBUGGING
       
-      $recent_transaction_data = json_request('GetRecentTransactions', array('') );
+      $recent_transaction_data = json_request('GetRecentTransactions', array() );
       $recent_transaction_results = json_decode( @get_data('array', $recent_transaction_data), TRUE );
       //var_dump( $recent_transaction_results ); // DEBUGGING
       

@@ -22,10 +22,9 @@ use ZingChart\PHPWrapper\ZC;
 
 // DS chart data //////////////////////////
 
-// Get ds data from db...
 $diff_array = array('');
 $dstime_array = array('');
-$query = "SELECT difficulty,timestamp FROM ds_charts ORDER BY timestamp ASC";
+$query = "SELECT difficulty,timestamp FROM ds_blocks ORDER BY timestamp ASC";
 
 if ($result = mysqli_query($db_connect, $query)) {
    while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
@@ -41,12 +40,11 @@ $query = NULL;
 
 // TX chart data //////////////////////////
 
-// Get tx data from db...
 $gas_used_array = array('');
 $micro_blocks_array = array('');
 $txamount_array = array('');
 $txtime_array = array('');
-$query = "SELECT gas_used,micro_blocks,transactions,timestamp FROM tx_charts ORDER BY timestamp ASC";
+$query = "SELECT gas_used,micro_blocks,transactions,timestamp FROM tx_blocks ORDER BY timestamp ASC";
 
 if ($result = mysqli_query($db_connect, $query)) {
    while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
@@ -67,10 +65,6 @@ $query = NULL;
 
 <script>
 
-
-
-	///////////////////////////////////////////////////////////
-	
 
   zingchart.render(
 			{
@@ -143,9 +137,6 @@ $query = NULL;
 			} // render
   ); // end
   
- /////////////////////////////////////////////////////////////
- 
-
 
 	///////////////////////////////////////////////////////////
 	
@@ -220,9 +211,6 @@ $query = NULL;
         				}  // data
 			} // render
   ); // end
-  
- /////////////////////////////////////////////////////////////
- 
 
 
 	///////////////////////////////////////////////////////////
@@ -299,8 +287,6 @@ $query = NULL;
 			} // render
   ); // end
   
- /////////////////////////////////////////////////////////////
- 
 
 	///////////////////////////////////////////////////////////
 	

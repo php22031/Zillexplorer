@@ -4,7 +4,7 @@
  */
 
 
-$login_result = array('');
+$login_result = array();
 		
 if ( $_POST['submit_login'] ) {
 	

@@ -4,7 +4,7 @@
  */
 
 
-$register_result = array('');
+$register_result = array();
 
 if ( $_POST['submit_registration'] ) {
 

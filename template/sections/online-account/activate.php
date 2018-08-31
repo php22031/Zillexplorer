@@ -4,7 +4,7 @@
  */
 
 
-$reset_result = array('');
+$reset_result = array();
 		
 if ( $_GET['key'] != '' ) {
 	

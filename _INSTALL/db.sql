@@ -28,7 +28,7 @@ CREATE TABLE `transactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `ds_charts` (
+CREATE TABLE `ds_blocks` (
   `id` int NOT NULL AUTO_INCREMENT,
   `blocknum` int NOT NULL,
   `difficulty` int NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE `ds_charts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `tx_charts` (
+CREATE TABLE `tx_blocks` (
   `id` int NOT NULL AUTO_INCREMENT,
   `blocknum` int NOT NULL,
   `gas_used` int NOT NULL,

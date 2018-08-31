@@ -107,7 +107,7 @@
       
  	     ?>
  	   		
- 	 		<tr><td class='no-border'> <b>Address Type:</b> Account </td></tr>
+ 	 		<tr><td class='no-border'> <b>Address Type:</b> User Account </td></tr>
  	   	
  	 		<?php
  	 		
