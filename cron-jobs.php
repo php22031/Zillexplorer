@@ -35,9 +35,9 @@ store_txblock($tx_results['result']['data']);
 ///////////////////////////////////////////////////////
 
 
-// Add any older DS blocks not already in the DB 50 per session, near bottom of hour (first sync etc)...
+// Add any older DS blocks not already in the DB 75 per session, near top of hour AND bottom of hour (first sync etc)...
 
-if ( date(i) > 30 && date(i) < 35 ) {
+if ( date(i) > 0 && date(i) < 10 || date(i) > 30 && date(i) < 40 ) {
 	
 	// Find first / oldest block
 	$query = "SELECT * FROM ds_blocks ORDER BY timestamp ASC limit 1";
@@ -60,7 +60,7 @@ if ( date(i) > 30 && date(i) < 35 ) {
 		$dsblocks_fetch = array();
 		$loop = 0;
 		$get_block = $first_dsblock - 1;
-		while ( $loop <= 50 && $get_block >= 0 ) {
+		while ( $loop <= 75 && $get_block >= 0 ) {
 		
 		$dsblocks_fetch[] = array('BlockNum' => $get_block);
 		
@@ -80,9 +80,9 @@ if ( date(i) > 30 && date(i) < 35 ) {
 ///////////////////////////////////////////////////////
 
 
-// Add any older TX blocks not already in the DB 100 per session, near bottom of hour (first sync etc)...
+// Add any older TX blocks not already in the DB 200 per session, near top of hour AND bottom of hour (first sync etc)...
 
-if ( date(i) > 30 && date(i) < 35 ) {
+if ( date(i) > 0 && date(i) < 10 || date(i) > 30 && date(i) < 40 ) {
 
 	// Find first / oldest block
 	$query = "SELECT * FROM tx_blocks ORDER BY timestamp ASC limit 1";
@@ -105,7 +105,7 @@ if ( date(i) > 30 && date(i) < 35 ) {
 		$txblocks_fetch = array();
 		$loop = 0;
 		$get_block = $first_txblock - 1;
-		while ( $loop <= 100 && $get_block >= 0 ) {
+		while ( $loop <= 200 && $get_block >= 0 ) {
 		
 		$txblocks_fetch[] = array('BlockNum' => $get_block);
 		
@@ -146,7 +146,7 @@ if ( date(i) > 0 && date(i) < 5 ) {
 	$query = NULL;
 	
 	// Scan for sequentially missing...
-	$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC";
+	$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit " . $error_scan;
 	
 	$missing_dsblocks = array();
 	$loop = $first_dsblock;
@@ -210,7 +210,7 @@ if ( date(i) > 0 && date(i) < 5 ) {
 	$query = NULL;
 	
 	// Scan for sequentially missing...
-	$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC";
+	$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC limit " . $error_scan;
 	
 	$missing_txblocks = array();
 	$loop = $first_txblock;

@@ -31,6 +31,10 @@ $api_timeout = 10; // Seconds to wait for response from API
 
 $stats_max = '28'; // Front page limit on stats shown per section
 
+$chart_blocks = '25000'; // Number of blocks used to calculate charts
+
+$error_scan = '10000'; // Number of data rows to scan in website database for missing blockchain data
+
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
 

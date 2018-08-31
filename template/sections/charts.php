@@ -24,7 +24,7 @@ use ZingChart\PHPWrapper\ZC;
 
 $diff_array = array('');
 $dstime_array = array('');
-$query = "SELECT difficulty,timestamp FROM ds_blocks ORDER BY timestamp ASC";
+$query = "SELECT difficulty,timestamp FROM ds_blocks ORDER BY timestamp ASC limit " . $chart_blocks;
 
 if ($result = mysqli_query($db_connect, $query)) {
    while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
@@ -44,7 +44,7 @@ $gas_used_array = array('');
 $micro_blocks_array = array('');
 $txamount_array = array('');
 $txtime_array = array('');
-$query = "SELECT gas_used,micro_blocks,transactions,timestamp FROM tx_blocks ORDER BY timestamp ASC";
+$query = "SELECT gas_used,micro_blocks,transactions,timestamp FROM tx_blocks ORDER BY timestamp ASC limit " . $chart_blocks;
 
 if ($result = mysqli_query($db_connect, $query)) {
    while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
