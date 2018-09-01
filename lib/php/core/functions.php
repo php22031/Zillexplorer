@@ -1107,12 +1107,7 @@ global $btc_in_usd, $coins_array;
 
 function coinmarketcap_api() {
 	
-global $coinmarketcap_ranks_max;
-
-
-	if ( !$_SESSION['cmc_data'] ) {
-
-		
+	
      	$json_string = 'https://api.coinmarketcap.com/v2/ticker/2469/';
      	     
 	  	$jsondata = @get_data('url', $json_string);
@@ -1123,11 +1118,6 @@ global $coinmarketcap_ranks_max;
  	   $_SESSION['cmc_data'] = $cmc_data;
 		
 
-	}
-	else {
-	$cmc_data = $_SESSION['cmc_data'];
-	}
-		
 	     	
 
      if ( is_array($cmc_data) || is_object($cmc_data) ) {
