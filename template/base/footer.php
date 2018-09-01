@@ -15,10 +15,15 @@
 	</div>
 </div>
 
-	<footer class="container-fluid" style='padding:15px; width: 100%;'>
-	  <p><a href='https://github.com/taoteh1221/Zillexplorer/releases' target='_blank'>Zillexplorer v<?=$version?></a></p>
+	<footer id='site-footer' class="container-fluid" style='width: 100%; height: 50px; padding: 0px; position: relative; z-index: 1;'>
+	
+	  <div style='padding: 15px;'>
+	  
+	  <a href='https://github.com/taoteh1221/Zillexplorer/releases' target='_blank'>Zillexplorer v<?=$version?></a>
+	  
+	  </div>
+	  
 	</footer>
-
 
 </body>
 </html>
