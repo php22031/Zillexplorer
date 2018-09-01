@@ -4,7 +4,7 @@
  */
 ?>
       
-      <h3><b>TX Block #<?=trim($_GET['txblock'])?></b></h3>
+      <h3><b>TX Block #<?=$_GET['txblock']?></b></h3>
       <h5><!-- <span class="label label-danger">Lorem</span> --> <span class="label label-primary">TX Block</span></h5>
       
 		<div class="col-xs-12 col-md-auto border-rounded no-padding zebra-stripe relative-table">
@@ -13,14 +13,14 @@
       
       <?php
 
-      $txblock_request = json_request('GetTxBlock', array( trim($_GET['txblock']) )  );
+      $txblock_request = json_request('GetTxBlock', array( $_GET['txblock'] )  );
       $txblock_results = json_decode( @get_data('array', $txblock_request), TRUE );
       //var_dump( $txblock_results ); // DEBUGGING
 
 
 		if ( $txblock_results['result']['header']['Timestamp'] == 0 ) { // Timestamp uppercase on API for some reason
 		?>
-		<div class="stats-row"><b>Block #<?=trim($_GET['txblock'])?> does not exist.</b></div>
+		<div class="stats-row"><b>Block #<?=$_GET['txblock']?> does not exist.</b></div>
 		<?php
 		}
 		else {

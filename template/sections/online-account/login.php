@@ -8,28 +8,28 @@ $login_result = array();
 		
 if ( $_POST['submit_login'] ) {
 	
-	if ( trim($_POST['email']) == '' )	{
+	if ( $_POST['email'] == '' )	{
 	$login_result['error'][] = "Please enter your email.";
 	}
-	elseif ( $securimage->check( trim($_POST['captcha_code']) ) == false )	{
+	elseif ( $securimage->check( $_POST['captcha_code'] ) == false )	{
 	$login_result['error'][] = "Captcha code was not correct.";
 	}
 	else {
 		
 		// Login if user / pass match
-		$query = "SELECT * FROM users WHERE email = '".trim($_POST['email'])."'";
+		$query = "SELECT * FROM users WHERE email = '".$_POST['email']."'";
 		
 		if ($result = mysqli_query($db_connect, $query)) {
 			
 		   while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
 				
-				if ( $row["password"] == md5( trim($_POST['password']) ) && $row["activated"] == 'yes' ) {
+				if ( $row["password"] == md5( $_POST['password'] ) && $row["activated"] == 'yes' ) {
 				$_SESSION['user'] = $row;
 				header("Location: /online-account/summary/");
 				mysqli_free_result($result);
 				exit;
 				}
-				elseif ( $row["password"] != md5( trim($_POST['password']) ) ) {
+				elseif ( $row["password"] != md5( $_POST['password'] ) ) {
 				$login_result['error'][] = "Wrong password.";
 				}
 				elseif ( $row["activated"] != 'yes' ) {

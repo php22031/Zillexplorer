@@ -4,7 +4,7 @@
  */
 ?>
       
-      <h3><b>DS Block #<?=trim($_GET['dsblock'])?></b></h3>
+      <h3><b>DS Block #<?=$_GET['dsblock']?></b></h3>
       <h5><!-- <span class="label label-danger">Lorem</span> --> <span class="label label-primary">DS Block</span></h5>
       
       <div class="col-xs-12 col-md-auto border-rounded no-padding zebra-stripe relative-table">
@@ -13,13 +13,13 @@
   		
       <?php
 
-		$dsblock_request = json_request('GetDsBlock', array( trim($_GET['dsblock']) ) );
+		$dsblock_request = json_request('GetDsBlock', array( $_GET['dsblock'] ) );
       $dsblock_results = json_decode( @get_data('array', $dsblock_request), TRUE );
       //var_dump( $dsblock_results ); // DEBUGGING
 
 		if ( $dsblock_results['result']['header']['timestamp'] == 0 ) {
 		?>
-		<div class="stats-row"><b>Block #<?=trim($_GET['dsblock'])?> does not exist.</b></div>
+		<div class="stats-row"><b>Block #<?=$_GET['dsblock']?> does not exist.</b></div>
 		<?php
 		}
 		else {

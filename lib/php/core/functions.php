@@ -10,8 +10,6 @@ function store_dsblock($results) {
 	
 global $db_connect;
 
-	//var_dump($results);
-
 	foreach ( $results as $key => $value ) {
 	
 	$dsblock_request = json_request('GetDsBlock', array( strval($value['BlockNum']) )  );
@@ -19,9 +17,6 @@ global $db_connect;
 	//var_dump( $dsblock_results['result']['header'] ); // DEBUGGING
 	
 	$ds_block_header = $dsblock_results['result']['header'];
-	
-	//var_dump($ds_block_header); 
-	//exit;
 	
 		// Run checks...
 		
@@ -59,8 +54,6 @@ function store_txblock($results) {
 	
 global $db_connect;
 
-	//var_dump($results);
-
 	foreach ( $results as $key => $value ) {
 	
 	// Singular
@@ -69,9 +62,6 @@ global $db_connect;
 	//var_dump( $txblock_results['result']['header'] ); // DEBUGGING
 	
 	$tx_block_header = $txblock_results['result']['header'];
-	
-	//var_dump($tx_block_header); 
-	//exit;
 	
 		// Run checks...
 		
@@ -127,8 +117,6 @@ $format_array = array("");
 	$loop = $loop + 1;
 	}
 	
-	//var_dump($format_array);
-	
 	foreach ( $format_array as $value ) {
 	
 		if ( trim($value) != '' ) {
@@ -170,6 +158,10 @@ list($username,$domain) = split("@",$email);
 function safe_mail($to, $subject, $message) {
 	
 global $from_email;
+
+// Stop injection vulnerability for PHP < 7.2
+$from_email = str_replace("\r\n", "\n", $from_email); // windows -> unix
+$from_email = str_replace("\r", "\n", $from_email);   // remaining -> unix
 
 $email_check = validate_email($to);
 
@@ -214,13 +206,25 @@ return array(
 
 function strip_0x($request) {
 	
-return ( substr($request, 0, 2) == '0x' ? ltrim($request, '0x') : $request );
+return ( substr($request, 0, 2) == '0x' ? trim($request, '0x') : $request );
 
 }
 
 //////////////////////////////////////////////////////////
 
-function sanitize_request($request) {
+function sanitize_array($request) {
+
+	foreach ( $request as $key => $value ) {
+	$request[$key] = sanitize_var($value);
+	}
+
+return $request;
+
+}
+
+//////////////////////////////////////////////////////////
+
+function sanitize_var($request) {
 
 $request = trim($request);
 $request = htmlentities( $request , ENT_QUOTES );
@@ -476,7 +480,7 @@ function get_btc_usd($btc_in_usd) {
    
    //print_r($json_string);print_r($data);
    
-       if (is_array($data) || is_object($data)) {
+      if (is_array($data) || is_object($data)) {
    
        foreach ($data as $key => $value) {
          
@@ -486,25 +490,25 @@ function get_btc_usd($btc_in_usd) {
      
          //print_r($data[$key]);
          
-     foreach ($data[$key] as $key2 => $value2) {
-       
-       //print_r($data[$key][$key2]);
-       
-       if ( $key2 == 'XXBTZUSD' ) {
-        
-       return $data[$key][$key2]["c"][0];
-        
-        
-       }
-     
-   
-     }
+				foreach ($data[$key] as $key2 => $value2) {
+				  
+				  //print_r($data[$key][$key2]);
+				  
+				  if ( $key2 == 'XXBTZUSD' ) {
+				   
+				  return $data[$key][$key2]["c"][0];
+				   
+				   
+				  }
+				
+	   		   
+				}
        
          }
      
        }
        
-       }
+      }
    
    
    }
@@ -608,10 +612,6 @@ global $btc_in_usd, $coins_array;
 		return number_format( $data['OPEN.BTC']['price'], 8, '.', '');
 		}
   
-    
-    
-    
-  
   }
 
 
@@ -626,23 +626,23 @@ global $btc_in_usd, $coins_array;
   
   $data = $data['result'];
   //print_r($data);
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $data[$key]['MarketName'] == $market_pairing ) {
-         
-        return $data[$key]["Last"];
-         
-         
-        }
+		foreach ($data as $key => $value) {
+		  
+		  //print_r($key);
+		  
+		  if ( $data[$key]['MarketName'] == $market_pairing ) {
+		   
+		  return $data[$key]["Last"];
+		   
+		   
+		  }
+		
+	  
+		}
       
-    
-      }
-      
-      }
+     }
   
   
   }
@@ -658,23 +658,23 @@ global $btc_in_usd, $coins_array;
   
   $data = $data['result'];
   //print_r($data);
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $data[$key]['market'] == $market_pairing ) {
-         
-        return $data[$key]["last"];
-         
-         
-        }
+		foreach ($data as $key => $value) {
+		  
+		  //print_r($key);
+		  
+		  if ( $data[$key]['market'] == $market_pairing ) {
+		   
+		  return $data[$key]["last"];
+		   
+		   
+		  }
+		
+	  
+		}
       
-    
-      }
-      
-      }
+     }
   
   
   }
@@ -688,23 +688,23 @@ global $btc_in_usd, $coins_array;
   $data = json_decode($jsondata, TRUE);
   
   //print_r($data);
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $key == $market_pairing ) {
-         
-        return $data[$key]["last"];
-         
-         
-        }
+		foreach ($data as $key => $value) {
+		  
+		  //print_r($key);
+		  
+		  if ( $key == $market_pairing ) {
+		   
+		  return $data[$key]["last"];
+		   
+		   
+		  }
+		
+	  
+		}
       
-    
-      }
-      
-      }
+     }
   
   }
 
@@ -718,23 +718,23 @@ global $btc_in_usd, $coins_array;
    
   
   //print_r($data);
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $key == $market_pairing ) {
-         
-        return $data[$key]["last"];
-         
-         
-        }
+		foreach ($data as $key => $value) {
+		  
+		  //print_r($key);
+		  
+		  if ( $key == $market_pairing ) {
+		   
+		  return $data[$key]["last"];
+		   
+		   
+		  }
+		
+	  
+		}
       
-    
-      }
-      
-      }
+     }
   
   
   }
@@ -750,23 +750,23 @@ global $btc_in_usd, $coins_array;
   
   $data = $data['data'];
   //print_r($data);
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $data[$key]['symbol'] == $market_pairing ) {
-         
-        return $data[$key]["lastDealPrice"];
-         
-         
-        }
+		foreach ($data as $key => $value) {
+		  
+		  //print_r($key);
+		  
+		  if ( $data[$key]['symbol'] == $market_pairing ) {
+		   
+		  return $data[$key]["lastDealPrice"];
+		   
+		   
+		  }
+		
+	  
+		}
       
-    
-      }
-      
-      }
+     }
   
   
   }
@@ -780,23 +780,23 @@ global $btc_in_usd, $coins_array;
      $data = json_decode($jsondata, TRUE);
      
   //print_r($data);
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $data[$key]['symbol'] == $market_pairing ) {
-         
-        return $data[$key]["last"];
-         
-         
-        }
+		foreach ($data as $key => $value) {
+		  
+		  //print_r($key);
+		  
+		  if ( $data[$key]['symbol'] == $market_pairing ) {
+		   
+		  return $data[$key]["last"];
+		   
+		   
+		  }
+		
+	  
+		}
       
-    
-      }
-      
-      }
+     }
   
   
   }
@@ -816,17 +816,17 @@ global $btc_in_usd, $coins_array;
   
             foreach ($data as $key => $value) {
         
-        //print_r($key);
-        
-        if ( $data[$key]['Label'] == $market_pairing ) {
-         
-        return $data[$key]["LastPrice"];
-         
-         
-        }
-      
-    
-      }
+			//print_r($key);
+			
+			if ( $data[$key]['Label'] == $market_pairing ) {
+			 
+			return $data[$key]["LastPrice"];
+			 
+			 
+			}
+		  
+		
+		  }
       
       }
   
@@ -842,23 +842,23 @@ global $btc_in_usd, $coins_array;
      $data = json_decode($jsondata, TRUE);
      
   //print_r($data);
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $key == $market_pairing ) {
-         
-        return $data[$key]["last"];
-         
-         
-        }
+		foreach ($data as $key => $value) {
+		  
+		  //print_r($key);
+		  
+		  if ( $key == $market_pairing ) {
+		   
+		  return $data[$key]["last"];
+		   
+		   
+		  }
+		
+	  
+		}
       
-    
-      }
-      
-      }
+     }
   
   
   }
@@ -872,23 +872,23 @@ global $btc_in_usd, $coins_array;
      $data = json_decode($jsondata, TRUE);
      
   //print_r($data);
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //var_dump($data);
-        
-        if ( $data[$key]['pair'] == $market_pairing ) {
-         
-        return $data[$key]['rate'];
-         
-         
-        }
+		foreach ($data as $key => $value) {
+		  
+		  //var_dump($data);
+		  
+		  if ( $data[$key]['pair'] == $market_pairing ) {
+		   
+		  return $data[$key]['rate'];
+		   
+		   
+		  }
+		
+	  
+		}
       
-    
-      }
-      
-      }
+     }
   
   
   }
@@ -903,23 +903,23 @@ global $btc_in_usd, $coins_array;
      $data = json_decode($jsondata, TRUE);
      
   //print_r($data);
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //var_dump($data);
-        
-        if ( $data[$market_pairing] != '' ) {
-         
-        return $data[$market_pairing]['ticker']['last'];
-         
-         
-        }
+		foreach ($data as $key => $value) {
+		  
+		  //var_dump($data);
+		  
+		  if ( $data[$market_pairing] != '' ) {
+		   
+		  return $data[$market_pairing]['ticker']['last'];
+		   
+		   
+		  }
+		
+	  
+		}
       
-    
-      }
-      
-      }
+     }
   
   
   }
@@ -935,7 +935,7 @@ global $btc_in_usd, $coins_array;
   
   //print_r($json_string);print_r($data);
   
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
       foreach ($data as $key => $value) {
         
@@ -945,25 +945,25 @@ global $btc_in_usd, $coins_array;
     
         //print_r($data[$key]);
         
-    foreach ($data[$key] as $key2 => $value2) {
-      
-      //print_r($data[$key][$key2]);
-      
-      if ( $key2 == $market_pairing ) {
-       
-      return $data[$key][$key2]["c"][0];;
-       
-       
-      }
-    
-  
-    }
+			foreach ($data[$key] as $key2 => $value2) {
+			  
+			  //print_r($data[$key][$key2]);
+			  
+			  if ( $key2 == $market_pairing ) {
+			   
+			  return $data[$key][$key2]["c"][0];;
+			   
+			   
+			  }
+			
+		  
+			}
       
         }
     
       }
       
-      }
+     }
   
   
   }
@@ -979,21 +979,21 @@ global $btc_in_usd, $coins_array;
      $data = json_decode($jsondata, TRUE);
   
   //var_dump($data);
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ( $data['tickers'] as $key => $value ) {
-        
-        if ( $data['tickers'][$key]["currencyPair"] == $market_pairing ) {
-         
-        return $data['tickers'][$key]["last"];
-         
-         
-        }
+		foreach ( $data['tickers'] as $key => $value ) {
+		  
+		  if ( $data['tickers'][$key]["currencyPair"] == $market_pairing ) {
+		   
+		  return $data['tickers'][$key]["last"];
+		   
+		   
+		  }
+		
+	  
+		}
       
-    
-      }
-      
-      }
+     }
   
   
   }
@@ -1025,21 +1025,21 @@ global $btc_in_usd, $coins_array;
      $data = json_decode($jsondata, TRUE);
   
   //var_dump($data);
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ( $data as $key => $value ) {
-        
-        if ( $data[$key]["code"] == 'CRIX.UPBIT.' . $market_pairing ) {
-         
-        return $data[$key]["tradePrice"];
-         
-         
-        }
+		foreach ( $data as $key => $value ) {
+		  
+		  if ( $data[$key]["code"] == 'CRIX.UPBIT.' . $market_pairing ) {
+		   
+		  return $data[$key]["tradePrice"];
+		   
+		   
+		  }
+		
+	  
+		}
       
-    
-      }
-      
-      }
+     }
   
   
   }
@@ -1077,43 +1077,22 @@ global $btc_in_usd, $coins_array;
   
   //var_dump($data);
   
-      if (is_array($data) || is_object($data)) {
+     if (is_array($data) || is_object($data)) {
   
-      foreach ( $data as $object ) {
-        
-        if ( $object[0] == $market_pairing ) {
-        	
-         //var_dump($object);
-         
-        return $object[( sizeof($object) - 4 )];
-         
-         
-        }
-      
-    
-      }
-      
-      }
-  
-  
-  }
-
-
-  elseif ( strtolower($chosen_market) == 'usd_assets' ) {
+		foreach ( $data as $object ) {
+		  
+		  if ( $object[0] == $market_pairing ) {
+			  
+		   //var_dump($object);
+		   
+		  return $object[( sizeof($object) - 4 )];
+		   
+		   
+		  }
 		
-	  $usdtobtc = ( 1 / get_btc_usd($btc_in_usd) );		
-		
-	  if ( $market_pairing == 'usdtobtc' ) {
-     return $usdtobtc;
-     }
-	  elseif ( $market_pairing == 'usdtoxmr' ) {
-     return ( 1 / ( get_trade_price('poloniex', 'BTC_XMR') / $usdtobtc ) );
-     }
-	  elseif ( $market_pairing == 'usdtoeth' ) {
-     return ( 1 / ( get_trade_price('poloniex', 'BTC_ETH') / $usdtobtc ) );
-     }
-	  elseif ( $market_pairing == 'usdtoltc' ) {
-     return ( 1 / ( get_trade_price('poloniex', 'BTC_LTC') / $usdtobtc ) );
+	  
+		}
+      
      }
   
   

@@ -10,18 +10,18 @@ if ( $_POST['submit_registration'] ) {
 
 	// Run checks...
 	
-	if ( $securimage->check( trim($_POST['captcha_code']) ) == false )	{
+	if ( $securimage->check( $_POST['captcha_code'] ) == false )	{
 	$register_result['error'][] = "Captcha code was not correct.";
 	}
 	
 	//////////////
 
-	$query = "SELECT * FROM users WHERE email = '".trim($_POST['email'])."'";
+	$query = "SELECT * FROM users WHERE email = '".$_POST['email']."'";
 	
 	if ($result = mysqli_query($db_connect, $query)) {
 	   while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
 	   	
-		$register_result['error'][] = "An account already exists with the email address '".trim($_POST['email'])."'. Please <a href='/online-account/reset/' class='red-underline'>reset your password</a>.";
+		$register_result['error'][] = "An account already exists with the email address '".$_POST['email']."'. Please <a href='/online-account/reset/' class='red-underline'>reset your password</a>.";
 		
 		 //echo $row["email"]." ".$row["api_key"]."<br />";
 		 
@@ -34,7 +34,7 @@ if ( $_POST['submit_registration'] ) {
 	////////////////
 	
 	
-	if ( strlen( trim($_POST['password']) ) < 12 || strlen( trim($_POST['password']) ) > 40 ) {
+	if ( strlen( $_POST['password'] ) < 12 || strlen( $_POST['password'] ) > 40 ) {
 		
 	$register_result['error'][] = "Password must be between 12 and 40 characters long. Please choose a different password.";
 		
@@ -44,7 +44,7 @@ if ( $_POST['submit_registration'] ) {
 	///////////////
 	
 	
-	$email_check = validate_email( trim($_POST['email']) );
+	$email_check = validate_email( $_POST['email'] );
 	if ( $email_check != 'valid' ) {
 		
 	$register_result['error'][] = $email_check;
@@ -57,7 +57,7 @@ if ( $_POST['submit_registration'] ) {
 		
 	$reset_key = md5(time().rand(9999999,9999999999));
 	
-	$query = "INSERT INTO users (id, reset_key, activated, email, password, api_key) VALUES ('', '".$reset_key."', 'no', '".trim($_POST['email'])."', 	'".md5( trim($_POST['password']) )."', '".md5(time().rand(9999999,9999999999))."')";
+	$query = "INSERT INTO users (id, reset_key, activated, email, password, api_key) VALUES ('', '".$reset_key."', 'no', '".$_POST['email']."', 	'".md5( $_POST['password'] )."', '".md5(time().rand(9999999,9999999999))."')";
 	
 	
 	$sql_result = mysqli_query($db_connect, $query);
@@ -74,7 +74,7 @@ if ( $_POST['submit_registration'] ) {
 		
 		$message = "
 
-Please confirm your recent new account creation for the email address ".trim($_POST['email']).". To activate your account, please visit this link below:
+Please confirm your recent new account creation for the email address ".$_POST['email'].". To activate your account, please visit this link below:
 https://".$_SERVER['SERVER_NAME']."/activate-account/".$reset_key."
 
 If you did NOT create this account, you can ignore this message, and the account WILL NOT BE ACTIVATED.
@@ -85,7 +85,7 @@ Thanks,
 ";
 		
 		// Mail activation link
-		$mail_result = safe_mail( trim($_POST['email']), "Please Confirm To Activate Your Account", $message);
+		$mail_result = safe_mail( $_POST['email'], "Please Confirm To Activate Your Account", $message);
 		
 		
 			if ( $mail_result == true ) {

@@ -3,29 +3,27 @@
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
  
-      $sanitized_input = sanitize_request($_GET['q']);
-      
-     	  if ( substr($sanitized_input, 0, 2) != '0x' && strlen($sanitized_input) > 40 
-     	  || strlen($sanitized_input) > 42 ) {
+     	  if ( substr($_GET['q'], 0, 2) != '0x' && strlen($_GET['q']) > 40 
+     	  || strlen($_GET['q']) > 42 ) {
     	  
    	   $search_type = 'transaction';
-      	$search_request = json_request( 'GetTransaction' , array( strip_0x($sanitized_input) )  );
+      	$search_request = json_request( 'GetTransaction' , array( strip_0x($_GET['q']) )  );
       
   	    
  	     }      
-	     elseif ( substr($sanitized_input, 0, 2) == '0x' && strlen($sanitized_input) == 42 
-     	  || strlen($sanitized_input) == 40 ) {
+	     elseif ( substr($_GET['q'], 0, 2) == '0x' && strlen($_GET['q']) == 42 
+     	  || strlen($_GET['q']) == 40 ) {
     	  
    	   $search_type = 'address';
-      	$search_request = json_request( 'GetBalance' , array( strip_0x($sanitized_input) )  );
+      	$search_request = json_request( 'GetBalance' , array( strip_0x($_GET['q']) )  );
       
    	   
    	  }
-   	  elseif ( substr($sanitized_input, 0, 2) != '0x' && strlen($sanitized_input) < 40 && is_numeric($sanitized_input) ) {
+   	  elseif ( substr($_GET['q'], 0, 2) != '0x' && strlen($_GET['q']) < 40 && is_numeric($_GET['q']) ) {
     	  
 			//echo ' Block search '; // DEBUGGING
     	  
-      	$search_ds = json_request( 'GetDsBlock' , array( $sanitized_input )  );
+      	$search_ds = json_request( 'GetDsBlock' , array( $_GET['q'] )  );
       	$ds_results = json_decode( @get_data('array', $search_ds), TRUE );
       	
       		if ( $ds_results['result']['header']['timestamp'] > 0 ) {
@@ -33,7 +31,7 @@
       		$ds_exists = 1;
       		}
       	
-      	$search_tx = json_request( 'GetTxBlock' , array( $sanitized_input )  );
+      	$search_tx = json_request( 'GetTxBlock' , array( $_GET['q'] )  );
       	$tx_results = json_decode( @get_data('array', $search_tx), TRUE );
       	
       		if ( $tx_results['result']['header']['Timestamp'] > 0 ) {  // Timestamp uppercase on API for some reason
@@ -45,7 +43,7 @@
       
 ?>
 
-      <h3><b><?=( $search_type != '' ? ucfirst($search_type) . ' Search Results' : 'Search Results For' )?> "<?=trim($_GET['q'])?>"</b></h3>
+      <h3><b><?=( $search_type != '' ? ucfirst($search_type) . ' Search Results' : 'Search Results For' )?> "<?=$_GET['q']?>"</b></h3>
       <h5><span class="label label-primary"><?=ucfirst($search_type)?></span> <span id="sc-label" style="display: none;" class="label label-danger">Smart Contract</span> </h5>
       
       <p>
@@ -70,7 +68,7 @@
       	
 			<div style="padding: 7px;"><h4>Address</h4></div>
 			
-      	<div class="stats-row"><b>Address:</b> <a href='/address/<?=$sanitized_input?>'><?=$sanitized_input?></a> </div>
+      	<div class="stats-row"><b>Address:</b> <a href='/address/<?=$_GET['q']?>'><?=$_GET['q']?></a> </div>
       	
       	<?php
       	}
@@ -79,7 +77,7 @@
       	
 			<div style="padding: 7px;"><h4>Transaction</h4></div>
 			
-      	<div class="stats-row"><b>Transaction:</b> <a href='/tx/<?=$sanitized_input?>'><?=$sanitized_input?></a> </div>
+      	<div class="stats-row"><b>Transaction:</b> <a href='/tx/<?=$_GET['q']?>'><?=$_GET['q']?></a> </div>
       	
       	<?php
       	}
@@ -91,12 +89,12 @@
 				<?php
 				if ( $ds_exists ) {
 				?>
-      		<div class="stats-row"><b>DS Block:</b> <a href='/dsblock/<?=$sanitized_input?>'>DS Block #<?=$sanitized_input?></a> </div>
+      		<div class="stats-row"><b>DS Block:</b> <a href='/dsblock/<?=$_GET['q']?>'>DS Block #<?=$_GET['q']?></a> </div>
 				<?php
 				}
 				if ( $tx_exists ) {
 				?>
-      		<div class="stats-row"><b>TX Block:</b> <a href='/txblock/<?=$sanitized_input?>'>TX Block #<?=$sanitized_input?></a> </div>
+      		<div class="stats-row"><b>TX Block:</b> <a href='/txblock/<?=$_GET['q']?>'>TX Block #<?=$_GET['q']?></a> </div>
 				<?php
 				}
 				?>
@@ -157,7 +155,7 @@
       
       if ( $search_type == 'address' ) {
       	
-     	$contract_state = json_request('GetSmartContractState', array( strip_0x($sanitized_input) )  );
+     	$contract_state = json_request('GetSmartContractState', array( strip_0x($_GET['q']) )  );
      	$contract_state_results = json_decode( get_data('array', $contract_state), TRUE );
       //var_dump( $contract_state_results ); // DEBUGGING
       
@@ -173,7 +171,7 @@
  	     	
  	     	// SEEMS only accounts can create smart contracts, so only check for created smart contracts on accounts
       	if ( $search_results['result'] != '' ) {
-      	$created_contracts = json_request('GetSmartContracts' , array( strip_0x($sanitized_input) )  );
+      	$created_contracts = json_request('GetSmartContracts' , array( strip_0x($_GET['q']) )  );
       	$contract_results = json_decode( get_data('array', $created_contracts), TRUE );
       	//var_dump( $contract_results ); // DEBUGGING
       	}
@@ -226,7 +224,7 @@
  	 			}
  	 			
  	 		// NOT IMPLEMENTED YET
-      	//$transaction_history = json_request('GetTransactionHistory' , array( strip_0x($sanitized_input) )  );
+      	//$transaction_history = json_request('GetTransactionHistory' , array( strip_0x($_GET['q']) )  );
       	//$transaction_history_results = json_decode( get_data('array', $transaction_history), TRUE );
       	//var_dump( $transaction_history_results ); // DEBUGGING
  	 			
@@ -281,7 +279,7 @@
  	     	if ( $iscontract == 1 ) {
  	     		
  	     	
-     		$contract_code = json_request('GetSmartContractCode', array( strip_0x($sanitized_input) )  );
+     		$contract_code = json_request('GetSmartContractCode', array( strip_0x($_GET['q']) )  );
      		$contract_code_results = json_decode( get_data('array', $contract_code), TRUE );
     	   //var_dump( $contract_code_results ); // DEBUGGING
  	     	
@@ -302,7 +300,7 @@
  	   	  	}
  	     		
  	     	
-     		$contract_init = json_request('GetSmartContractInit', array( strip_0x($sanitized_input) )  );
+     		$contract_init = json_request('GetSmartContractInit', array( strip_0x($_GET['q']) )  );
      		$contract_init_results = json_decode( get_data('array', $contract_init), TRUE );
     	   //var_dump( $contract_init_results ); // DEBUGGING
  	     	

@@ -10,7 +10,7 @@ if ( $_GET['key'] != '' ) {
 	
 		
 		// Login if user / pass match
-		$query = "SELECT * FROM users WHERE reset_key = '".trim($_GET['key'])."'";
+		$query = "SELECT * FROM users WHERE reset_key = '".$_GET['key']."'";
 		
 		if ($result = mysqli_query($db_connect, $query)) {
 			
@@ -18,7 +18,7 @@ if ( $_GET['key'] != '' ) {
 				
 				if ( $row["activated"] == 'no' ) {
 				
-				$query = "UPDATE users SET activated = 'yes' WHERE reset_key = '".trim($_GET['key'])."'";
+				$query = "UPDATE users SET activated = 'yes' WHERE reset_key = '".$_GET['key']."'";
 				$sql_result = mysqli_query($db_connect, $query);
 				
 					if ( $sql_result == true ) {

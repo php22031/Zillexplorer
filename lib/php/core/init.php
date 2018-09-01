@@ -12,8 +12,33 @@ include('lib/php/core/cookies.php');
 include('lib/php/zingchart/zc.php');
 include('lib/php/securimage/securimage.php');
 
-$_GET['mode'] = trim( str_replace("/","", $_GET['mode']) );
-$_GET['key'] = trim( str_replace("/","", $_GET['key']) );
+
+// Sanitize GET and POST input from users
+if ( sizeof($_GET) > 0 ) {
+
+$_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+$_GET = sanitize_array($_GET);
+}
+
+if ( sizeof($_POST) > 0 ) {
+$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+$_POST = sanitize_array($_POST);
+}
+
+//var_dump($_GET); // DEBUGGING
+
+$_GET['mode'] = str_replace("/","", $_GET['mode']);
+$_GET['key'] = str_replace("/","", $_GET['key']);
+
+
+// Logout
+if ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'logout' ) {
+// Delete user login session data
+$_SESSION['user'] = FALSE;
+header("Location: /");
+exit;
+}
+
 
 $curl_setup = curl_version();
 $user_agent = $_SERVER['SERVER_SOFTWARE'] . ' HTTP Server; PHP v' .phpversion(). ' and Curl v' .$curl_setup["version"]. '; Zillexplorer v' . $version . ' API Parser;';
@@ -21,16 +46,16 @@ $user_agent = $_SERVER['SERVER_SOFTWARE'] . ' HTTP Server; PHP v' .phpversion().
 $securimage = new Securimage(); // Captcha
 
 // Dynamic title
-if ( trim($_GET['q']) != '' ) {
+if ( $_GET['q'] != '' ) {
 
 	if ( preg_match("/address/i", $_SERVER['REQUEST_URI']) ) {
-	$dyn_title = '- Address: ' . trim($_GET['q']);
+	$dyn_title = '- Address: ' . $_GET['q'];
 	}
 	elseif ( preg_match("/tx/i", $_SERVER['REQUEST_URI']) ) {
-	$dyn_title = '- Transaction: ' . trim($_GET['q']);
+	$dyn_title = '- Transaction: ' . $_GET['q'];
 	}
 	else {
-	$dyn_title = '- Search: ' . trim($_GET['q']);
+	$dyn_title = '- Search: ' . $_GET['q'];
 	}
 
 }

@@ -20,7 +20,7 @@ include('template/base/header.php');
 		include('template/sections/tx-blocks.php'); 
       }
       // Search query results
-      elseif ( trim($_GET['q']) != '' ) {
+      elseif ( $_GET['q'] != '' ) {
 		include('template/sections/search-results.php'); 
       }
       
@@ -65,15 +65,11 @@ include('template/base/header.php');
 		
 		//////ONLINE ACCOUNT/////////////////////////////
       
-      // Login
+      // Login (no logout page due to header redirect needed)
       elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'login' ) {
 		include('template/sections/online-account/login.php'); 
       }
-      // Logout
-      elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'logout' ) {
-		include('template/sections/online-account/logout.php'); 
-      }
-      // Logout
+      // Register
       elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'register' ) {
 		include('template/sections/online-account/register.php'); 
       }
