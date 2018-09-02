@@ -56,7 +56,7 @@ if ( $first_dsblock > 0 ) {
       
       ?>
       
-<?=pagination($current_page, $page_count, $paginated_links)?>
+<?=pagination($current_page, $page_count)?>
 
       <div class="col-xs-12 col-md-auto border-rounded no-padding zebra-stripe relative-table">
 
@@ -145,5 +145,5 @@ $query = NULL;
       
       </div>
       
-<?=pagination($current_page, $page_count, $paginated_links)?>
+<?=pagination($current_page, $page_count)?>
 

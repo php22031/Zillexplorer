@@ -31,8 +31,6 @@ $api_timeout = 10; // Seconds to wait for response from API
 
 $paginated_rows = 40; // Number of rows of data on pagination-split result pages
 
-$paginated_links = 10; // Number of pagination links displayed
-
 $stats_max = '22'; // Front page limit on stats shown per section
 
 $chart_blocks = '100000'; // Number of blocks used to calculate charts

@@ -6,7 +6,7 @@
 
 /////////////////////////////////////////////////////////
 
-function pagination($current_page, $page_count, $link_max) {
+function pagination($current_page, $page_count) {
 
 ?>
 <nav aria-label="Page navigation">
@@ -23,8 +23,12 @@ function pagination($current_page, $page_count, $link_max) {
   <?php
   }
   
+  $link_max = 10;
   
-  if ( $current_page > $link_max ) {
+  if ( $current_page > $link_max && substr($current_page, -1) == '0' ) {
+  	$num_start = $current_page - 9;
+  }
+  elseif ( $current_page > $link_max ) {
   	$num_start = substr_replace($current_page, 0, -1) + 1;
   }
   else {
