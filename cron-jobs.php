@@ -35,9 +35,9 @@ store_txblock($tx_results['result']['data']);
 ///////////////////////////////////////////////////////
 
 
-// Add any older DS blocks not already in the DB 75 per session, near top of hour AND bottom of hour (first sync etc)...
+// Add any older DS blocks not already in the DB 150 per session, near top of hour AND bottom of hour (first sync etc)...
 
-if ( date(i) > 0 && date(i) < 10 || date(i) > 30 && date(i) < 40 ) {
+if ( date(i) > 0 && date(i) < 15 || date(i) > 30 && date(i) < 45 ) {
 	
 	// Find first / oldest block
 	$query = "SELECT * FROM ds_blocks ORDER BY timestamp ASC limit 1";
@@ -60,7 +60,7 @@ if ( date(i) > 0 && date(i) < 10 || date(i) > 30 && date(i) < 40 ) {
 		$dsblocks_fetch = array();
 		$loop = 0;
 		$get_block = $first_dsblock - 1;
-		while ( $loop <= 75 && $get_block >= 0 ) {
+		while ( $loop <= 150 && $get_block >= 0 ) {
 		
 		$dsblocks_fetch[] = array('BlockNum' => $get_block);
 		
@@ -80,9 +80,9 @@ if ( date(i) > 0 && date(i) < 10 || date(i) > 30 && date(i) < 40 ) {
 ///////////////////////////////////////////////////////
 
 
-// Add any older TX blocks not already in the DB 200 per session, near top of hour AND bottom of hour (first sync etc)...
+// Add any older TX blocks not already in the DB 300 per session, near top of hour AND bottom of hour (first sync etc)...
 
-if ( date(i) > 0 && date(i) < 10 || date(i) > 30 && date(i) < 40 ) {
+if ( date(i) > 0 && date(i) < 15 || date(i) > 30 && date(i) < 45 ) {
 
 	// Find first / oldest block
 	$query = "SELECT * FROM tx_blocks ORDER BY timestamp ASC limit 1";
@@ -105,7 +105,7 @@ if ( date(i) > 0 && date(i) < 10 || date(i) > 30 && date(i) < 40 ) {
 		$txblocks_fetch = array();
 		$loop = 0;
 		$get_block = $first_txblock - 1;
-		while ( $loop <= 200 && $get_block >= 0 ) {
+		while ( $loop <= 300 && $get_block >= 0 ) {
 		
 		$txblocks_fetch[] = array('BlockNum' => $get_block);
 		
@@ -125,11 +125,11 @@ if ( date(i) > 0 && date(i) < 10 || date(i) > 30 && date(i) < 40 ) {
 ///////////////////////////////////////////////////////
 
 
-// Search for any DS blocks sequentially missing near top of the hour...
+// Search for any DS blocks sequentially missing near top and bottom of the hour...
 
 //echo date(i);  // DEBUGGING
 
-if ( date(i) > 0 && date(i) < 5 ) {
+if ( date(i) > 45 && date(i) < 0 || date(i) > 15 && date(i) < 30 ) {
 
 	// Find first / oldest block
 	$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit 1";
@@ -175,7 +175,7 @@ if ( date(i) > 0 && date(i) < 5 ) {
 	}
 	$query = NULL;
 	
-	var_dump($missing_dsblocks); // DEBUGGING
+	//var_dump($missing_dsblocks); // DEBUGGING
 	
 	if ( sizeof($missing_dsblocks) > 0 ) {
 	
@@ -189,11 +189,11 @@ if ( date(i) > 0 && date(i) < 5 ) {
 ///////////////////////////////////////////////////////
 
 
-// Search for any TX blocks sequentially missing near top of the hour...
+// Search for any TX blocks sequentially missing near top and bottom of the hour...
 
 //echo date(i);  // DEBUGGING
 
-if ( date(i) > 0 && date(i) < 5 ) {
+if ( date(i) > 45 && date(i) < 0 || date(i) > 15 && date(i) < 30 ) {
 
 	// Find first / oldest block
 	$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC limit 1";

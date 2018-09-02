@@ -24,8 +24,8 @@ $version = '0.0.9';  // 2018/SEPTEMBER/2ND
 $from_email = '';  // "From" address for email sent by website...MUST BE SET FOR EMAIL SENDING TO WORK.
 
 //$api_server = 'https://api.zilliqa.com/';
-//$api_server = 'https://api-scilla.zilliqa.com/';
-$api_server = 'https://testnet-n-api.aws.zilliqa.com/';
+$api_server = 'https://api-scilla.zilliqa.com/';
+//$api_server = 'https://testnet-n-api.aws.zilliqa.com/';
 
 $api_timeout = 10; // Seconds to wait for response from API
 

@@ -338,7 +338,10 @@ Feature not possible yet, waiting on <a href='https://github.com/Zilliqa/Zilliqa
 				
 				<div id='transactions' class='tabdiv'>
 				<h4>Contract Transactions:</h4>
-				Feature not built yet				</div>
+				
+				
+Feature not possible yet, waiting on <a href='https://github.com/Zilliqa/Zilliqa/issues/538' target='_blank'>https://github.com/Zilliqa/Zilliqa/issues/538</a> to be implemented.
+								</div>
 				
 				
 				<div id='state' class='tabdiv'>

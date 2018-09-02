@@ -61,8 +61,47 @@ $page_count = ceil($block_count / $row_max);
 		</div>
 <?php
 
+// Find first / oldest block
+$query = "SELECT * FROM ds_blocks ORDER BY timestamp ASC limit 1";
+
+if ($result = mysqli_query($db_connect, $query)) {
+	
+		while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+				
+		$first_dsblock = intval($row["blocknum"]);
+
+		}
+
+mysqli_free_result($result);
+}
+$query = NULL;
+
+// Find newest block
+$query = "SELECT * FROM ds_blocks ORDER BY timestamp DESC limit 1";
+
+if ($result = mysqli_query($db_connect, $query)) {
+	
+		while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+				
+		$last_dsblock = intval($row["blocknum"]);
+
+		}
+
+mysqli_free_result($result);
+}
+$query = NULL;
+
+
+if ( $first_dsblock > 0 ) {
+?>
+
+			<div style="padding: 7px;"><b style='color: red;'>Server is currently re-caching all <i>older</i> DS blocks a couple times per hour. Some older blocks will be missing until this is completed (current oldest block cached is block #<?=$first_dsblock?>).</b></div>
+			
+<?php
+}
+	
 // DS block data
-$query = "SELECT blocknum,difficulty,timestamp FROM ds_blocks WHERE blocknum >= '".( ($current_page - 1) * $row_max)."' ORDER BY blocknum ASC limit " . $row_max;
+$query = "SELECT blocknum,difficulty,timestamp FROM ds_blocks WHERE blocknum > '".( $last_dsblock - ( $current_page * $row_max ) )."' AND blocknum <= '".( $last_dsblock - ( $current_page * $row_max ) + $row_max )."' ORDER BY blocknum DESC limit " . $row_max;
 
 //echo $query; // DEBUGGING
 

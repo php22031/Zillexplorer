@@ -71,8 +71,46 @@ $page_count = ceil($block_count / $row_max);
 		</div>
 <?php
 
+// Find first / oldest block
+$query = "SELECT * FROM tx_blocks ORDER BY timestamp ASC limit 1";
+
+if ($result = mysqli_query($db_connect, $query)) {
+	
+		while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+				
+		$first_txblock = intval($row["blocknum"]);
+
+		}
+
+mysqli_free_result($result);
+}
+$query = NULL;
+
+// Find newest block
+$query = "SELECT * FROM tx_blocks ORDER BY timestamp DESC limit 1";
+
+if ($result = mysqli_query($db_connect, $query)) {
+	
+		while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+				
+		$last_txblock = intval($row["blocknum"]);
+
+		}
+
+mysqli_free_result($result);
+}
+$query = NULL;
+
+if ( $first_txblock > 0 ) {
+?>
+
+			<div style="padding: 7px;"><b style='color: red;'>Server is currently re-caching all <i>older</i> TX blocks a couple times per hour. Some older blocks will be missing until this is completed (current oldest block cached is block #<?=$first_txblock?>).</b></div>
+			
+<?php
+}
+
 // TX block data
-$query = "SELECT blocknum,gas_used,micro_blocks,transactions,timestamp FROM tx_blocks WHERE blocknum >= '".( ($current_page - 1) * $row_max)."' ORDER BY blocknum ASC limit " . $row_max;
+$query = "SELECT blocknum,gas_used,micro_blocks,transactions,timestamp FROM tx_blocks WHERE blocknum > '".( $last_txblock - ( $current_page * $row_max ) )."' AND blocknum <= '".( $last_txblock - ( $current_page * $row_max ) + $row_max )."' ORDER BY blocknum DESC limit " . $row_max;
 
 //echo $query; //DEBUGGING
 
@@ -98,7 +136,7 @@ if ($result = mysqli_query($db_connect, $query)) {
 				</td>
 			
 				<td class="row-sections" style='width: 17%;'>
-				<?=$row["transactions"]?>
+				<?=number_format($row["transactions"])?>
 				</td>
 				
 				<td class="row-sections" style='width: 36%;'>
