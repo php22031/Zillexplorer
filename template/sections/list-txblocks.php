@@ -5,25 +5,21 @@
  
 //var_dump($_GET); // DEBUGGING
 
-$current_page = $_GET['url_var'];
-
 // Support /slug/1 page structure
-$current_page = ( !$current_page || $current_page < 1 ? 1 : $current_page );
-
-$row_max = 15; // Number of db results per page
-
-$link_max = 10; // Number of pagination links
+$current_page = ( !$_GET['url_var'] || $_GET['url_var'] < 1 ? 1 : $_GET['url_var'] );
 
 // TX block row count for pagination
 $query = "SELECT COUNT(blocknum) as block_count FROM tx_blocks";
 if ($result = mysqli_query($db_connect, $query)) {
 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
 $block_count = $row['block_count'];
+
 mysqli_free_result($result);
 }
 $query = NULL;
 
-$page_count = ceil($block_count / $row_max);  
+$page_count = ceil($block_count / $paginated_rows);  
   
 ?>
 
@@ -104,13 +100,13 @@ $query = NULL;
 if ( $first_txblock > 0 ) {
 ?>
 
-			<div style="padding: 7px;"><b style='color: red;'>Server is currently re-caching all <i>older</i> TX blocks a couple times per hour. Some older blocks will be missing until this is completed (current oldest block cached is block #<?=$first_txblock?>).</b></div>
+			<div style="padding: 7px;"><b style='color: red;'>Server is currently re-caching all <i>older</i> TX blocks a couple times per hour. Some older blocks will be missing from the cache until this is completed (current oldest block cached is block #<?=$first_txblock?>). You can still use the search feature to lookup detailed block information on any block.</b></div>
 			
 <?php
 }
 
 // TX block data
-$query = "SELECT blocknum,gas_used,micro_blocks,transactions,timestamp FROM tx_blocks WHERE blocknum > '".( $last_txblock - ( $current_page * $row_max ) )."' AND blocknum <= '".( $last_txblock - ( $current_page * $row_max ) + $row_max )."' ORDER BY blocknum DESC limit " . $row_max;
+$query = "SELECT blocknum,gas_used,micro_blocks,transactions,timestamp FROM tx_blocks WHERE blocknum > '".( $last_txblock - ( $current_page * $paginated_rows ) )."' AND blocknum <= '".( $last_txblock - ( $current_page * $paginated_rows ) + $paginated_rows )."' ORDER BY blocknum DESC limit " . $paginated_rows;
 
 //echo $query; //DEBUGGING
 
@@ -158,5 +154,5 @@ $query = NULL;
       
       </div>
       
-<?=pagination($current_page, $link_max, $page_count)?>
+<?=pagination($current_page, $page_count, $paginated_links)?>
 

@@ -19,7 +19,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 /////////////////////////////////////////////////////
 
 
-$version = '0.0.9';  // 2018/SEPTEMBER/2ND
+$version = '0.1.0';  // 2018/SEPTEMBER/2ND
 
 $from_email = '';  // "From" address for email sent by website...MUST BE SET FOR EMAIL SENDING TO WORK.
 
@@ -29,9 +29,13 @@ $api_server = 'https://api-scilla.zilliqa.com/';
 
 $api_timeout = 10; // Seconds to wait for response from API
 
+$paginated_rows = 15; // Number of rows of data on pagination-split result pages
+
+$paginated_links = 10; // Number of pagination links displayed
+
 $stats_max = '22'; // Front page limit on stats shown per section
 
-$chart_blocks = '25000'; // Number of blocks used to calculate charts
+$chart_blocks = '100000'; // Number of blocks used to calculate charts
 
 $error_scan = '10000'; // Number of data rows to scan in website database for missing blockchain data
 

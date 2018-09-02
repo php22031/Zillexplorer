@@ -6,7 +6,7 @@
 
 /////////////////////////////////////////////////////////
 
-function pagination($current_page, $link_max, $page_count) {
+function pagination($current_page, $page_count, $link_max) {
 
 ?>
 <nav aria-label="Page navigation">

@@ -45,7 +45,7 @@
       </ul>
       <form id='search_form' class="navbar-form navbar-left" action='#' onsubmit='return false;'>
         <div class="form-group">
-          <input id='search_input' type="text" value='<?=$_GET['q']?>' class="form-control" placeholder="Address / Transaction...">
+          <input id='search_input' type="text" value='<?=$_GET['q']?>' class="form-control" placeholder="Address / Transaction / Block">
         </div>
         <button type="button" class="btn btn-default" onclick='window.location = "/search/" + document.getElementById("search_input").value; '>Search</button>
       </form>
