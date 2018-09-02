@@ -29,7 +29,7 @@ $api_server = 'https://api-scilla.zilliqa.com/';
 
 $api_timeout = 10; // Seconds to wait for response from API
 
-$paginated_rows = 15; // Number of rows of data on pagination-split result pages
+$paginated_rows = 40; // Number of rows of data on pagination-split result pages
 
 $paginated_links = 10; // Number of pagination links displayed
 

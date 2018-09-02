@@ -28,6 +28,36 @@ $page_count = ceil($block_count / $paginated_rows);
       <h3><b>DS Blocks (<?=number_format($block_count)?> total)</b></h3>
       <h5><!-- <span class="label label-danger">Lorem</span> --> <span class="label label-primary">DS Block</span></h5>
       
+      <?php
+
+// Find first / oldest block
+$query = "SELECT * FROM ds_blocks ORDER BY timestamp ASC limit 1";
+
+if ($result = mysqli_query($db_connect, $query)) {
+	
+		while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+				
+		$first_dsblock = intval($row["blocknum"]);
+
+		}
+
+mysqli_free_result($result);
+}
+$query = NULL;
+
+
+if ( $first_dsblock > 0 ) {
+?>
+
+			<div style="padding: 7px;"><b style='color: red;'>Server is currently re-caching all <i>older</i> DS blocks a couple times per hour. Some older blocks will be missing from the cache until this is completed (current oldest block cached is block #<?=$first_dsblock?>). You can still use the search feature to lookup detailed block information <i>on any block</i>.</b></div>
+			
+<?php
+}
+      
+      ?>
+      
+<?=pagination($current_page, $page_count, $paginated_links)?>
+
       <div class="col-xs-12 col-md-auto border-rounded no-padding zebra-stripe relative-table">
 
 			<div style="padding: 7px;"><h4>DS Blocks</h4></div>
@@ -57,20 +87,6 @@ $page_count = ceil($block_count / $paginated_rows);
 		</div>
 <?php
 
-// Find first / oldest block
-$query = "SELECT * FROM ds_blocks ORDER BY timestamp ASC limit 1";
-
-if ($result = mysqli_query($db_connect, $query)) {
-	
-		while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
-				
-		$first_dsblock = intval($row["blocknum"]);
-
-		}
-
-mysqli_free_result($result);
-}
-$query = NULL;
 
 // Find newest block
 $query = "SELECT * FROM ds_blocks ORDER BY timestamp DESC limit 1";
@@ -88,14 +104,6 @@ mysqli_free_result($result);
 $query = NULL;
 
 
-if ( $first_dsblock > 0 ) {
-?>
-
-			<div style="padding: 7px;"><b style='color: red;'>Server is currently re-caching all <i>older</i> DS blocks a couple times per hour. Some older blocks will be missing from the cache until this is completed (current oldest block cached is block #<?=$first_dsblock?>). You can still use the search feature to lookup detailed block information on any block.</b></div>
-			
-<?php
-}
-	
 // DS block data
 $query = "SELECT blocknum,difficulty,timestamp FROM ds_blocks WHERE blocknum > '".( $last_dsblock - ( $current_page * $paginated_rows ) )."' AND blocknum <= '".( $last_dsblock - ( $current_page * $paginated_rows ) + $paginated_rows )."' ORDER BY blocknum DESC limit " . $paginated_rows;
 

@@ -54,9 +54,9 @@ function pagination($current_page, $page_count, $link_max) {
   ?>
     <li class="page-item <?=( $current_page == $page_count ? 'active' : '' )?>"><a class="page-link" href="<?=$page_count?>">Last</a></li>
   </ul>
+<br /><span>(<?=$page_count?> pages)</span>
 </nav> 
 
-(<?=$page_count?> pages)
 
 <?php
 
