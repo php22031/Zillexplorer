@@ -6,18 +6,18 @@
 include('config.php'); 
 include('template/base/header.php'); 
 
- //echo '"'.$_GET['mode'].'"'; exit;  //DEBUGGING
+ //echo '"'.$_GET['url_var'].'"'; exit;  //DEBUGGING
  //echo '"'.$_SERVER['REQUEST_URI'].'"'; exit;  //DEBUGGING
       
       /////////////////////////////////////////
       
       // DS Block info
       if ( $_GET['dsblock'] != '' ) {
-		include('template/sections/ds-blocks.php'); 
+		include('template/sections/ds-block.php'); 
       }
       // TX Block info
       elseif ( $_GET['txblock'] != '' ) {
-		include('template/sections/tx-blocks.php'); 
+		include('template/sections/tx-block.php'); 
       }
       // Search query results
       elseif ( $_GET['q'] != '' ) {
@@ -66,31 +66,31 @@ include('template/base/header.php');
 		//////ONLINE ACCOUNT/////////////////////////////
       
       // Login (no logout page due to header redirect needed)
-      elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'login' ) {
+      elseif ( $_GET['section'] == 'online-account' && $_GET['url_var'] == 'login' ) {
 		include('template/sections/online-account/login.php'); 
       }
       // Register
-      elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'register' ) {
+      elseif ( $_GET['section'] == 'online-account' && $_GET['url_var'] == 'register' ) {
 		include('template/sections/online-account/register.php'); 
       }
       // Reset
-      elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'reset' ) {
+      elseif ( $_GET['section'] == 'online-account' && $_GET['url_var'] == 'reset' ) {
 		include('template/sections/online-account/reset.php'); 
 		}
 		//Activate
-      elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'activate' ) {
+      elseif ( $_GET['section'] == 'online-account' && $_GET['url_var'] == 'activate' ) {
 		include('template/sections/online-account/activate.php'); 
       }
       // Main
-      elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'summary' ) {
+      elseif ( $_GET['section'] == 'online-account' && $_GET['url_var'] == 'summary' ) {
 		include('template/sections/online-account/summary.php'); 
       }
       // Alerts
-      elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'alerts' ) {
+      elseif ( $_GET['section'] == 'online-account' && $_GET['url_var'] == 'alerts' ) {
 		include('template/sections/online-account/alerts.php'); 
       }
       // API
-      elseif ( $_GET['section'] == 'online-account' && $_GET['mode'] == 'api' ) {
+      elseif ( $_GET['section'] == 'online-account' && $_GET['url_var'] == 'api' ) {
 		include('template/sections/online-account/api.php'); 
       }
 

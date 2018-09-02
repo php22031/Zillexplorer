@@ -239,12 +239,18 @@
 				
 				<div id='transactions' class='tabdiv'>
 				<h4>Account Transactions:</h4>
-				Feature not built yet				</div>
+				
+				
+Feature not possible yet, waiting on <a href='https://github.com/Zilliqa/Zilliqa/issues/538' target='_blank'>https://github.com/Zilliqa/Zilliqa/issues/538</a> to be implemented.
+								</div>
 				
 				
 				<div id='tokentx' class='tabdiv'>
 				<h4>Token Transactions:</h4>
-				Feature not built yet				</div>
+				
+				
+Feature not possible yet, waiting on <a href='https://github.com/Zilliqa/Zilliqa/issues/538' target='_blank'>https://github.com/Zilliqa/Zilliqa/issues/538</a> to be implemented.
+								</div>
 		
 		
  	     	</div>

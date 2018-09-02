@@ -2,7 +2,65 @@
 /*
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
- 
+
+
+/////////////////////////////////////////////////////////
+
+function pagination($current_page, $link_max, $page_count) {
+
+?>
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li class="page-item <?=( $current_page == 1 ? 'active' : '' )?>"><a class="page-link" href="1">First</a></li>
+  <?php
+  
+  if ( $current_page > 1 )
+  {
+  ?>
+  
+    <li class="page-item"><a class="page-link" href="<?=($current_page - 1)?>">Previous</a></li>
+    
+  <?php
+  }
+  
+  
+  if ( $current_page > $link_max ) {
+  	$num_start = substr_replace($current_page, 0, -1) + 1;
+  }
+  else {
+  	$num_start = 1;
+  }
+  
+  $loop = 0;
+  while( $loop < $link_max ) {
+  	
+  		if ( $num_start <= $page_count ) {
+  ?>
+  
+    <li class="page-item <?=( $num_start == $current_page ? 'active' : '' )?>"><a class="page-link" href="<?=$num_start?>"> <?=$num_start?> </a></li>
+    
+  <?php
+  		}
+  		
+  $num_start = $num_start + 1;
+  $loop = $loop + 1;
+  }
+  
+  if ( $current_page < $page_count ) {
+  ?>
+    <li class="page-item"><a class="page-link" href="<?=($current_page + 1)?>">Next</a></li>
+  <?php
+  }
+  ?>
+    <li class="page-item <?=( $current_page == $page_count ? 'active' : '' )?>"><a class="page-link" href="<?=$page_count?>">Last</a></li>
+  </ul>
+</nav> 
+
+(<?=$page_count?> pages)
+
+<?php
+
+}
  
 /////////////////////////////////////////////////////////
 

@@ -21,6 +21,18 @@
 	padding: 7px;
 	}
 	
+	.data-row {
+	border-top: 2px solid #d6d4d4;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	}
+	
+	
+	.row-sections {
+	float: left; height: 100%; background: inherit; margin: 0px; padding: 5px;
+	}
+	
 	div.zebra-stripe > div:nth-of-type(odd) {
     background-color: #e3eff2;
 	}

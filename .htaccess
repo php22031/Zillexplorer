@@ -21,17 +21,17 @@ RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule dsblock/(\d+)*$ ?dsblock=$1
 RewriteRule txblock/(\d+)*$ ?txblock=$1
  
-RewriteRule live-stats/(.*)$ ?section=live-stats&mode=$1
-RewriteRule tokens/(.*)$ ?section=tokens&mode=$1
-RewriteRule charts/(.*)$ ?section=charts&mode=$1
-RewriteRule mining-calculator/(.*)$ ?section=mining-calculator&mode=$1
-RewriteRule broadcast-transaction/(.*)$ ?section=broadcast-transaction&mode=$1
-RewriteRule list-accounts/(.*)$ ?section=list-accounts&mode=$1
-RewriteRule list-transactions/(.*)$ ?section=list-transactions&mode=$1
-RewriteRule list-dsblocks/(.*)$ ?section=list-dsblocks&mode=$1
-RewriteRule list-txblocks/(.*)$ ?section=list-txblocks&mode=$1
-RewriteRule activate-account(.*)$ ?section=online-account&mode=activate&key=$1
-RewriteRule online-account/(.*)$ ?section=online-account&mode=$1
+RewriteRule live-stats/(.*)$ ?section=live-stats&url_var=$1
+RewriteRule tokens/(.*)$ ?section=tokens&url_var=$1
+RewriteRule charts/(.*)$ ?section=charts&url_var=$1
+RewriteRule mining-calculator/(.*)$ ?section=mining-calculator&url_var=$1
+RewriteRule broadcast-transaction/(.*)$ ?section=broadcast-transaction&url_var=$1
+RewriteRule list-accounts/(.*)$ ?section=list-accounts&url_var=$1
+RewriteRule list-transactions/(.*)$ ?section=list-transactions&url_var=$1
+RewriteRule list-dsblocks/(.*)$ ?section=list-dsblocks&url_var=$1
+RewriteRule list-txblocks/(.*)$ ?section=list-txblocks&url_var=$1
+RewriteRule activate-account(.*)$ ?section=online-account&url_var=activate&key=$1
+RewriteRule online-account/(.*)$ ?section=online-account&url_var=$1
 RewriteRule search/(.*)$ ?q=$1
 RewriteRule tx/(.*)$ ?q=$1
 RewriteRule address/(.*)$ ?q=$1 [L]
