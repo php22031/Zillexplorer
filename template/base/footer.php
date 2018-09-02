@@ -5,6 +5,7 @@
 ?>
 
       <br clear='all' />
+      <div style='font-weight: bold; color: red;'><?=$_SESSION['get_data_error']?></div>
       <br />
       <br />
       
@@ -30,7 +31,8 @@
 <?php
 //var_dump($_SESSION['debugging_printout']);
 
-// Destroy API cache session var / Close DB connection
+// Destroy API cache session var and error alert var / Close DB connection
 $_SESSION['api_cache'] = FALSE;
+$_SESSION['get_data_error'] = FALSE;
 mysqli_close($db_connect);
 ?>

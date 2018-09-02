@@ -335,11 +335,11 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 		if ( !$data ) {
 		$data = 'no';
-		$_SESSION['get_data_error'] .= ' No data returned from request "' . $request . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
+		$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
 		}
 		
 		elseif ( preg_match("/coinmarketcap/i", $url) && !preg_match("/last_updated/i", $data) ) {
-		$_SESSION['get_data_error'] .= '##REQUEST## data error response from '.$request.': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
+		$_SESSION['get_data_error'] .= '##REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
 		}
 	
 	
@@ -349,7 +349,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session
 	
 	// DEBUGGING ONLY
-	//$_SESSION['get_data_error'] .= '##REQUEST## Requested data "' . $request . '". <br /> ';
+	//$_SESSION['get_data_error'] .= '##REQUEST## Requested data "' . ( $mode == 'array' ? $api_server : $request ) . '". <br /> ';
 	
 	}
 	else {
@@ -357,7 +357,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	$data = $_SESSION['api_cache'][$hash_check];
 	
 	// DEBUGGING ONLY
-	//$_SESSION['get_data_error'] .= ' ##DUPLICATE## request ignored for data "' . $request . '". <br /> ';
+	//$_SESSION['get_data_error'] .= ' ##DUPLICATE## request ignored for data "' . ( $mode == 'array' ? $api_server : $request ) . '". <br /> ';
 	
 	
 	}

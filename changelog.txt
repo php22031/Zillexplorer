@@ -61,6 +61,7 @@
 0.1.0:
 -Additional config file options
 -Fixed pagination bug
+-Added API error alerts
 -------------------------------------------------------------------
 
 
