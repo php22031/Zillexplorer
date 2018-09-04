@@ -233,7 +233,7 @@ $email_check = validate_email($to);
 			
 
 	// Use array for safety from header injection >= PHP 7.2 
-	if ( phpversion() >= 7.2 ) {
+	if ( PHP_VERSION_ID >= 70200 ) {
 	
 	$headers = array(
 	    					'From' => $from_email
@@ -288,11 +288,15 @@ return $request;
 
 function sanitize_var($request) {
 
+global $db_connect;
+
 $request = trim($request);
 $request = htmlentities( $request , ENT_QUOTES );
-//$request = mysql_real_escape_string($request); // Requires a db connection
-$request = mysql_escape_string($request);
 
+	if ( $db_connect ) {
+	$request = mysqli_real_escape_string($request); // Requires a db connection
+	}
+	
 return $request;
 
 }

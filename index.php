@@ -6,8 +6,7 @@
 include('config.php'); 
 include('template/base/header.php'); 
 
- //echo '"'.$_GET['url_var'].'"'; exit;  //DEBUGGING
- //echo '"'.$_SERVER['REQUEST_URI'].'"'; exit;  //DEBUGGING
+//var_dump($_GET); // DEBUGGING
       
       /////////////////////////////////////////
       

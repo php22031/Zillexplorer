@@ -4,7 +4,7 @@
  */
 
 
-error_reporting(0); // Turn off all error reporting (disable for debugging staging install)
+error_reporting(1); // Turn off all error reporting (disable for debugging staging install)
 //ini_set('display_errors', '0');     # don't show any errors...
 //error_reporting(E_ALL | E_STRICT);  # ...but do log them
 
@@ -19,9 +19,11 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 /////////////////////////////////////////////////////
 
 
-$version = '0.1.0';  // 2018/SEPTEMBER/2ND
+$version = '0.1.1';  // 2018/SEPTEMBER/4TH
 
 $from_email = '';  // "From" address for email sent by website...MUST BE SET FOR EMAIL SENDING TO WORK.
+
+$block_directory = '/home/zillexplorer/domains/staging.zillexplorer.io/.emulate_zilliqa_block_dir';
 
 //$api_server = 'https://api.zilliqa.com/';
 $api_server = 'https://api-scilla.zilliqa.com/';
@@ -42,7 +44,7 @@ $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex /
 
 $db_host = 'localhost';
 $db_user = 'zillexplorer';
-$db_name = 'zillexplorer';
+$db_name = 'staging';
 $db_pass = '';
  
 

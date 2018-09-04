@@ -7,6 +7,32 @@
 session_start();
 date_default_timezone_set('UTC');
 
+// Make sure we have a PHP version id
+if (!defined('PHP_VERSION_ID')) {
+    $version = explode('.', PHP_VERSION);
+
+    define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+}
+
+// Check for curl
+if ( !function_exists('curl_version') ) {
+echo "Curl for PHP (version ID ".PHP_VERSION_ID.") is not installed yet.";
+exit;
+}
+
+// Check that php-leveldb has been added as a php extension
+if ( !class_exists('LevelDB') ) {
+echo 'The PHP extension "php-leveldb" is not installed yet. The package can be found here: <a href="https://github.com/reeze/php-leveldb" target="_blank">https://github.com/reeze/php-leveldb</a>';
+exit;
+}
+else {
+$leveldb = new LevelDB($block_directory);
+}
+
+
+//$leveldb->put("Test_Key", "Test_Value"); // DEBUGGING
+
+
 include('lib/php/core/functions.php'); 
 include('lib/php/core/cookies.php'); 
 include('lib/php/zingchart/zc.php');
@@ -38,7 +64,6 @@ $_SESSION['user'] = FALSE;
 header("Location: /");
 exit;
 }
-
 
 $curl_setup = curl_version();
 $user_agent = $_SERVER['SERVER_SOFTWARE'] . ' HTTP Server; PHP v' .phpversion(). ' and Curl v' .$curl_setup["version"]. '; Zillexplorer v' . $version . ' API Parser;';
