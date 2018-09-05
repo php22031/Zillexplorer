@@ -6,6 +6,37 @@
 
 /////////////////////////////////////////////////////////
 
+function leveldb_all_vars($db) {
+	
+// Read-only mode
+$read_only = $db->getSnapshot();
+$data = array("snapshot" => $read_only);
+	
+$output = $db->getIterator($data);
+
+	$result_array = array();
+	foreach($output as $key => $value) {
+		$result_array[] = array($key => $value);
+	}
+
+return $result_array;
+
+}
+
+/////////////////////////////////////////////////////////
+
+function leveldb_var($db, $key) {
+	
+// Read-only mode
+$read_only = $db->getSnapshot();
+$data = array("snapshot" => $read_only);
+	
+return $db->get($key, $data);
+
+}
+
+/////////////////////////////////////////////////////////
+
 function pagination($current_page, $page_count) {
 
 ?>
@@ -294,7 +325,7 @@ $request = trim($request);
 $request = htmlentities( $request , ENT_QUOTES );
 
 	if ( $db_connect ) {
-	$request = mysqli_real_escape_string($request); // Requires a db connection
+	//$request = mysqli_real_escape_string($request); // Requires a db connection
 	}
 	
 return $request;
