@@ -65,7 +65,6 @@ $zil_usd = number_format( ( $zil_btc * get_btc_usd($btc_in_usd) ), 8 );  // Conv
 ////////////////////IS THIS A CRON JOB RUNNING, OR NOT/////////////////////////////////////////////////
 if ( $cron_running != 1 ) {
 
-include('lib/php/zingchart/zc.php');
 include('lib/php/securimage/securimage.php');
 
 $securimage = new Securimage(); // Captcha

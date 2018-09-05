@@ -13,13 +13,73 @@ $cron_running = 1; // Helps avoid running logic later, which is not related to t
 
 include('config.php'); 
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// DS chart data re-cached after 5 minutes //////////////////////////
+if ( update_cache_file('cache/charts/ds-blocks.dat', 5) == true ) {
+
+$diff_array = array('');
+$dstime_array = array('');
+$query = "SELECT blocknum,difficulty,timestamp FROM ds_blocks ORDER BY timestamp ASC limit " . $chart_blocks;
+
+	if ($result = mysqli_query($db_connect, $query)) {
+		while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+			
+			if ( $row["blocknum"] > 0 ) { // Skip genesis block
+			$diff_array[] = intval($row["difficulty"]);
+			$dstime_array[] = intval(substr($row["timestamp"], 0, 13));
+			}
+		
+		}
+	mysqli_free_result($result);
+	}
+$query = NULL;
+
+file_put_contents('cache/charts/ds-blocks.dat', chart_arrays($dstime_array, $diff_array), LOCK_EX);
+}
+
+
+
+// TX chart data re-cached after 5 minutes //////////////////////////
+if ( update_cache_file('cache/charts/tx-blocks-tx.dat', 5) == true ) {
+
+$gas_used_array = array('');
+$micro_blocks_array = array('');
+$txamount_array = array('');
+$txtime_array = array('');
+$query = "SELECT blocknum,gas_used,micro_blocks,transactions,timestamp FROM tx_blocks ORDER BY timestamp ASC limit " . $chart_blocks;
+
+	if ($result = mysqli_query($db_connect, $query)) {
+		while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+			
+			if ( $row["blocknum"] > 0 ) { // Skip genesis block
+			$gas_used_array[] = intval($row["gas_used"]);
+			$micro_blocks_array[] = intval($row["micro_blocks"]);
+			$txamount_array[] = intval($row["transactions"]);
+			$txtime_array[] = intval(substr($row["timestamp"], 0, 13));
+			}
+		
+		}
+	mysqli_free_result($result);
+	}
+$query = NULL;
+
+file_put_contents('cache/charts/tx-blocks-tx.dat', chart_arrays($txtime_array, $txamount_array), LOCK_EX);
+file_put_contents('cache/charts/tx-blocks-gas.dat', chart_arrays($txtime_array, $gas_used_array), LOCK_EX);
+file_put_contents('cache/charts/tx-blocks-microblocks.dat', chart_arrays($txtime_array, $micro_blocks_array), LOCK_EX);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 // IF FETCHING BLOCKS VIA LEVELDB ////////////////////////////////////////////////////////////////////////////////
 if ( $leveldb_support == 'yes' && class_exists('LevelDB') ) {
 
 
 //$leveldb->put("Test_Key", "Test_Value"); // DEBUGGING
 //$leveldb->put("Test_Key2", "Test_Value2"); // DEBUGGING
-//$leveldb->put("Test_Key3", "Test_Value3"); // DEBUGGING
+//$leveldb->put("Test_Key3", "Test_Value3"); // DEBUGGINGchart_arrays($txtime_array, $txamount_array)
 
 
 //var_dump( leveldb_all_vars($leveldb) ); // DEBUGGING

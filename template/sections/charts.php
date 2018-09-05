@@ -18,49 +18,7 @@
   
 <?php
 
-use ZingChart\PHPWrapper\ZC;
 
-// DS chart data //////////////////////////
-
-$diff_array = array('');
-$dstime_array = array('');
-$query = "SELECT blocknum,difficulty,timestamp FROM ds_blocks ORDER BY timestamp ASC limit " . $chart_blocks;
-
-if ($result = mysqli_query($db_connect, $query)) {
-   while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
-   	
-   	if ( $row["blocknum"] > 0 ) { // Skip genesis block
-		$diff_array[] = intval($row["difficulty"]);
-		$dstime_array[] = intval(substr($row["timestamp"], 0, 13));
-	 	}
-	
-   }
-mysqli_free_result($result);
-}
-$query = NULL;
-
-// TX chart data //////////////////////////
-
-$gas_used_array = array('');
-$micro_blocks_array = array('');
-$txamount_array = array('');
-$txtime_array = array('');
-$query = "SELECT blocknum,gas_used,micro_blocks,transactions,timestamp FROM tx_blocks ORDER BY timestamp ASC limit " . $chart_blocks;
-
-if ($result = mysqli_query($db_connect, $query)) {
-   while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
-   	
-   	if ( $row["blocknum"] > 0 ) { // Skip genesis block
-	 	$gas_used_array[] = intval($row["gas_used"]);
-		$micro_blocks_array[] = intval($row["micro_blocks"]);
-		$txamount_array[] = intval($row["transactions"]);
-		$txtime_array[] = intval(substr($row["timestamp"], 0, 13));
-	 	}
-	
-   }
-mysqli_free_result($result);
-}
-$query = NULL;
 
 
 ?>
@@ -100,7 +58,7 @@ $query = NULL;
       		  				}
       		  			},
       		  		"series": [{
-      		  			"values": [<?=chart_arrays($dstime_array, $diff_array)?>],
+      		  			"values": [<?=file_get_contents('cache/charts/ds-blocks.dat')?>],
       		  			"text":"Difficulty"
       		  			}],
       		  		"title":{
@@ -175,7 +133,7 @@ $query = NULL;
       		  				}
       		  			},
       		  		"series": [{
-      		  			"values": [<?=chart_arrays($txtime_array, $txamount_array)?>],
+      		  			"values": [<?=file_get_contents('cache/charts/tx-blocks-tx.dat')?>],
       		  			"text":"Transactions"
       		  			}],
       		  		"title":{
@@ -250,7 +208,7 @@ $query = NULL;
       		  				}
       		  			},
       		  		"series": [{
-      		  			"values": [<?=chart_arrays($txtime_array, $gas_used_array)?>],
+      		  			"values": [<?=file_get_contents('cache/charts/tx-blocks-gas.dat')?>],
       		  			"text":"Gas Used"
       		  			}],
       		  		"title":{
@@ -325,7 +283,7 @@ $query = NULL;
       		  				}
       		  			},
       		  		"series": [{
-      		  			"values": [<?=chart_arrays($txtime_array, $micro_blocks_array)?>],
+      		  			"values": [<?=file_get_contents('cache/charts/tx-blocks-microblocks.dat')?>],
       		  			"text":"Micro Blocks"
       		  			}],
       		  		"title":{

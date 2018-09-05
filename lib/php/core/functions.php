@@ -3,6 +3,19 @@
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
 
+/////////////////////////////////////////////////////////
+
+function update_cache_file($cache_file, $minutes) {
+
+	if ( file_exists($cache_file) && (filemtime($cache_file) > (time() - 60 * $minutes )) ) {
+	   return false; 
+	} 
+	else {
+	   // Our cache is out-of-date
+	   return true;
+	}
+
+}
 
 /////////////////////////////////////////////////////////
 
