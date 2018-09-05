@@ -24,6 +24,11 @@ echo "Curl for PHP (version ID ".PHP_VERSION_ID.") is not installed yet. Curl is
 exit;
 }
 
+if ( !function_exists("imagepng") ) {
+echo "GD for PHP (version ID ".PHP_VERSION_ID.") is not installed yet. GD is required to run this application.";
+exit;
+} 
+
 // IF ENABLED IN config.php, check that php-leveldb has been added as a php extension in php.ini
 if ( $leveldb_support == 'yes' && !class_exists('LevelDB') ) {
 echo 'The PHP extension "php-leveldb" is not installed yet. The package can be found here: <a href="https://github.com/reeze/php-leveldb" target="_blank">https://github.com/reeze/php-leveldb</a>, OR you can disable php-leveldb support in config.php.';
