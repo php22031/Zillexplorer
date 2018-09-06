@@ -9,13 +9,13 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
     exit;
 }
 
-error_reporting(1); // Turn off all error reporting (0), or enable (1)
+error_reporting(0); // Turn off all error reporting (0), or enable (1)
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
 /////////////////////////////////////////////////////
 
 
-$version = '0.1.2';  // 2018/SEPTEMBER/5TH
+$version = '0.1.3';  // 2018/SEPTEMBER/6TH
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
