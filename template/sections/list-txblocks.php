@@ -9,22 +9,6 @@
 $current_page = ( !$_GET['url_var'] || $_GET['url_var'] < 1 ? 1 : $_GET['url_var'] );
   
   
-// Find newest block
-$query = "SELECT * FROM tx_blocks ORDER BY timestamp DESC limit 1";
-
-if ($result = mysqli_query($db_connect, $query)) {
-	
-		while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
-				
-		$last_txblock = intval($row["blocknum"]);
-
-		}
-
-mysqli_free_result($result);
-}
-$query = NULL;
-
-
 // TX block row count for pagination
 $query = "SELECT COUNT(blocknum) as block_count FROM tx_blocks";
 
@@ -69,16 +53,9 @@ if ( $first_txblock > 0 ) {
 			
 <?php
 }
-      
 
-// TX block data
-$query = "SELECT blocknum,gas_used,micro_blocks,transactions,timestamp FROM tx_blocks WHERE blocknum <= '".( $last_txblock - ( $current_page * $paginated_rows ) + $paginated_rows )."' ORDER BY blocknum DESC limit " . $paginated_rows;
-
-//echo $query; //DEBUGGING
 
       ?>
-      
-      
 
      <span>(<?=number_format($block_count)?> results / <?=number_format($page_count)?> pages)</span><br /> 
 
@@ -123,6 +100,28 @@ $query = "SELECT blocknum,gas_used,micro_blocks,transactions,timestamp FROM tx_b
 		</div>
 <?php
 
+  
+// Find newest block
+$query = "SELECT * FROM tx_blocks ORDER BY timestamp DESC limit 1";
+
+if ($result = mysqli_query($db_connect, $query)) {
+	
+		while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+				
+		$last_txblock = intval($row["blocknum"]);
+
+		}
+
+mysqli_free_result($result);
+}
+$query = NULL;
+
+
+// TX block data
+$query = "SELECT blocknum,gas_used,micro_blocks,transactions,timestamp FROM tx_blocks WHERE blocknum <= '".( $last_txblock - ( $current_page * $paginated_rows ) + $paginated_rows )."' ORDER BY blocknum DESC limit " . $paginated_rows;
+
+//echo $query; //DEBUGGING
+
 if ($result = mysqli_query($db_connect, $query)) {
    while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
    	
@@ -166,5 +165,6 @@ $query = NULL;
 ?>
       
       </div>
+      
 <?=pagination($current_page, $page_count)?>
 

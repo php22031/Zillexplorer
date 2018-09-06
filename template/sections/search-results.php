@@ -7,15 +7,17 @@
      	  || strlen($_GET['q']) > 42 ) {
     	  
    	   $search_type = 'transaction';
-      	$search_request = json_request( 'GetTransaction' , array( strip_0x($_GET['q']) )  );
+      	$search_request = json_request( 'GetTransaction' , array( $_GET['q'] )  );
       
   	    
  	     }      
 	     elseif ( substr($_GET['q'], 0, 2) == '0x' && strlen($_GET['q']) == 42 
      	  || strlen($_GET['q']) == 40 ) {
+     	  	
+     	  	$_GET['q'] = strip_0x($_GET['q']); // 0x is depreciated in Zilliqa
     	  
    	   $search_type = 'address';
-      	$search_request = json_request( 'GetBalance' , array( strip_0x($_GET['q']) )  );
+      	$search_request = json_request( 'GetBalance' , array( $_GET['q'] )  );
       
    	   
    	  }

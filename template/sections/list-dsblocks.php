@@ -25,7 +25,7 @@ $page_count = ceil($block_count / $paginated_rows);
 
 
       
-      <h3><b>DS Blocks (<?=number_format($block_count)?> total)</b></h3>
+      <h3><b>DS Blocks</b></h3>
       <h5><!-- <span class="label label-danger">Lorem</span> --> <span class="label label-primary">DS Block</span></h5>
       
       <?php
@@ -55,7 +55,9 @@ if ( $first_dsblock > 0 ) {
 }
       
       ?>
-      
+
+     <span>(<?=number_format($block_count)?> results / <?=number_format($page_count)?> pages)</span><br /> 
+
 <?=pagination($current_page, $page_count)?>
 
       <div class="col-xs-12 col-md-auto border-rounded no-padding zebra-stripe relative-table">
@@ -105,7 +107,7 @@ $query = NULL;
 
 
 // DS block data
-$query = "SELECT blocknum,difficulty,timestamp FROM ds_blocks WHERE blocknum > '".( $last_dsblock - ( $current_page * $paginated_rows ) )."' AND blocknum <= '".( $last_dsblock - ( $current_page * $paginated_rows ) + $paginated_rows )."' ORDER BY blocknum DESC limit " . $paginated_rows;
+$query = "SELECT blocknum,difficulty,timestamp FROM ds_blocks WHERE blocknum <= '".( $last_dsblock - ( $current_page * $paginated_rows ) + $paginated_rows )."' ORDER BY blocknum DESC limit " . $paginated_rows;
 
 //echo $query; // DEBUGGING
 

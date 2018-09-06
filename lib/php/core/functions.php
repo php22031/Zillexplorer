@@ -311,7 +311,7 @@ return array(
 
 function strip_0x($request) {
 	
-return ( substr($request, 0, 2) == '0x' ? trim($request, '0x') : $request );
+return ( substr($request, 0, 2) == '0x' ? substr_replace($request, '', 0, 2) : $request );
 
 }
 
