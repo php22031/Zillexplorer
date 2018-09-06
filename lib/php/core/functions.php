@@ -102,7 +102,6 @@ function pagination($current_page, $page_count) {
   ?>
     <li class="page-item <?=( $current_page == $page_count ? 'active' : '' )?>"><a class="page-link" href="<?=$page_count?>">Last</a></li>
   </ul>
-<br /><span>(<?=$page_count?> pages)</span>
 </nav> 
 
 
@@ -126,7 +125,7 @@ global $db_connect;
 	
 		// Run checks...
 		
-		$query = "SELECT * FROM ds_blocks WHERE blocknum = '".$ds_block_header['blockNum']."'";
+		$query = "SELECT * FROM ds_blocks WHERE blocknum = '".intval($ds_block_header['blockNum'])."'";
 		
 		if ($result = mysqli_query($db_connect, $query)) {
 			while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
@@ -142,7 +141,7 @@ global $db_connect;
 		
 		if ( !$dsblock_already_stored && $ds_block_header['timestamp'] > 0 ) {
 		
-		$query = "INSERT INTO ds_blocks (id, blocknum, difficulty, timestamp) VALUES ('', '".$ds_block_header['blockNum']."', '".$ds_block_header['difficulty']."', '".$ds_block_header['timestamp']."')";
+		$query = "INSERT INTO ds_blocks (id, blocknum, difficulty, timestamp) VALUES ('', '".intval($ds_block_header['blockNum'])."', '".intval($ds_block_header['difficulty'])."', '".intval($ds_block_header['timestamp'])."')";
 		
 		//echo "<p>" . $query . "</p>\n";
 		$sql_result = mysqli_query($db_connect, $query);
@@ -171,7 +170,7 @@ global $db_connect;
 	
 		// Run checks...
 		
-		$query = "SELECT * FROM tx_blocks WHERE blocknum = '".$tx_block_header['BlockNum']."'";
+		$query = "SELECT * FROM tx_blocks WHERE blocknum = '".intval($tx_block_header['BlockNum'])."'";
 		
 		if ($result = mysqli_query($db_connect, $query)) {
 		   while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
@@ -187,7 +186,7 @@ global $db_connect;
 		
 		if ( !$txblock_already_stored && $tx_block_header['Timestamp'] > 0 ) {
 		
-		$query = "INSERT INTO tx_blocks (id, blocknum, gas_used, micro_blocks, transactions, timestamp) VALUES ('', '".$tx_block_header['BlockNum']."', '".$tx_block_header['GasUsed']."', '".$tx_block_header['NumMicroBlocks']."', '".$tx_block_header['NumTxns']."', '".$tx_block_header['Timestamp']."')";
+		$query = "INSERT INTO tx_blocks (id, blocknum, gas_used, micro_blocks, transactions, timestamp) VALUES ('', '".intval($tx_block_header['BlockNum'])."', '".intval($tx_block_header['GasUsed'])."', '".intval($tx_block_header['NumMicroBlocks'])."', '".intval($tx_block_header['NumTxns'])."', '".$tx_block_header['Timestamp']."')";
 		
 		//echo "<p>" . $query . "</p>\n";
 		$sql_result = mysqli_query($db_connect, $query);

@@ -35,9 +35,7 @@ $paginated_rows = 40; // Number of rows of data on pagination-split result pages
 
 $stats_max = 22; // Front page limit on stats shown per section
 
-$chart_blocks = 100000; // Number of blocks used to calculate charts
-
-$error_scan = 10000; // Number of data rows to scan in website database for missing blockchain data
+$error_scan = 200000; // Number of data rows to scan in website database for missing blockchain data
 
 
 $db_host = 'localhost';

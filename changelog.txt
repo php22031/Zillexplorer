@@ -73,7 +73,9 @@
 
 -------------------------------------------------------------------
 0.1.2:
--Cached chart data (re-cache after 5 minutes)
+-Cached chart data to flat file dbs
+-Optimized block info caching
+-Additional block info caching error scanning / fixing
 -------------------------------------------------------------------
 
 
