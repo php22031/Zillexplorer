@@ -235,8 +235,8 @@
  	     	<div class="stats-row">
  	     	
 				<ul class='tabs' style='margin-bottom: 0px; padding: 0px;'>
-					<li><a href='#transactions'>Account Transactions</a></li>
-					<li><a href='#tokentx'>Token Transactions</a></li>
+					<li class='tabli'><a href='#transactions'>Account Transactions</a></li>
+					<li class='tabli'><a href='#tokentx'>Token Transactions</a></li>
 				</ul>
 				
 				<div id='transactions' class='tabdiv'>
@@ -332,10 +332,10 @@ Feature not possible yet, waiting on <a href='https://github.com/Zilliqa/Zilliqa
  	     	<div class="stats-row">
  	     	
 				<ul class='tabs' style='margin-bottom: 0px; padding: 0px;'>
-					<li><a href='#transactions'>Contract Transactions</a></li>
-					<li><a href='#state'>Contract State</a></li>
-					<li><a href='#code'>Contract Code</a></li>
-					<li><a href='#init'>Contract Init</a></li>
+					<li class='tabli'><a href='#transactions'>Contract Transactions</a></li>
+					<li class='tabli'><a href='#state'>Contract State</a></li>
+					<li class='tabli'><a href='#code'>Contract Code</a></li>
+					<li class='tabli'><a href='#init'>Contract Init</a></li>
 				</ul>
 				
 				<div id='transactions' class='tabdiv'>

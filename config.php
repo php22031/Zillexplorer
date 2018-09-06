@@ -31,11 +31,11 @@ $leveldb_data = 'emulate_zilliqa_block_dir'; // Zilliqa data directory where blo
 
 $api_timeout = 10; // Seconds to wait for response from API
 
-$paginated_rows = 40; // Number of rows of data on pagination-split result pages
+$paginated_rows = 25; // Number of rows of data on pagination-split result pages
 
 $stats_max = 22; // Front page limit on stats shown per section
 
-$error_scan = 200000; // Number of data rows to scan in website database for missing blockchain data
+$error_scan = 50000; // Number of data rows to scan in website database for missing blockchain data
 
 
 $db_host = 'localhost';
