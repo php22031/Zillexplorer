@@ -252,7 +252,7 @@ if ( $leveldb_support == 'yes' && class_exists('LevelDB') ) {
 
 //$leveldb->put("Test_Key", "Test_Value"); // DEBUGGING
 //$leveldb->put("Test_Key2", "Test_Value2"); // DEBUGGING
-//$leveldb->put("Test_Key3", "Test_Value3"); // DEBUGGINGchart_arrays($txtime_array, $txamount_array)
+//$leveldb->put("Test_Key3", "Test_Value3"); // DEBUGGING
 
 
 //var_dump( leveldb_all_vars($leveldb) ); // DEBUGGING
@@ -265,27 +265,6 @@ $leveldb->close();
 //LEVELDB -END-///////////////////////////////////////////////////////////////////////////////////////////////////
 // IF FETCHING BLOCKS VIA API (JSON-RPC) /////////////////////////////////////////////////////////////////////////
 else {
-
-
-///////GET RECENT DS BLOCKS////////////////
-
-$ds_data = json_request('DSBlockListing', array(1) );
-$ds_results = json_decode( @get_data('array', $ds_data), TRUE );      
-//var_dump( $ds_results['result']['data'] ); // DEBUGGING
-
-//store_dsblock($ds_results['result']['data']);
-
-
-////////GET RECENT TX BLOCKS///////////////
-
-$tx_data = json_request('TxBlockListing', array(1) );
-$tx_results = json_decode( @get_data('array', $tx_data), TRUE );
-//var_dump( $tx_results['result']['data'] ); // DEBUGGING
-
-//store_txblock($tx_results['result']['data']);
-
-
-///////////////////////////////////////////////////////
 
 
 	// Add any older DS blocks not already in the DB 150 per session, near top of hour AND bottom of hour (first sync etc)...
