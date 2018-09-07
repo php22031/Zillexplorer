@@ -13,7 +13,8 @@ $cron_running = 1; // Helps avoid running logic later, which is not related to t
 
 include('config.php'); 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Search for any duplicate DS blocks near top and bottom of the hour...
@@ -21,11 +22,11 @@ include('config.php');
 if ( date(i) > 0 && date(i) < 15 || date(i) > 30 && date(i) < 45 ) {
 		
 $query = "SELECT 
-    id,blocknum, COUNT(blocknum) 
+	id,blocknum, COUNT(blocknum) 
 FROM 
-    ds_blocks 
+	ds_blocks 
 GROUP BY 
-    blocknum 
+	blocknum 
 HAVING  COUNT(blocknum) > 1 limit " . $error_scan;
 
 	if ($result = mysqli_query($db_connect, $query)) {
@@ -41,78 +42,17 @@ $query = NULL;
 
 }
 
-	
-// Search for any DS blocks sequentially missing near top and bottom of the hour (offset from duplicate search)...
-
-if ( date(i) > 45 || date(i) > 15 && date(i) < 30 ) {
-
-	// Find first / oldest block
-	$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit 1";
-	
-	if ($result = mysqli_query($db_connect, $query)) {
-				while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
-					
-				$first_dsblock = intval($row["blocknum"]);
-		
-				}
-	
-	mysqli_free_result($result);
-	}
-	$query = NULL;
-	
-	// Scan for sequentially missing...
-	$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit " . $error_scan;
-	
-	$missing_dsblocks = array();
-	$loop = $first_dsblock;
-	if ($result = mysqli_query($db_connect, $query)) {
-				while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
-					
-					if ( $row["blocknum"] > 0 && $row["blocknum"] != $loop ) {
-						
-					$missing = $row["blocknum"] - $loop;
-					
-						//echo $missing . '   ';  // DEBUGGING
-						
-						$seq = $missing;
-						while ( $seq > 0 ) {
-						$missing_dsblocks[] = array('BlockNum' => intval($row["blocknum"] - $seq));
-						$seq = $seq - 1;
-						}
-						
-					$loop = $loop + $missing; // Get back on proper loop number scanning
-					}
-		
-				$loop = $loop + 1;
-				}
-	
-	mysqli_free_result($result);
-	}
-	$query = NULL;
-	
-	//var_dump($missing_dsblocks); // DEBUGGING
-	
-	if ( sizeof($missing_dsblocks) > 0 ) {
-	
-	store_dsblock($missing_dsblocks);
-		
-	}
-
-
-}
-	
-////////////////////////////////////////////////////////
 
 // Search for any duplicate TX blocks near top and bottom of the hour...
 	
 if ( date(i) > 0 && date(i) < 15 || date(i) > 30 && date(i) < 45 ) {
 		
 $query = "SELECT 
-    id,blocknum, COUNT(blocknum) 
+	id,blocknum, COUNT(blocknum) 
 FROM 
-    tx_blocks 
+	tx_blocks 
 GROUP BY 
-    blocknum 
+	blocknum 
 HAVING  COUNT(blocknum) > 1 limit " . $error_scan;
 
 	if ($result = mysqli_query($db_connect, $query)) {
@@ -127,68 +67,8 @@ HAVING  COUNT(blocknum) > 1 limit " . $error_scan;
 $query = NULL;
 
 }
-
-
-// Search for any TX blocks sequentially missing near top and bottom of the hour (offset from duplicate search)...
-
-if ( date(i) > 45 || date(i) > 15 && date(i) < 30 ) {
-
-	// Find first / oldest block
-	$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC limit 1";
 	
-	if ($result = mysqli_query($db_connect, $query)) {
-				while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
-					
-				$first_txblock = intval($row["blocknum"]);
-		
-				}
 	
-	mysqli_free_result($result);
-	}
-	$query = NULL;
-	
-	// Scan for sequentially missing...
-	$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC limit " . $error_scan;
-	
-	$missing_txblocks = array();
-	$loop = $first_txblock;
-	//echo $loop;
-	if ($result = mysqli_query($db_connect, $query)) {
-				while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
-					
-					if ( $row["blocknum"] > 0 && $row["blocknum"] != $loop ) {
-						
-					$missing = $row["blocknum"] - $loop;
-						
-						$seq = $missing;
-						while ( $seq > 0 ) {
-						$missing_txblocks[] = array('BlockNum' => intval($row["blocknum"] - $seq));
-						$seq = $seq - 1;
-						}
-						
-					$loop = $loop + $missing; // Get back on proper loop number scanning
-					}
-		
-				$loop = $loop + 1;
-				}
-	
-	mysqli_free_result($result);
-	}
-	$query = NULL;
-	
-	//var_dump($missing_txblocks); // DEBUGGING
-	
-	if ( sizeof($missing_txblocks) > 0 ) {
-	
-	store_txblock($missing_txblocks);
-		
-	}
-
-
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
 // DS chart data re-cached after 5 minutes //////////////////////////
 if ( update_cache_file('cache/charts/ds-blocks.dat', 5) == true ) {
 
@@ -211,7 +91,6 @@ $query = NULL;
 
 file_put_contents('cache/charts/ds-blocks.dat', chart_arrays($dstime_array, $diff_array), LOCK_EX);
 }
-
 
 
 // TX chart data re-cached after 5 minutes //////////////////////////
@@ -243,6 +122,7 @@ file_put_contents('cache/charts/tx-blocks-gas.dat', chart_arrays($txtime_array, 
 file_put_contents('cache/charts/tx-blocks-microblocks.dat', chart_arrays($txtime_array, $micro_blocks_array), LOCK_EX);
 }
 
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -265,6 +145,125 @@ $leveldb->close();
 //LEVELDB -END-///////////////////////////////////////////////////////////////////////////////////////////////////
 // IF FETCHING BLOCKS VIA API (JSON-RPC) /////////////////////////////////////////////////////////////////////////
 else {
+
+		
+	// Search for any DS blocks sequentially missing near top and bottom of the hour (offset from duplicate search)...
+	
+	if ( date(i) > 45 || date(i) > 15 && date(i) < 30 ) {
+	
+		// Find first / oldest block
+		$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit 1";
+		
+		if ($result = mysqli_query($db_connect, $query)) {
+					while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+						
+					$first_dsblock = intval($row["blocknum"]);
+			
+					}
+		
+		mysqli_free_result($result);
+		}
+		$query = NULL;
+		
+		// Scan for sequentially missing...
+		$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit " . $error_scan;
+		
+		$missing_dsblocks = array();
+		$loop = $first_dsblock;
+		if ($result = mysqli_query($db_connect, $query)) {
+					while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+						
+						if ( $row["blocknum"] > 0 && $row["blocknum"] != $loop ) {
+							
+						$missing = $row["blocknum"] - $loop;
+						
+							//echo $missing . '   ';  // DEBUGGING
+							
+							$seq = $missing;
+							while ( $seq > 0 ) {
+							$missing_dsblocks[] = array('BlockNum' => intval($row["blocknum"] - $seq));
+							$seq = $seq - 1;
+							}
+							
+						$loop = $loop + $missing; // Get back on proper loop number scanning
+						}
+			
+					$loop = $loop + 1;
+					}
+		
+		mysqli_free_result($result);
+		}
+		$query = NULL;
+		
+		//var_dump($missing_dsblocks); // DEBUGGING
+		
+		if ( sizeof($missing_dsblocks) > 0 ) {
+		
+		store_dsblock($missing_dsblocks);
+			
+		}
+	
+	
+	}
+		
+		
+	// Search for any TX blocks sequentially missing near top and bottom of the hour (offset from duplicate search)...
+	
+	if ( date(i) > 45 || date(i) > 15 && date(i) < 30 ) {
+	
+		// Find first / oldest block
+		$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC limit 1";
+		
+		if ($result = mysqli_query($db_connect, $query)) {
+					while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+						
+					$first_txblock = intval($row["blocknum"]);
+			
+					}
+		
+		mysqli_free_result($result);
+		}
+		$query = NULL;
+		
+		// Scan for sequentially missing...
+		$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC limit " . $error_scan;
+		
+		$missing_txblocks = array();
+		$loop = $first_txblock;
+		//echo $loop;
+		if ($result = mysqli_query($db_connect, $query)) {
+					while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+						
+						if ( $row["blocknum"] > 0 && $row["blocknum"] != $loop ) {
+							
+						$missing = $row["blocknum"] - $loop;
+							
+							$seq = $missing;
+							while ( $seq > 0 ) {
+							$missing_txblocks[] = array('BlockNum' => intval($row["blocknum"] - $seq));
+							$seq = $seq - 1;
+							}
+							
+						$loop = $loop + $missing; // Get back on proper loop number scanning
+						}
+			
+					$loop = $loop + 1;
+					}
+		
+		mysqli_free_result($result);
+		}
+		$query = NULL;
+		
+		//var_dump($missing_txblocks); // DEBUGGING
+		
+		if ( sizeof($missing_txblocks) > 0 ) {
+		
+		store_txblock($missing_txblocks);
+			
+		}
+	
+	
+	}
 
 
 	// Add any older DS blocks not already in the DB 150 per session, near top of hour AND bottom of hour (first sync etc)...
