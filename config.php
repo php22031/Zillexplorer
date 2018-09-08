@@ -15,7 +15,7 @@ error_reporting(0); // Turn off all error reporting (0), or enable (1)
 /////////////////////////////////////////////////////
 
 
-$version = '0.1.3';  // 2018/SEPTEMBER/6TH
+$version = '0.1.3';  // 2018/SEPTEMBER/8TH
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 

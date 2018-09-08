@@ -132,12 +132,10 @@ global $db_connect;
 				
 			$dsblock_already_stored = 1;
 			
-			 //echo $row["blocknum"]." ".$row["difficulty"]."<br />";
-			
 			}
 		mysqli_free_result($result);
 		}
-		$query = NULL;
+		
 		
 		if ( !$dsblock_already_stored && $ds_block_header['timestamp'] > 0 ) {
 		
@@ -177,12 +175,10 @@ global $db_connect;
 			
 			$txblock_already_stored = 1;
 			
-			 //echo $row["blocknum"]." ".$row["transactions"]."<br />";
-			
 		   }
 		mysqli_free_result($result);
 		}
-		$query = NULL;
+		
 		
 		if ( !$txblock_already_stored && $tx_block_header['Timestamp'] > 0 ) {
 		
@@ -242,7 +238,9 @@ return substr($format_string, 0, -1);
 function validate_email($email) {
 
 
-list($username,$domain) = split("@",$email);
+	$address = explode("@",$email);
+	
+	$domain = $address[1];
 	
 	// Validate "To" address
 	if ( !$email || !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/", $email) ) {

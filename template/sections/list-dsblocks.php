@@ -17,7 +17,7 @@ $block_count = $row['block_count'];
 
 mysqli_free_result($result);
 }
-$query = NULL;
+
 
 $page_count = ceil($block_count / $paginated_rows);  
   
@@ -43,7 +43,7 @@ if ($result = mysqli_query($db_connect, $query)) {
 
 mysqli_free_result($result);
 }
-$query = NULL;
+
 
 
 if ( $first_dsblock > 0 ) {
@@ -103,7 +103,7 @@ if ($result = mysqli_query($db_connect, $query)) {
 
 mysqli_free_result($result);
 }
-$query = NULL;
+
 
 
 // DS block data
@@ -141,7 +141,7 @@ if ($result = mysqli_query($db_connect, $query)) {
    }
 mysqli_free_result($result);
 }
-$query = NULL;
+
 
 ?>
       

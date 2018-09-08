@@ -50,7 +50,7 @@ if ( $_POST['submit_login'] ) {
 	
 		mysqli_free_result($result);
 		}
-		$query = NULL;
+		
 
 	}
 	

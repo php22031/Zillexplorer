@@ -38,7 +38,7 @@ HAVING  COUNT(blocknum) > 1 limit " . $error_scan;
 		}
 	mysqli_free_result($result);
 	}
-$query = NULL;
+
 
 }
 
@@ -64,7 +64,7 @@ HAVING  COUNT(blocknum) > 1 limit " . $error_scan;
 		}
 	mysqli_free_result($result);
 	}
-$query = NULL;
+
 
 }
 	
@@ -87,7 +87,7 @@ $query = "SELECT blocknum,difficulty,timestamp FROM ds_blocks ORDER BY timestamp
 		}
 	mysqli_free_result($result);
 	}
-$query = NULL;
+
 
 file_put_contents('cache/charts/ds-blocks.dat', chart_arrays($dstime_array, $diff_array), LOCK_EX);
 }
@@ -115,7 +115,7 @@ $query = "SELECT blocknum,gas_used,micro_blocks,transactions,timestamp FROM tx_b
 		}
 	mysqli_free_result($result);
 	}
-$query = NULL;
+
 
 file_put_contents('cache/charts/tx-blocks-tx.dat', chart_arrays($txtime_array, $txamount_array), LOCK_EX);
 file_put_contents('cache/charts/tx-blocks-gas.dat', chart_arrays($txtime_array, $gas_used_array), LOCK_EX);
@@ -163,7 +163,7 @@ else {
 		
 		mysqli_free_result($result);
 		}
-		$query = NULL;
+		
 		
 		// Scan for sequentially missing...
 		$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit " . $error_scan;
@@ -193,7 +193,7 @@ else {
 		
 		mysqli_free_result($result);
 		}
-		$query = NULL;
+		
 		
 		//var_dump($missing_dsblocks); // DEBUGGING
 		
@@ -223,7 +223,7 @@ else {
 		
 		mysqli_free_result($result);
 		}
-		$query = NULL;
+		
 		
 		// Scan for sequentially missing...
 		$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC limit " . $error_scan;
@@ -252,7 +252,7 @@ else {
 		
 		mysqli_free_result($result);
 		}
-		$query = NULL;
+		
 		
 		//var_dump($missing_txblocks); // DEBUGGING
 		
@@ -282,7 +282,7 @@ else {
 		
 		mysqli_free_result($result);
 		}
-		$query = NULL;
+		
 		
 		//echo $first_dsblock; // DEBUGGING
 		
@@ -324,7 +324,7 @@ else {
 		
 		mysqli_free_result($result);
 		}
-		$query = NULL;
+		
 		
 		//echo $last_dsblock; // DEBUGGING
 		
@@ -375,7 +375,7 @@ else {
 		
 		mysqli_free_result($result);
 		}
-		$query = NULL;
+		
 		
 		//echo $first_txblock; // DEBUGGING
 		
@@ -418,7 +418,7 @@ else {
 		
 		mysqli_free_result($result);
 		}
-		$query = NULL;
+		
 		
 		//echo $last_txblock . ' '; // DEBUGGING
 		

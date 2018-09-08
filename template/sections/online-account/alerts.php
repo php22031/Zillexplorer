@@ -20,7 +20,7 @@ if ( $saved_addresses ) {
 	
 	mysqli_free_result($result);
 	}
-	$query = NULL;
+	
 
 }
 ?>

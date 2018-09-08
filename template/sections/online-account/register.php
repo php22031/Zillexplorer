@@ -21,14 +21,12 @@ if ( $_POST['submit_registration'] ) {
 	if ($result = mysqli_query($db_connect, $query)) {
 	   while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
 	   	
-		$register_result['error'][] = "An account already exists with the email address '".$_POST['email']."'. Please <a href='/online-account/reset/' class='red-underline'>reset your password</a>.";
-		
-		 //echo $row["email"]." ".$row["api_key"]."<br />";
+		$register_result['error'][] = "An account already exists with the email address '".$_POST['email']."'. You can <a href='/online-account/reset/' class='red-underline'>reset your password</a> instead.";
 		 
 	   }
 	mysqli_free_result($result);
 	}
-	$query = NULL;
+	
 	
 	
 	////////////////
@@ -44,6 +42,7 @@ if ( $_POST['submit_registration'] ) {
 	///////////////
 	
 	
+
 	$email_check = validate_email( $_POST['email'] );
 	if ( $email_check != 'valid' ) {
 		
@@ -51,6 +50,8 @@ if ( $_POST['submit_registration'] ) {
 	
 	}
 
+
+	//var_dump($register_result['error']);  // DEBUGGING
 
 	// Checks cleared, add user to DB ////////
 	if ( sizeof($register_result['error']) < 1 ) {
@@ -60,13 +61,10 @@ if ( $_POST['submit_registration'] ) {
 	$query = "INSERT INTO users (id, reset_key, activated, email, password, api_key) VALUES ('', '".$reset_key."', 'no', '".$_POST['email']."', 	'".md5( $_POST['password'] )."', '".md5(time().rand(9999999,9999999999))."')";
 	
 	
-	$sql_result = mysqli_query($db_connect, $query);
-	
-	
-		if ( $sql_result == true ) {
+		if ( mysqli_query($db_connect, $query) == true ) {
 		$send_email = 1;
 		}
-	$query = NULL;
+	
 	
 	//////////////////////////
 	
