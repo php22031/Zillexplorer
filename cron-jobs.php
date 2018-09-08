@@ -324,6 +324,7 @@ else {
 		
 		mysqli_free_result($result);
 		}
+		$last_dsblock = ( !$last_dsblock ? 0 : $last_dsblock );
 		
 		
 		//echo $last_dsblock; // DEBUGGING
@@ -334,7 +335,9 @@ else {
       
       $latest_dsblock = intval($latest_dsblock_results['result']['header']['blockNum']);
 		
-		if ( $last_dsblock < $latest_block ) {
+		//echo $latest_dsblock; // DEBUGGING
+		
+		if ( $last_dsblock < $latest_dsblock ) {
 		
 			$dsblocks_fetch = array();
 			$loop = 0;
@@ -418,6 +421,7 @@ else {
 		
 		mysqli_free_result($result);
 		}
+		$last_txblock = ( !$last_txblock ? 0 : $last_txblock );
 		
 		
 		//echo $last_txblock . ' '; // DEBUGGING

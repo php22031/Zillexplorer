@@ -139,7 +139,7 @@ global $db_connect;
 		
 		if ( !$dsblock_already_stored && $ds_block_header['timestamp'] > 0 ) {
 		
-		$query = "INSERT INTO ds_blocks (id, blocknum, difficulty, timestamp) VALUES ('', '".intval($ds_block_header['blockNum'])."', '".intval($ds_block_header['difficulty'])."', '".intval($ds_block_header['timestamp'])."')";
+		$query = "INSERT INTO ds_blocks (id, blocknum, difficulty, prevhash, timestamp) VALUES ('', '".intval($ds_block_header['blockNum'])."', '".intval($ds_block_header['difficulty'])."', '".$ds_block_header['prevhash']."', '".intval($ds_block_header['timestamp'])."')";
 		
 		//echo "<p>" . $query . "</p>\n";
 		$sql_result = mysqli_query($db_connect, $query);
@@ -182,7 +182,7 @@ global $db_connect;
 		
 		if ( !$txblock_already_stored && $tx_block_header['Timestamp'] > 0 ) {
 		
-		$query = "INSERT INTO tx_blocks (id, blocknum, gas_used, micro_blocks, transactions, timestamp) VALUES ('', '".intval($tx_block_header['BlockNum'])."', '".intval($tx_block_header['GasUsed'])."', '".intval($tx_block_header['NumMicroBlocks'])."', '".intval($tx_block_header['NumTxns'])."', '".$tx_block_header['Timestamp']."')";
+		$query = "INSERT INTO tx_blocks (id, blocknum, gas_used, micro_blocks, transactions, prevhash, timestamp) VALUES ('', '".intval($tx_block_header['BlockNum'])."', '".intval($tx_block_header['GasUsed'])."', '".intval($tx_block_header['NumMicroBlocks'])."', '".intval($tx_block_header['NumTxns'])."', '".$tx_block_header['prevBlockHash']."', '".intval($tx_block_header['Timestamp'])."')";
 		
 		//echo "<p>" . $query . "</p>\n";
 		$sql_result = mysqli_query($db_connect, $query);
@@ -383,7 +383,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
 		}
 		
-		elseif ( preg_match("/coinmarketcap/i", $url) && !preg_match("/last_updated/i", $data) ) {
+		if ( preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
 		$_SESSION['get_data_error'] .= '##REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
 		}
 	

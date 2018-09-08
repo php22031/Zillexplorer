@@ -41,9 +41,9 @@
 	<div style="padding: 7px;"><h4>Statistics</h4></div>
   		
   		
-      		<div class="stats-row"><b>Average Trade (globally):</b> $<?=coinmarketcap_api()['quotes']['USD']['price']?></div>
+      		<div class="stats-row"><b>Average Trade (globally):</b> <?=( coinmarketcap_api()['quotes']['USD']['price'] ? '$'.coinmarketcap_api()['quotes']['USD']['price'] : 'API Offline' )?></div>
       		
-      		<div class="stats-row"><b>Marketcap(ranked #<?=number_format(coinmarketcap_api()['rank'])?>):</b> <a href='http://coinmarketcap.com/currencies/zilliqa/' target='_blank'>$<?=number_format(coinmarketcap_api()['quotes']['USD']['market_cap'])?></a></div>
+      		<div class="stats-row"><b>Marketcap<?=( number_format(coinmarketcap_api()['rank']) ? '(ranked #'.number_format(coinmarketcap_api()['rank']).')' : '' )?>:</b> <a href='http://coinmarketcap.com/currencies/zilliqa/' target='_blank'><?=( number_format(coinmarketcap_api()['quotes']['USD']['market_cap']) ? '$'.number_format(coinmarketcap_api()['quotes']['USD']['market_cap']) : 'API Offline' )?></a></div>
       		
       		<div class="stats-row"><b>API Server:</b> <?=$api_server?></a></div>
       <?php

@@ -32,6 +32,7 @@ CREATE TABLE `ds_blocks` (
   `id` int NOT NULL AUTO_INCREMENT,
   `blocknum` int NOT NULL,
   `difficulty` int NOT NULL,
+  `prevhash` varchar(100) NOT NULL,
   `timestamp` bigint NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -43,6 +44,7 @@ CREATE TABLE `tx_blocks` (
   `gas_used` int NOT NULL,
   `micro_blocks` int NOT NULL,
   `transactions` int NOT NULL,
+  `prevhash` varchar(100) NOT NULL,
   `timestamp` bigint NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
