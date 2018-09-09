@@ -149,44 +149,39 @@ else {
 		
 	// Delete all block data if block data in db doesn't match block data on-chain
 	
-	if ( date(i) > 0 && date(i) < 5 ) {
 	
-		// Find first / oldest block
-		$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit 3";
-		
-		if ($result = mysqli_query($db_connect, $query)) {
-					while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
-						
-						if ( $row["blocknum"] > 1 ) { // Assure a unique prevhash
-						
-						$dsblock_request = json_request('GetDsBlock', array( $row["blocknum"] )  );
-						$dsblock_results = json_decode( @get_data('array', $dsblock_request), TRUE );
-						//var_dump( $dsblock_results['result']['header'] ); // DEBUGGING
-						
-						$ds_block_header = $dsblock_results['result']['header'];
-						
-							if ( $row["prevhash"] != $ds_block_header['prevhash'] ) {
-
+	// Find first / oldest block
+	$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit 3";
+	
+	if ($result = mysqli_query($db_connect, $query)) {
+				while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+					
+					if ( $row["blocknum"] > 1 ) { // Assure a unique prevhash
+					
+					$dsblock_request = json_request('GetDsBlock', array( $row["blocknum"] )  );
+					$dsblock_results = json_decode( @get_data('array', $dsblock_request), TRUE );
+					//var_dump( $dsblock_results['result']['header'] ); // DEBUGGING
+					
+					$ds_block_header = $dsblock_results['result']['header'];
+					
+						if ( $row["prevhash"] != $ds_block_header['prevhash'] ) {
 							//echo 'Block data prevhash '.$row["prevhash"].' NOT MATCHING for block #' . $row["blocknum"]; // DEBUGGING
-
 							$q1 = mysqli_query($db_connect, 'TRUNCATE TABLE ds_blocks');
 							$q2 = mysqli_query($db_connect, 'TRUNCATE TABLE tx_blocks');
 
-								if ( $q1 == true && $q2 == true ) {
-								// Cron output for setups that email outputs
-								echo 'Block cache table data mismatch has been detected, and the cache has been emptied to resync current chain data.';
-								}
-							
+							if ( $q1 == true && $q2 == true ) {
+							// Cron output for setups that email outputs
+							echo 'Block cache table data mismatch has been detected, and the cache has been emptied to resync current chain data.';
 							}
 						
-					
 						}
-						
+					
+				
 					}
-		
-		mysqli_free_result($result);
-		}
-		
+					
+				}
+	
+	mysqli_free_result($result);
 	}
 		
 		
