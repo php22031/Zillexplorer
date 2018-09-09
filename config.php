@@ -15,7 +15,7 @@ error_reporting(0); // Turn off all error reporting (0), or enable (1)
 /////////////////////////////////////////////////////
 
 
-$version = '0.1.4';  // 2018/SEPTEMBER/8TH
+$version = '0.1.4';  // 2018/SEPTEMBER/9TH
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
@@ -25,9 +25,9 @@ $from_email = '';  // "From" address for email sent by website...MUST BE SET FOR
 $api_server = 'https://api-scilla.zilliqa.com/'; // API server to connect to
 //$api_server = 'https://testnet-n-api.aws.zilliqa.com/'; // API server to connect to
 
-$leveldb_support = 'no'; // 'yes' OR 'no' ...php-leveldb MUST BE INSTALLED in php.ini as a PHP extension
+$leveldb_support = 'no'; // 'yes' OR 'no' POC TEST ONLY until FULL public testnet...php-leveldb MUST BE INSTALLED in php.ini as a PHP extension
 
-$leveldb_data = 'emulate_zilliqa_block_dir'; // Zilliqa data directory where blocks are stored
+$leveldb_data = 'test_only_leveldb_dir'; // Zilliqa data directory where blocks are stored
 
 $api_timeout = 10; // Seconds to wait for response from API
 

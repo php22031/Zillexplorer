@@ -243,7 +243,7 @@
 				<h4>Account Transactions:</h4>
 				
 				
-Feature not possible yet, waiting on <a href='https://github.com/Zilliqa/Zilliqa/issues/538' target='_blank'>https://github.com/Zilliqa/Zilliqa/issues/538</a> to be implemented.
+Feature not possible yet. Waiting on <a href='https://github.com/Zilliqa/Zilliqa/issues/538' target='_blank'>https://github.com/Zilliqa/Zilliqa/issues/538</a> to be implemented, or testnet to be public instead of private (for leveldb block parsing access).
 								</div>
 				
 				
@@ -251,7 +251,7 @@ Feature not possible yet, waiting on <a href='https://github.com/Zilliqa/Zilliqa
 				<h4>Token Transactions:</h4>
 				
 				
-Feature not possible yet, waiting on <a href='https://github.com/Zilliqa/Zilliqa/issues/538' target='_blank'>https://github.com/Zilliqa/Zilliqa/issues/538</a> to be implemented.
+Feature not possible yet. Waiting on <a href='https://github.com/Zilliqa/Zilliqa/issues/538' target='_blank'>https://github.com/Zilliqa/Zilliqa/issues/538</a> to be implemented, or testnet to be public instead of private (for leveldb block parsing access).
 								</div>
 		
 		
@@ -342,7 +342,7 @@ Feature not possible yet, waiting on <a href='https://github.com/Zilliqa/Zilliqa
 				<h4>Contract Transactions:</h4>
 				
 				
-Feature not possible yet, waiting on <a href='https://github.com/Zilliqa/Zilliqa/issues/538' target='_blank'>https://github.com/Zilliqa/Zilliqa/issues/538</a> to be implemented.
+Feature not possible yet. Waiting on <a href='https://github.com/Zilliqa/Zilliqa/issues/538' target='_blank'>https://github.com/Zilliqa/Zilliqa/issues/538</a> to be implemented, or testnet to be public instead of private (for leveldb block parsing access).
 								</div>
 				
 				

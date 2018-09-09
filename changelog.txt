@@ -91,6 +91,7 @@
 0.1.4:
 -Bug fixes / UI tweaks
 -Prevhash cached to db block tables
+-Detect chain change, reset db cache
 -------------------------------------------------------------------
 
 

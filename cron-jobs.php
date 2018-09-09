@@ -19,7 +19,7 @@ include('config.php');
 
 // Search for any duplicate DS blocks near top and bottom of the hour...
 	
-if ( date(i) > 0 && date(i) < 15 || date(i) > 30 && date(i) < 45 ) {
+if ( date(i) > 5 && date(i) < 10 || date(i) > 30 && date(i) < 35 ) {
 		
 $query = "SELECT 
 	id,blocknum, COUNT(blocknum) 
@@ -45,7 +45,7 @@ HAVING  COUNT(blocknum) > 1 limit " . $error_scan;
 
 // Search for any duplicate TX blocks near top and bottom of the hour...
 	
-if ( date(i) > 0 && date(i) < 15 || date(i) > 30 && date(i) < 45 ) {
+if ( date(i) > 5 && date(i) < 10 || date(i) > 30 && date(i) < 35 ) {
 		
 $query = "SELECT 
 	id,blocknum, COUNT(blocknum) 
@@ -147,9 +147,52 @@ $leveldb->close();
 else {
 
 		
+	// Delete all block data if block data in db doesn't match block data on-chain
+	
+	if ( date(i) > 0 && date(i) < 5 ) {
+	
+		// Find first / oldest block
+		$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit 3";
+		
+		if ($result = mysqli_query($db_connect, $query)) {
+					while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+						
+						if ( $row["blocknum"] > 1 ) { // Assure a unique prevhash
+						
+						$dsblock_request = json_request('GetDsBlock', array( $row["blocknum"] )  );
+						$dsblock_results = json_decode( @get_data('array', $dsblock_request), TRUE );
+						//var_dump( $dsblock_results['result']['header'] ); // DEBUGGING
+						
+						$ds_block_header = $dsblock_results['result']['header'];
+						
+							if ( $row["prevhash"] != $ds_block_header['prevhash'] ) {
+
+							//echo 'Block data prevhash '.$row["prevhash"].' NOT MATCHING for block #' . $row["blocknum"]; // DEBUGGING
+
+							$q1 = mysqli_query($db_connect, 'TRUNCATE TABLE ds_blocks');
+							$q2 = mysqli_query($db_connect, 'TRUNCATE TABLE tx_blocks');
+
+								if ( $q1 == true && $q2 == true ) {
+								// Cron output for setups that email outputs
+								echo 'Block cache table data mismatch has been detected, and the cache has been emptied to resync current chain data.';
+								}
+							
+							}
+						
+					
+						}
+						
+					}
+		
+		mysqli_free_result($result);
+		}
+		
+	}
+		
+		
 	// Search for any DS blocks sequentially missing near top and bottom of the hour (offset from duplicate search)...
 	
-	if ( date(i) > 45 || date(i) > 15 && date(i) < 30 ) {
+	if ( date(i) > 55 || date(i) > 15 && date(i) < 20 ) {
 	
 		// Find first / oldest block
 		$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit 1";
@@ -209,7 +252,7 @@ else {
 		
 	// Search for any TX blocks sequentially missing near top and bottom of the hour (offset from duplicate search)...
 	
-	if ( date(i) > 45 || date(i) > 15 && date(i) < 30 ) {
+	if ( date(i) > 55 || date(i) > 15 && date(i) < 20 ) {
 	
 		// Find first / oldest block
 		$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC limit 1";

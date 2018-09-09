@@ -7,6 +7,16 @@
       <h3><b>DS Block #<?=$_GET['dsblock']?></b></h3>
       <h5><!-- <span class="label label-danger">Lorem</span> --> <span class="label label-primary">DS Block</span></h5>
       
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="/list-dsblocks/">All Blocks</a></li>
+    <li class="page-item"><a class="page-link" href="<?=($_GET['dsblock'] - 1)?>">Previous Block</a></li>
+    <li class="page-item"><a class="page-link" href="<?=($_GET['dsblock'] + 1)?>">Next Block</a></li>
+  </ul>
+</nav> 
+
+      
       <div class="col-xs-12 col-md-auto border-rounded no-padding zebra-stripe relative-table">
 
 			<div style="padding: 7px;"><h4>DS Block</h4></div>

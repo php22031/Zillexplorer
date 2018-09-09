@@ -151,7 +151,7 @@ elseif ( $cron_running == 1 ) {
 		
 	/* default open options */
 	$leveldb_options = array(
-		'create_if_missing' => true,	// if the specified database didn't exist will create a new one
+		'create_if_missing' => false,	// if the specified database didn't exist will create a new one
 		'error_if_exists'	=> false,	// if the opened database exsits will throw exception
 		'paranoid_checks'	=> false,
 		//'block_cache_size'	=> 8 * (2 << 20),

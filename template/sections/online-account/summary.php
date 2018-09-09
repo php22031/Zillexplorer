@@ -2,14 +2,28 @@
 /*
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
-?>
+ 
+//print_r($_SESSION['user']); // DEBUGGING
 
-ACCOUNT SUMMARY
-
-<?php
 if ( $_SESSION['user']['id'] ) {
 ?>
-	<pre><?=print_r($_SESSION['user'])?></pre>
+
+<h3>Account Summary</h3>
+
+
+
+
+<p>
+
+	<b>Username / Email:</b> <?=$_SESSION['user']['email']?>
+
+</p>
+
+
+
+
+
+
 <?php
 }
 ?>
