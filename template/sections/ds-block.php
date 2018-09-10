@@ -24,7 +24,7 @@
       <?php
 
 		$dsblock_request = json_request('GetDsBlock', array( $_GET['dsblock'] ) );
-      $dsblock_results = json_decode( @get_data('array', $dsblock_request), TRUE );
+      $dsblock_results = json_decode( @get_data('array', $dsblock_request, 60), TRUE );
       //var_dump( $dsblock_results ); // DEBUGGING
 
 		if ( $dsblock_results['result']['header']['timestamp'] == 0 ) {

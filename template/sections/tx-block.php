@@ -24,7 +24,7 @@
       <?php
 
       $txblock_request = json_request('GetTxBlock', array( $_GET['txblock'] )  );
-      $txblock_results = json_decode( @get_data('array', $txblock_request), TRUE );
+      $txblock_results = json_decode( @get_data('array', $txblock_request, 60), TRUE );
       //var_dump( $txblock_results ); // DEBUGGING
 
 

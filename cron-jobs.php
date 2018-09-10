@@ -3,7 +3,7 @@
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
  
-// Forbid direct access to cron.php
+// Forbid direct access to this file
 if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 header('HTTP/1.0 403 Forbidden', TRUE, 403);
 exit;
@@ -159,7 +159,7 @@ else {
 					if ( $row["blocknum"] > 1 ) { // Assure a unique prevhash
 					
 					$dsblock_request = json_request('GetDsBlock', array( $row["blocknum"] )  );
-					$dsblock_results = json_decode( @get_data('array', $dsblock_request), TRUE );
+					$dsblock_results = json_decode( @get_data('array', $dsblock_request, 10), TRUE );
 					//var_dump( $dsblock_results['result']['header'] ); // DEBUGGING
 					
 					$ds_block_header = $dsblock_results['result']['header'];
@@ -368,7 +368,7 @@ else {
 		//echo $last_dsblock; // DEBUGGING
 		
       $latest_dsblock = json_request('GetLatestDsBlock', array() );
-      $latest_dsblock_results = json_decode( @get_data('array', $latest_dsblock), TRUE );
+      $latest_dsblock_results = json_decode( @get_data('array', $latest_dsblock, 15), TRUE );
       //var_dump( $latest_dsblock_results['result']['header']['blockNum'] ); // DEBUGGING
       
       $latest_dsblock = intval($latest_dsblock_results['result']['header']['blockNum']);
@@ -465,7 +465,7 @@ else {
 		//echo $last_txblock . ' '; // DEBUGGING
 		
       $latest_txblock = json_request('GetLatestTxBlock', array() );
-      $latest_txblock_results = json_decode( @get_data('array', $latest_txblock), TRUE );
+      $latest_txblock_results = json_decode( @get_data('array', $latest_txblock, 15), TRUE );
       //var_dump( $latest_txblock_results['result']['header'] ); // DEBUGGING
       
       $latest_txblock = intval($latest_txblock_results['result']['header']['BlockNum']);

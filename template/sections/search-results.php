@@ -26,7 +26,7 @@
 			//echo ' Block search '; // DEBUGGING
     	  
       	$search_ds = json_request( 'GetDsBlock' , array( $_GET['q'] )  );
-      	$ds_results = json_decode( @get_data('array', $search_ds), TRUE );
+      	$ds_results = json_decode( @get_data('array', $search_ds, 60), TRUE );
       	
       		if ( $ds_results['result']['header']['timestamp'] > 0 ) {
       		$search_type = 'block';
@@ -34,7 +34,7 @@
       		}
       	
       	$search_tx = json_request( 'GetTxBlock' , array( $_GET['q'] )  );
-      	$tx_results = json_decode( @get_data('array', $search_tx), TRUE );
+      	$tx_results = json_decode( @get_data('array', $search_tx, 60), TRUE );
       	
       		if ( $tx_results['result']['header']['Timestamp'] > 0 ) {  // Timestamp uppercase on API for some reason
       		$search_type = 'block';
@@ -53,7 +53,7 @@
       
       if ( $search_type != 'block' ) {
       	
-      $search_results = json_decode( @get_data('array', $search_request), TRUE );
+      $search_results = json_decode( @get_data('array', $search_request, 60), TRUE );
       //var_dump( $search_results ); // DEBUGGING
       
       }
@@ -158,7 +158,7 @@
       if ( $search_type == 'address' ) {
       	
      	$contract_state = json_request('GetSmartContractState', array( strip_0x($_GET['q']) )  );
-     	$contract_state_results = json_decode( get_data('array', $contract_state), TRUE );
+     	$contract_state_results = json_decode( get_data('array', $contract_state, 5), TRUE );
       //var_dump( $contract_state_results ); // DEBUGGING
       
       	// Is this a smart contract
@@ -174,7 +174,7 @@
  	     	// SEEMS only accounts can create smart contracts, so only check for created smart contracts on accounts
       	if ( $search_results['result'] != '' ) {
       	$created_contracts = json_request('GetSmartContracts' , array( strip_0x($_GET['q']) )  );
-      	$contract_results = json_decode( get_data('array', $created_contracts), TRUE );
+      	$contract_results = json_decode( get_data('array', $created_contracts, 5), TRUE );
       	//var_dump( $contract_results ); // DEBUGGING
       	}
       
@@ -227,7 +227,7 @@
  	 			
  	 		// NOT IMPLEMENTED YET
       	//$transaction_history = json_request('GetTransactionHistory' , array( strip_0x($_GET['q']) )  );
-      	//$transaction_history_results = json_decode( get_data('array', $transaction_history), TRUE );
+      	//$transaction_history_results = json_decode( get_data('array', $transaction_history, 5), TRUE );
       	//var_dump( $transaction_history_results ); // DEBUGGING
  	 			
  	 		?>
@@ -288,7 +288,7 @@ Feature not possible yet. Waiting on <a href='https://github.com/Zilliqa/Zilliqa
  	     		
  	     	
      		$contract_code = json_request('GetSmartContractCode', array( strip_0x($_GET['q']) )  );
-     		$contract_code_results = json_decode( get_data('array', $contract_code), TRUE );
+     		$contract_code_results = json_decode( get_data('array', $contract_code, 60), TRUE );
     	   //var_dump( $contract_code_results ); // DEBUGGING
  	     	
  	  	  		foreach ( $contract_code_results as $key => $value ) {
@@ -309,7 +309,7 @@ Feature not possible yet. Waiting on <a href='https://github.com/Zilliqa/Zilliqa
  	     		
  	     	
      		$contract_init = json_request('GetSmartContractInit', array( strip_0x($_GET['q']) )  );
-     		$contract_init_results = json_decode( get_data('array', $contract_init), TRUE );
+     		$contract_init_results = json_decode( get_data('array', $contract_init, 60), TRUE );
     	   //var_dump( $contract_init_results ); // DEBUGGING
  	     	
  	  	  		foreach ( $contract_init_results as $key => $value ) {

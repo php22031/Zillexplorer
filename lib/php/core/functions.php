@@ -118,7 +118,7 @@ global $db_connect;
 	foreach ( $results as $key => $value ) {
 	
 	$dsblock_request = json_request('GetDsBlock', array( strval($value['BlockNum']) )  );
-	$dsblock_results = json_decode( @get_data('array', $dsblock_request), TRUE );
+	$dsblock_results = json_decode( @get_data('array', $dsblock_request, 0), TRUE );
 	//var_dump( $dsblock_results['result']['header'] ); // DEBUGGING
 	
 	$ds_block_header = $dsblock_results['result']['header'];
@@ -161,7 +161,7 @@ global $db_connect;
 	
 	// Singular
 	$txblock_request = json_request('GetTxBlock', array( strval($value['BlockNum']) )  );
-	$txblock_results = json_decode( @get_data('array', $txblock_request), TRUE );
+	$txblock_results = json_decode( @get_data('array', $txblock_request, 0), TRUE );
 	//var_dump( $txblock_results['result']['header'] ); // DEBUGGING
 	
 	$tx_block_header = $txblock_results['result']['header'];
@@ -344,7 +344,7 @@ return $request;
 
 //////////////////////////////////////////////////////////
 
-function get_data($mode, $request) {
+function get_data($mode, $request, $ttl) {
 
 global $version, $user_agent, $api_server, $api_timeout;
 
@@ -354,7 +354,9 @@ $cookie_jar = tempnam('/tmp','cookie');
 $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 
-	if ( !$_SESSION['api_cache'][$hash_check] ) {	
+	//if ( !$_SESSION['api_cache'][$hash_check] ) {	
+	// Cache API data for 1 minute
+	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true || $ttl < 1 ) {	
 	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
 	
@@ -391,7 +393,15 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	curl_close($ch);
 	unlink($cookie_jar) or die("Can't unlink $cookie_jar");
 	
-	$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session
+	
+	//$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session
+	if ( $data && $ttl > 0 ) {
+	file_put_contents('cache/api/'.$hash_check.'.dat', $data, LOCK_EX);
+	}
+	else {
+	unlink('cache/api/'.$hash_check.'.dat');
+	}
+
 	
 	// DEBUGGING ONLY
 	//$_SESSION['get_data_error'] .= '##REQUEST## Requested ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
@@ -399,7 +409,13 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	}
 	else {
 		
-	$data = $_SESSION['api_cache'][$hash_check];
+	//$data = $_SESSION['api_cache'][$hash_check];
+	$data = file_get_contents('cache/api/'.$hash_check.'.dat');
+	
+		if ( preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
+		$_SESSION['get_data_error'] .= '##REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
+		}
+	
 	
 	// DEBUGGING ONLY
 	//$_SESSION['get_data_error'] .= ' ##DUPLICATE## request ignored for ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
@@ -446,7 +462,7 @@ function get_btc_usd($btc_in_usd) {
     
     $json_string = 'https://api.coinbase.com/v2/prices/spot?currency=USD';
     
-    $jsondata = @get_data('url', $json_string);
+    $jsondata = @get_data('url', $json_string, 5);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -459,7 +475,7 @@ function get_btc_usd($btc_in_usd) {
   
     $json_string = 'https://api.hitbtc.com/api/1/public/BTCUSD/ticker';
     
-    $jsondata = @get_data('url', $json_string);
+    $jsondata = @get_data('url', $json_string, 5);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -481,7 +497,7 @@ function get_btc_usd($btc_in_usd) {
     
     $json_string = 'https://api.gemini.com/v1/pubticker/btcusd';
     
-      $jsondata = @get_data('url', $json_string);
+      $jsondata = @get_data('url', $json_string, 5);
       
       $data = json_decode($jsondata, TRUE);
       
@@ -494,7 +510,7 @@ function get_btc_usd($btc_in_usd) {
   
     $json_string = 'https://www.okcoin.com/api/ticker.do?ok=1';
     
-    $jsondata = @get_data('url', $json_string);
+    $jsondata = @get_data('url', $json_string, 5);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -508,7 +524,7 @@ function get_btc_usd($btc_in_usd) {
  	
     $json_string = 'https://www.bitstamp.net/api/ticker/';
     
-    $jsondata = @get_data('url', $json_string);
+    $jsondata = @get_data('url', $json_string, 5);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -522,7 +538,7 @@ function get_btc_usd($btc_in_usd) {
       
       $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
       
-      $jsondata = @get_data('url', $json_string);
+      $jsondata = @get_data('url', $json_string, 5);
       
       $data = json_decode($jsondata, TRUE);
    
@@ -551,7 +567,7 @@ function get_btc_usd($btc_in_usd) {
  
       $json_string = 'https://api.livecoin.net/exchange/ticker';
       
-      $jsondata = @get_data('url', $json_string);
+      $jsondata = @get_data('url', $json_string, 5);
       
       $data = json_decode($jsondata, TRUE);
    
@@ -581,7 +597,7 @@ function get_btc_usd($btc_in_usd) {
    
    $json_string = 'https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD';
    
-   $jsondata = @get_data('url', $json_string);
+   $jsondata = @get_data('url', $json_string, 5);
    
    $data = json_decode($jsondata, TRUE);
    
@@ -634,7 +650,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_pairing;
   
-    $jsondata = @get_data('url', $json_string);
+    $jsondata = @get_data('url', $json_string, 5);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -649,7 +665,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://www.bitstamp.net/api/v2/ticker/' . $market_pairing;
   
-    $jsondata = @get_data('url', $json_string);
+    $jsondata = @get_data('url', $json_string, 5);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -666,7 +682,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://www.okex.com/api/v1/ticker.do?symbol=' . $market_pairing;
   
-    $jsondata = @get_data('url', $json_string);
+    $jsondata = @get_data('url', $json_string, 5);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -681,7 +697,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://www.binance.com/api/v1/ticker/24hr?symbol=' . $market_pairing;
   
-    $jsondata = @get_data('url', $json_string);
+    $jsondata = @get_data('url', $json_string, 5);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -695,7 +711,7 @@ global $btc_in_usd, $coins_array;
   
      $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $market_pairing;
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -708,7 +724,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_pairing;
   
-    $jsondata = @get_data('url', $json_string);
+    $jsondata = @get_data('url', $json_string, 5);
     
     $data = json_decode($jsondata, TRUE);
 	
@@ -726,7 +742,7 @@ global $btc_in_usd, $coins_array;
      
      $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -759,7 +775,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://tradesatoshi.com/api/public/getmarketsummaries';
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -790,7 +806,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://api.liqui.io/api/3/ticker/' . $market_pairing;
   
-  $jsondata = @get_data('url', $json_string);
+  $jsondata = @get_data('url', $json_string, 5);
   
   $data = json_decode($jsondata, TRUE);
   
@@ -819,7 +835,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://poloniex.com/public?command=returnTicker';
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -850,7 +866,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://api.kucoin.com/v1/open/tick';
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -882,7 +898,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://api.livecoin.net/exchange/ticker';
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -912,7 +928,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://www.cryptopia.co.nz/api/GetMarkets';
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -944,7 +960,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -974,7 +990,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'http://data.bter.com/api/1/marketlist';
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -1005,7 +1021,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://graviex.net//api/v2/tickers.json';
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -1036,7 +1052,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $market_pairing;
   
-  $jsondata = @get_data('url', $json_string);
+  $jsondata = @get_data('url', $json_string, 5);
   
   $data = json_decode($jsondata, TRUE);
   
@@ -1081,7 +1097,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -1127,7 +1143,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://crix-api-endpoint.upbit.com/v1/crix/recent?codes=' . $upbit_pairs;
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -1178,7 +1194,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://api.bitfinex.com/v2/tickers?symbols=' . $finex_pairs;
      
-     $jsondata = @get_data('url', $json_string);
+     $jsondata = @get_data('url', $json_string, 5);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -1217,7 +1233,7 @@ function coinmarketcap_api() {
 	
      	$json_string = 'https://api.coinmarketcap.com/v2/ticker/2469/';
      	     
-	  	$jsondata = @get_data('url', $json_string);
+	  	$jsondata = @get_data('url', $json_string, 5);
 	   
    	$cmc_data = json_decode($jsondata, TRUE);
     
