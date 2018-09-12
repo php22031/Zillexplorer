@@ -412,8 +412,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	//$data = $_SESSION['api_cache'][$hash_check];
 	$data = file_get_contents('cache/api/'.$hash_check.'.dat');
 	
-		if ( preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
-		$_SESSION['get_data_error'] .= '##REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
+		if ( !preg_match("/coinmarketcap/i", $_SESSION['get_data_error']) && preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
+		$_SESSION['cmc_error'] = '##REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
 		}
 	
 	

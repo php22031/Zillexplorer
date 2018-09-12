@@ -5,7 +5,7 @@
 ?>
 
       <br clear='all' />
-      <div style='font-weight: bold; color: red;'><?=$_SESSION['get_data_error']?></div>
+      <div style='font-weight: bold; color: red;'><?=( $_SESSION['get_data_error'] ? $_SESSION['get_data_error'] . $_SESSION['cmc_error'] : $_SESSION['cmc_error'] )?></div>
       <br />
       <br />
       
@@ -34,5 +34,6 @@
 // Destroy API cache session var and error alert var / Close DB connection
 //$_SESSION['api_cache'] = FALSE;
 $_SESSION['get_data_error'] = FALSE;
+$_SESSION['cmc_error'] = FALSE;
 mysqli_close($db_connect);
 ?>
