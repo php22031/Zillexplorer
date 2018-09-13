@@ -134,12 +134,23 @@ global $db_connect;
 	foreach ( $results as $key => $value ) {
 	
 	$dsblock_request = json_request('GetDsBlock', array( strval($value['BlockNum']) )  );
-	$dsblock_results = json_decode( @get_data('array', $dsblock_request, 0), TRUE );
+	$dsblock_results = json_decode( @get_data('array', $dsblock_request, 525600), TRUE ); // Cache one year
 	//var_dump( $dsblock_results['result']['header'] ); // DEBUGGING
+	
 	
 	$ds_block_header = $dsblock_results['result']['header'];
 	
 		// Run checks...
+		
+		if ( $ds_block_header['timestamp'] == 0 ) {
+			
+		$dsblock_request = json_request('GetDsBlock', array( strval($value['BlockNum']) )  );
+		$dsblock_results = json_decode( @get_data('array', $dsblock_request, -1), TRUE ); // Delete cache
+		//var_dump( $dsblock_results['result']['header'] ); // DEBUGGING
+	
+		$block_nonexist = 1;
+		}
+		
 		
 		$query = "SELECT * FROM ds_blocks WHERE blocknum = '".intval($ds_block_header['blockNum'])."'";
 		
@@ -153,7 +164,7 @@ global $db_connect;
 		}
 		
 		
-		if ( !$dsblock_already_stored && $ds_block_header['timestamp'] > 0 ) {
+		if ( !$dsblock_already_stored && !$block_nonexist ) {
 		
 		$query = "INSERT INTO ds_blocks (id, blocknum, difficulty, prevhash, timestamp) VALUES ('', '".intval($ds_block_header['blockNum'])."', '".intval($ds_block_header['difficulty'])."', '".$ds_block_header['prevhash']."', '".intval($ds_block_header['timestamp'])."')";
 		
@@ -175,14 +186,23 @@ global $db_connect;
 
 	foreach ( $results as $key => $value ) {
 	
-	// Singular
 	$txblock_request = json_request('GetTxBlock', array( strval($value['BlockNum']) )  );
-	$txblock_results = json_decode( @get_data('array', $txblock_request, 0), TRUE );
+	$txblock_results = json_decode( @get_data('array', $txblock_request, 525600), TRUE ); // Cache one year
 	//var_dump( $txblock_results['result']['header'] ); // DEBUGGING
 	
 	$tx_block_header = $txblock_results['result']['header'];
 	
 		// Run checks...
+		
+		if ( $tx_block_header['Timestamp'] == 0 ) {
+		
+		$txblock_request = json_request('GetTxBlock', array( strval($value['BlockNum']) )  );
+		$txblock_results = json_decode( @get_data('array', $txblock_request, -1), TRUE ); // Delete cache
+		//var_dump( $txblock_results['result']['header'] ); // DEBUGGING
+	
+		$block_nonexist = 1;
+		}
+		
 		
 		$query = "SELECT * FROM tx_blocks WHERE blocknum = '".intval($tx_block_header['BlockNum'])."'";
 		
@@ -196,7 +216,7 @@ global $db_connect;
 		}
 		
 		
-		if ( !$txblock_already_stored && $tx_block_header['Timestamp'] > 0 ) {
+		if ( !$txblock_already_stored && !$block_nonexist ) {
 		
 		$query = "INSERT INTO tx_blocks (id, blocknum, gas_used, micro_blocks, transactions, prevhash, timestamp) VALUES ('', '".intval($tx_block_header['BlockNum'])."', '".intval($tx_block_header['GasUsed'])."', '".intval($tx_block_header['NumMicroBlocks'])."', '".intval($tx_block_header['NumTxns'])."', '".$tx_block_header['prevBlockHash']."', '".intval($tx_block_header['Timestamp'])."')";
 		
@@ -439,7 +459,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 		if ( !$data ) {
 		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
-		echo 'Deleted cache file, no data. ';
+		//echo 'Deleted cache file, no data. ';
 		}
 		else {
 		//echo 'Cached data '; // DEBUGGING ONLY

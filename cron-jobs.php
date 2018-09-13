@@ -151,20 +151,35 @@ else {
 	
 	
 	// Find first / oldest block
-	$query = "SELECT * FROM ds_blocks ORDER BY blocknum ASC limit 3";
+	$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC limit 2";
 	
 	if ($result = mysqli_query($db_connect, $query)) {
+		
 				while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
 					
-					if ( $row["blocknum"] > 1 ) { // Assure a unique prevhash
+					if ( $row["blocknum"] > 0 ) { // Assure a unique prevhash
 					
-					$dsblock_request = json_request('GetDsBlock', array( $row["blocknum"] )  );
-					$dsblock_results = json_decode( @get_data('array', $dsblock_request, 3), TRUE ); // 3 minute cache
-					//var_dump( $dsblock_results['result']['header'] ); // DEBUGGING
+					$txblock_request = json_request('GetTxBlock', array( $row["blocknum"] )  );
+					$txblock_results = json_decode( @get_data('array', $txblock_request, 0), TRUE ); // Don't use cache
+					//var_dump( $txblock_results['result']['header'] ); // DEBUGGING
 					
-					$ds_block_header = $dsblock_results['result']['header'];
+					$tx_block_header = $txblock_results['result']['header'];
 					
-						if ( $row["prevhash"] != $ds_block_header['prevhash'] ) {
+						if ( $row["prevhash"] != $tx_block_header['prevBlockHash'] ) {
+							$chain_recache = 1;
+						echo 'Chain data '.$tx_block_header['prevBlockHash'].' DOES NOT match db.';
+						}
+						else {
+						echo 'Chain data '.$tx_block_header['prevBlockHash'].' matches db.';
+						}
+						
+					}
+					
+				
+				}
+				
+				if ( $chain_recache ) {
+					
 							//echo 'Block data prevhash '.$row["prevhash"].' NOT MATCHING for block #' . $row["blocknum"]; // DEBUGGING
 							$q1 = mysqli_query($db_connect, 'TRUNCATE TABLE ds_blocks');
 							$q2 = mysqli_query($db_connect, 'TRUNCATE TABLE tx_blocks');
@@ -174,12 +189,8 @@ else {
 							delete_all_files('cache/api/');
 							// Cron output for setups that email outputs
 							echo 'Block cache table data mismatch has been detected, the caches have been emptied to resync current chain data.';
+							
 							}
-						
-						}
-					
-				
-					}
 					
 				}
 	
@@ -394,7 +405,7 @@ $recent_transaction_results = json_decode( @get_data('array', $recent_transactio
 	//echo $last_dsblock; // DEBUGGING
 	
      $latest_dsblock = json_request('GetLatestDsBlock', array() );
-     $latest_dsblock_results = json_decode( @get_data('array', $latest_dsblock, 5), TRUE ); // 5 minute cache
+     $latest_dsblock_results = json_decode( @get_data('array', $latest_dsblock, 0), TRUE );  // Don't use cache
      //var_dump( $latest_dsblock_results['result']['header']['blockNum'] ); // DEBUGGING
      
      $latest_dsblock = intval($latest_dsblock_results['result']['header']['blockNum']);
@@ -487,7 +498,7 @@ $recent_transaction_results = json_decode( @get_data('array', $recent_transactio
 	//echo $last_txblock . ' '; // DEBUGGING
 	
      $latest_txblock = json_request('GetLatestTxBlock', array() );
-     $latest_txblock_results = json_decode( @get_data('array', $latest_txblock, 1), TRUE ); // 1 minute cache
+     $latest_txblock_results = json_decode( @get_data('array', $latest_txblock, 0), TRUE );  // Don't use cache
      //var_dump( $latest_txblock_results['result']['header'] ); // DEBUGGING
      
      $latest_txblock = intval($latest_txblock_results['result']['header']['BlockNum']);

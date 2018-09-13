@@ -40,7 +40,7 @@ $error_scan = 50000; // Number of data rows to scan in website database for miss
 
 $db_host = 'localhost';
 $db_user = 'zillexplorer';
-$db_name = 'zillexplorer';
+$db_name = 'staging';
 $db_pass = '';
  
 
