@@ -45,7 +45,7 @@
 	}
 	
 	div.zebra-stripe > div:nth-of-type(odd) {
-    background-color: #e3eff2;
+    background-color: #daf2ef;
 	}
 	
 	.no-padding {
@@ -88,7 +88,7 @@
     }
     
     .stats-tables tr:nth-child(odd), .blockchain-tables tr:nth-child(odd) {
-    background-color: #e3eff2;
+    background-color: #daf2ef;
 	 }
 	 
 	 .floating-table { margin-bottom: 30px; margin-right: 8px; min-width: 540px; float: left; }
@@ -170,7 +170,7 @@ div.tabdiv {
 	color:#000;
 }
 .navbar-default {
-    background-color: #c0e5ed;
+    background-color: #aee2df;
     border-color: #bcd4d8;
 }
 
