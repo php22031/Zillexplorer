@@ -15,19 +15,19 @@
       //var_dump( $network_id_results ); // DEBUGGING
       
       $blockchain_data = json_request('GetBlockchainInfo', array() );
-      $blockchain_results = json_decode( @get_data('array', $blockchain_data, 10), TRUE );
+      $blockchain_results = json_decode( @get_data('array', $blockchain_data, 5), TRUE );
       //var_dump( $blockchain_results ); // DEBUGGING
       
       $dsblocks_data = json_request('DSBlockListing', array(1) );
-      $dsblocks_results = json_decode( @get_data('array', $dsblocks_data, 3), TRUE );      
+      $dsblocks_results = json_decode( @get_data('array', $dsblocks_data, 10), TRUE );      
       //var_dump( $dsblocks_results ); // DEBUGGING
       
       $txblocks_data = json_request('TxBlockListing', array(1) );
-      $txblocks_results = json_decode( @get_data('array', $txblocks_data, 3), TRUE );
+      $txblocks_results = json_decode( @get_data('array', $txblocks_data, 1), TRUE );
       //var_dump( $txblocks_results ); // DEBUGGING
       
       $recent_transaction_data = json_request('GetRecentTransactions', array() );
-      $recent_transaction_results = json_decode( @get_data('array', $recent_transaction_data, 3), TRUE );
+      $recent_transaction_results = json_decode( @get_data('array', $recent_transaction_data, 1), TRUE );
       //var_dump( $recent_transaction_results ); // DEBUGGING
       
       

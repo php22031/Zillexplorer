@@ -26,19 +26,27 @@
 			//echo ' Block search '; // DEBUGGING
     	  
       	$search_ds = json_request( 'GetDsBlock' , array( $_GET['q'] )  );
-      	$ds_results = json_decode( @get_data('array', $search_ds, 60), TRUE );
+      	$ds_results = json_decode( @get_data('array', $search_ds, 525600), TRUE ); // Cache one year
       	
       		if ( $ds_results['result']['header']['timestamp'] > 0 ) {
       		$search_type = 'block';
       		$ds_exists = 1;
       		}
+      		else {
+      		$search_ds = json_request( 'GetDsBlock' , array( $_GET['q'] )  );
+      		$ds_results = json_decode( @get_data('array', $search_ds, -1), TRUE ); // Delete cache
+      		}
       	
       	$search_tx = json_request( 'GetTxBlock' , array( $_GET['q'] )  );
-      	$tx_results = json_decode( @get_data('array', $search_tx, 60), TRUE );
+      	$tx_results = json_decode( @get_data('array', $search_tx, 525600), TRUE ); // Cache one year
       	
       		if ( $tx_results['result']['header']['Timestamp'] > 0 ) {  // Timestamp uppercase on API for some reason
       		$search_type = 'block';
       		$tx_exists = 1;
+      		}
+      		else {
+      		$search_tx = json_request( 'GetTxBlock' , array( $_GET['q'] )  );
+      		$tx_results = json_decode( @get_data('array', $search_tx, -1), TRUE ); // Delete cache
       		}
 			   	  
    	  }
@@ -53,7 +61,7 @@
       
       if ( $search_type != 'block' ) {
       	
-      $search_results = json_decode( @get_data('array', $search_request, 60), TRUE );
+      $search_results = json_decode( @get_data('array', $search_request, 5), TRUE );
       //var_dump( $search_results ); // DEBUGGING
       
       }

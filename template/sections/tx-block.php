@@ -2,6 +2,21 @@
 /*
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
+ 
+ 
+$next_block = $_GET['txblock'] + 1;
+$txblock_request = json_request('GetTxBlock', array( (string)$next_block )  );
+$txblock_results = json_decode( @get_data('array', $txblock_request, 0), TRUE );
+//var_dump( $txblock_results ); // DEBUGGING
+if ( $txblock_results['result']['header']['Timestamp'] == 0 ) {
+$no_next_block = 1;
+}
+
+$prev_block = $_GET['txblock'] - 1;
+if ( $prev_block < 0 ) {
+$no_prev_block = 1;
+}
+
 ?>
       
       <h3><b>TX Block #<?=$_GET['txblock']?></b></h3>
@@ -11,8 +26,8 @@
 <nav aria-label="Page navigation">
   <ul class="pagination">
     <li class="page-item"><a class="page-link" href="/list-txblocks/">All Blocks</a></li>
-    <li class="page-item"><a class="page-link" href="<?=($_GET['txblock'] - 1)?>">Previous Block</a></li>
-    <li class="page-item"><a class="page-link" href="<?=($_GET['txblock'] + 1)?>">Next Block</a></li>
+    <li class="page-item"><a class="page-link <?=( $no_prev_block ? 'disabled' : '' )?>" href="<?=( $no_prev_block ? '#' : ($_GET['txblock'] - 1) )?>">Previous Block</a></li>
+    <li class="page-item"><a class="page-link <?=( $no_next_block ? 'disabled' : '' )?>" href="<?=( $no_next_block ? '#' : ($_GET['txblock'] + 1) )?>">Next Block</a></li>
   </ul>
 </nav> 
 
@@ -24,11 +39,15 @@
       <?php
 
       $txblock_request = json_request('GetTxBlock', array( $_GET['txblock'] )  );
-      $txblock_results = json_decode( @get_data('array', $txblock_request, 60), TRUE );
+      $txblock_results = json_decode( @get_data('array', $txblock_request, 525600), TRUE ); // Cache one year
       //var_dump( $txblock_results ); // DEBUGGING
 
 
 		if ( $txblock_results['result']['header']['Timestamp'] == 0 ) { // Timestamp uppercase on API for some reason
+		
+      $txblock_request = json_request('GetTxBlock', array( $_GET['txblock'] )  );
+      $txblock_results = json_decode( @get_data('array', $txblock_request, -1), TRUE ); // Delete cache
+      
 		?>
 		<div class="stats-row"><b>Block #<?=$_GET['txblock']?> does not exist.</b></div>
 		<?php

@@ -2,6 +2,21 @@
 /*
  * Copyright 2018 GPLv3, Zillexplorer by Mike Kilday: http://DragonFrugal.com
  */
+ 
+ 
+$next_block = $_GET['dsblock'] + 1;
+$dsblock_request = json_request('GetDsBlock', array( (string)$next_block )  );
+$dsblock_results = json_decode( @get_data('array', $dsblock_request, 0), TRUE );
+//var_dump( $dsblock_results ); // DEBUGGING
+if ( $dsblock_results['result']['header']['timestamp'] == 0 ) {
+$no_next_block = 1;
+}
+
+$prev_block = $_GET['dsblock'] - 1;
+if ( $prev_block < 0 ) {
+$no_prev_block = 1;
+}
+
 ?>
       
       <h3><b>DS Block #<?=$_GET['dsblock']?></b></h3>
@@ -11,8 +26,8 @@
 <nav aria-label="Page navigation">
   <ul class="pagination">
     <li class="page-item"><a class="page-link" href="/list-dsblocks/">All Blocks</a></li>
-    <li class="page-item"><a class="page-link" href="<?=($_GET['dsblock'] - 1)?>">Previous Block</a></li>
-    <li class="page-item"><a class="page-link" href="<?=($_GET['dsblock'] + 1)?>">Next Block</a></li>
+    <li class="page-item"><a class="page-link <?=( $no_prev_block ? 'disabled' : '' )?>" href="<?=( $no_prev_block ? '#' : ($_GET['dsblock'] - 1) )?>">Previous Block</a></li>
+    <li class="page-item"><a class="page-link <?=( $no_next_block ? 'disabled' : '' )?>" href="<?=( $no_next_block ? '#' : ($_GET['dsblock'] + 1) )?>">Next Block</a></li>
   </ul>
 </nav> 
 
@@ -24,10 +39,15 @@
       <?php
 
 		$dsblock_request = json_request('GetDsBlock', array( $_GET['dsblock'] ) );
-      $dsblock_results = json_decode( @get_data('array', $dsblock_request, 60), TRUE );
+      $dsblock_results = json_decode( @get_data('array', $dsblock_request, 525600), TRUE ); // Cache one year
       //var_dump( $dsblock_results ); // DEBUGGING
 
 		if ( $dsblock_results['result']['header']['timestamp'] == 0 ) {
+			
+		$dsblock_request = json_request('GetDsBlock', array( $_GET['dsblock'] ) );
+      $dsblock_results = json_decode( @get_data('array', $dsblock_request, -1), TRUE ); // Delete cache
+      //var_dump( $dsblock_results ); // DEBUGGING
+      
 		?>
 		<div class="stats-row"><b>Block #<?=$_GET['dsblock']?> does not exist.</b></div>
 		<?php

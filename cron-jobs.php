@@ -159,7 +159,7 @@ else {
 					if ( $row["blocknum"] > 1 ) { // Assure a unique prevhash
 					
 					$dsblock_request = json_request('GetDsBlock', array( $row["blocknum"] )  );
-					$dsblock_results = json_decode( @get_data('array', $dsblock_request, 10), TRUE );
+					$dsblock_results = json_decode( @get_data('array', $dsblock_request, 3), TRUE ); // 3 minute cache
 					//var_dump( $dsblock_results['result']['header'] ); // DEBUGGING
 					
 					$ds_block_header = $dsblock_results['result']['header'];
@@ -170,8 +170,10 @@ else {
 							$q2 = mysqli_query($db_connect, 'TRUNCATE TABLE tx_blocks');
 
 							if ( $q1 == true && $q2 == true ) {
+							delete_all_files('cache/charts/');
+							delete_all_files('cache/api/');
 							// Cron output for setups that email outputs
-							echo 'Block cache table data mismatch has been detected, and the cache has been emptied to resync current chain data.';
+							echo 'Block cache table data mismatch has been detected, the caches have been emptied to resync current chain data.';
 							}
 						
 						}
@@ -183,7 +185,33 @@ else {
 	
 	mysqli_free_result($result);
 	}
-		
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Cache front page stats...
+
+$network_id_data = json_request('GetNetworkId', array() );
+$network_id_results = json_decode( @get_data('array', $network_id_data, 10), TRUE );
+//var_dump( $network_id_results ); // DEBUGGING
+      
+$blockchain_data = json_request('GetBlockchainInfo', array() );
+$blockchain_results = json_decode( @get_data('array', $blockchain_data, 5), TRUE );
+//var_dump( $blockchain_results ); // DEBUGGING
+      
+$dsblocks_data = json_request('DSBlockListing', array(1) );
+$dsblocks_results = json_decode( @get_data('array', $dsblocks_data, 10), TRUE );      
+//var_dump( $dsblocks_results ); // DEBUGGING
+      
+$txblocks_data = json_request('TxBlockListing', array(1) );
+$txblocks_results = json_decode( @get_data('array', $txblocks_data, 1), TRUE );
+//var_dump( $txblocks_results ); // DEBUGGING
+      
+$recent_transaction_data = json_request('GetRecentTransactions', array() );
+$recent_transaction_results = json_decode( @get_data('array', $recent_transaction_data, 1), TRUE );
+//var_dump( $recent_transaction_results ); // DEBUGGING
+      
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 	// Search for any DS blocks sequentially missing near top and bottom of the hour (offset from duplicate search)...
 	
@@ -346,56 +374,52 @@ else {
 	
 	}
 	
-	// Add any newer DS blocks not already in the DB 150 per session, near top of hour AND bottom of hour (offset from oldest block adding)...
+	// Add any newer DS blocks not already in the DB 150 per session, whenever cron runs...
 	
-	if ( date(i) > 45 || date(i) > 15 && date(i) < 30 ) {
-		
-		// Find newest block
-		$query = "SELECT * FROM ds_blocks ORDER BY timestamp DESC limit 1";
-		
-		if ($result = mysqli_query($db_connect, $query)) {
-					while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
-						
-			$last_dsblock = intval($row["blocknum"]);
-			
-					}
-		
-		mysqli_free_result($result);
-		}
-		$last_dsblock = ( !$last_dsblock ? 0 : $last_dsblock );
-		
-		
-		//echo $last_dsblock; // DEBUGGING
-		
-      $latest_dsblock = json_request('GetLatestDsBlock', array() );
-      $latest_dsblock_results = json_decode( @get_data('array', $latest_dsblock, 15), TRUE );
-      //var_dump( $latest_dsblock_results['result']['header']['blockNum'] ); // DEBUGGING
-      
-      $latest_dsblock = intval($latest_dsblock_results['result']['header']['blockNum']);
-		
-		//echo $latest_dsblock; // DEBUGGING
-		
-		if ( $last_dsblock < $latest_dsblock ) {
-		
-			$dsblocks_fetch = array();
-			$loop = 0;
-			$get_block = $latest_dsblock;
-			while ( $loop <= 150 && $get_block > $last_dsblock ) {
-			
-			$dsblocks_fetch[] = array('BlockNum' => $get_block);
-			
-			$loop = $loop + 1;
-			$get_block = $get_block - 1;
-			}
-								
-		//var_dump( $dsblocks_fetch ); // DEBUGGING
-		
-		store_dsblock($dsblocks_fetch);
-			
-		}
+	// Find newest block
+	$query = "SELECT * FROM ds_blocks ORDER BY timestamp DESC limit 1";
 	
+	if ($result = mysqli_query($db_connect, $query)) {
+				while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+					
+		$last_dsblock = intval($row["blocknum"]);
+		
+				}
 	
+	mysqli_free_result($result);
 	}
+	$last_dsblock = ( !$last_dsblock ? 0 : $last_dsblock );
+	
+	
+	//echo $last_dsblock; // DEBUGGING
+	
+     $latest_dsblock = json_request('GetLatestDsBlock', array() );
+     $latest_dsblock_results = json_decode( @get_data('array', $latest_dsblock, 5), TRUE ); // 5 minute cache
+     //var_dump( $latest_dsblock_results['result']['header']['blockNum'] ); // DEBUGGING
+     
+     $latest_dsblock = intval($latest_dsblock_results['result']['header']['blockNum']);
+	
+	//echo $latest_dsblock; // DEBUGGING
+	
+	if ( $last_dsblock < $latest_dsblock ) {
+	
+		$dsblocks_fetch = array();
+		$loop = 0;
+		$get_block = $latest_dsblock;
+		while ( $loop <= 150 && $get_block > $last_dsblock ) {
+		
+		$dsblocks_fetch[] = array('BlockNum' => $get_block);
+		
+		$loop = $loop + 1;
+		$get_block = $get_block - 1;
+		}
+							
+	//var_dump( $dsblocks_fetch ); // DEBUGGING
+	
+	store_dsblock($dsblocks_fetch);
+		
+	}
+	
 	
 	///////////////////////////////////////////////////////
 	
@@ -443,56 +467,53 @@ else {
 	}
 	
 	
-	// Add any newer TX blocks not already in the DB 300 per session, near top of hour AND bottom of hour (offset from oldest block adding)...
+	// Add any newer TX blocks not already in the DB 300 per session, whenever cron runs...
 	
-	if ( date(i) > 45 || date(i) > 15 && date(i) < 30 ) {
+	// Find newest block
+	$query = "SELECT * FROM tx_blocks ORDER BY timestamp DESC limit 1";
+	
+	if ($result = mysqli_query($db_connect, $query)) {
+				while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
+					
+		$last_txblock = intval($row["blocknum"]);
 		
-		// Find newest block
-		$query = "SELECT * FROM tx_blocks ORDER BY timestamp DESC limit 1";
+				}
+	
+	mysqli_free_result($result);
+	}
+	$last_txblock = ( !$last_txblock ? 0 : $last_txblock );
+	
+	
+	//echo $last_txblock . ' '; // DEBUGGING
+	
+     $latest_txblock = json_request('GetLatestTxBlock', array() );
+     $latest_txblock_results = json_decode( @get_data('array', $latest_txblock, 1), TRUE ); // 1 minute cache
+     //var_dump( $latest_txblock_results['result']['header'] ); // DEBUGGING
+     
+     $latest_txblock = intval($latest_txblock_results['result']['header']['BlockNum']);
+	
+	//echo $latest_txblock . ' '; // DEBUGGING
+	
+	if ( $last_txblock < $latest_txblock ) {
+	
+		$txblocks_fetch = array();
+		$loop = 0;
+		$get_block = $latest_txblock;
+		while ( $loop <= 300 && $get_block > $last_txblock ) {
 		
-		if ($result = mysqli_query($db_connect, $query)) {
-					while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
-						
-			$last_txblock = intval($row["blocknum"]);
-			
-					}
+		$txblocks_fetch[] = array('BlockNum' => $get_block);
 		
-		mysqli_free_result($result);
+		$loop = $loop + 1;
+		$get_block = $get_block - 1;
 		}
-		$last_txblock = ( !$last_txblock ? 0 : $last_txblock );
-		
-		
-		//echo $last_txblock . ' '; // DEBUGGING
-		
-      $latest_txblock = json_request('GetLatestTxBlock', array() );
-      $latest_txblock_results = json_decode( @get_data('array', $latest_txblock, 15), TRUE );
-      //var_dump( $latest_txblock_results['result']['header'] ); // DEBUGGING
-      
-      $latest_txblock = intval($latest_txblock_results['result']['header']['BlockNum']);
-		
-		//echo $latest_txblock . ' '; // DEBUGGING
-		
-		if ( $last_txblock < $latest_txblock ) {
-		
-			$txblocks_fetch = array();
-			$loop = 0;
-			$get_block = $latest_txblock;
-			while ( $loop <= 300 && $get_block > $last_txblock ) {
-			
-			$txblocks_fetch[] = array('BlockNum' => $get_block);
-			
-			$loop = $loop + 1;
-			$get_block = $get_block - 1;
-			}
-								
-		//var_dump( $txblocks_fetch ); // DEBUGGING
-		
-		store_txblock($txblocks_fetch);
-			
-		}
+							
+	//var_dump( $txblocks_fetch ); // DEBUGGING
+	
+	store_txblock($txblocks_fetch);
 		
 	}
-
+		
+	
 }
 //API (JSON-RPC) -END-//////////////////////////////////////////////////////////////////
 

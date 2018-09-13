@@ -5,6 +5,22 @@
 
 /////////////////////////////////////////////////////////
 
+function delete_all_files($dir) {
+
+$files = glob($dir.'*');
+
+	foreach($files as $file){ 
+	
+ 		if( is_file($file) ) {
+ 	   unlink($file); 
+ 		}
+ 		
+	}
+
+}
+
+/////////////////////////////////////////////////////////
+
 function update_cache_file($cache_file, $minutes) {
 
 	if ( file_exists($cache_file) && (filemtime($cache_file) > (time() - 60 * $minutes )) ) {
@@ -356,7 +372,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 	//if ( !$_SESSION['api_cache'][$hash_check] ) {	
 	// Cache API data for 1 minute
-	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true || $ttl < 1 ) {	
+	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 || $ttl == 0 ) {	
 	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
 	
@@ -394,23 +410,40 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	unlink($cookie_jar) or die("Can't unlink $cookie_jar");
 	
 	
-	//$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session
-	if ( $data && $ttl > 0 ) {
-	file_put_contents('cache/api/'.$hash_check.'.dat', $data, LOCK_EX);
-	}
-	else {
-	unlink('cache/api/'.$hash_check.'.dat');
-	}
+		//$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session
+		if ( $data && $ttl > 0 ) {
+	
+		//echo 'Caching data '; // DEBUGGING ONLY
+
+		file_put_contents('cache/api/'.$hash_check.'.dat', $data, LOCK_EX);
+		
+		}
+		elseif ( !$data ) {
+		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
+		//echo 'Deleted cache file, no data. '; // DEBUGGING ONLY
+		}
 
 	
 	// DEBUGGING ONLY
 	//$_SESSION['get_data_error'] .= '##REQUEST## Requested ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
 	
 	}
+	elseif ( $ttl < 0 ) {
+	unlink('cache/api/'.$hash_check.'.dat'); // Delete cache if $ttl flagged to less than zero
+	//echo 'Deleted cache file, flagged for deletion. '; // DEBUGGING ONLY
+	}
 	else {
-		
+	
 	//$data = $_SESSION['api_cache'][$hash_check];
 	$data = file_get_contents('cache/api/'.$hash_check.'.dat');
+	
+		if ( !$data ) {
+		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
+		echo 'Deleted cache file, no data. ';
+		}
+		else {
+		//echo 'Cached data '; // DEBUGGING ONLY
+		}
 	
 		if ( !preg_match("/coinmarketcap/i", $_SESSION['get_data_error']) && preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
 		$_SESSION['cmc_error'] = '##REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
@@ -1233,7 +1266,7 @@ function coinmarketcap_api() {
 	
      	$json_string = 'https://api.coinmarketcap.com/v2/ticker/2469/';
      	     
-	  	$jsondata = @get_data('url', $json_string, 5);
+	  	$jsondata = @get_data('url', $json_string, 10);
 	   
    	$cmc_data = json_decode($jsondata, TRUE);
     
