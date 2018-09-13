@@ -87,39 +87,12 @@
 		border: 1px solid #A5A7AA;    
     }
     
-    .stats-tables tr:nth-child(odd), .blockchain-tables tr:nth-child(odd) {
-    background-color: #daf2ef;
-	 }
 	 
-	 .floating-table { margin-bottom: 30px; margin-right: 8px; min-width: 540px; float: left; }
-	 
-	 .stats-tables {
-	 table-layout: auto; 
-	 height: 100%;
-	 vertical-align: text-top;
-	 }
-    
-    .stats-tables .table-header, .stats-tables td {
-	 vertical-align: text-top;
-    }
-    
-    
-    .stats-tables tr {
-    padding: 0px; 
-    }
-    
-    #stats_table_1, #stats_table_2 {
-    background: none;
-    }
-    
-    
-    
     .no-border {
     border: 0px solid black;
     }
     
     
-	 
 	 .span-block {padding: 4px; display: block;}
 	 
     /* Set black background color, white text and some padding */
@@ -129,50 +102,54 @@
       padding: 15px;
     }
     
+    
     footer a {
     color: #9fe5f4;
     }
+    
+    
     footer a:hover {
     color: #8bd2e0;
     }
     
-div.tabdiv {
-	padding:15px;
-	width:auto;
-	width: 100%;
-	min-height: 150px;
-	display:inline-block;
-	background:#fff;
-                            border: 1px solid #CBCBCB;
-}
-
-.tabs li {
-	list-style:none;
-	display:inline;
-}
-
-
-.tabs a {
-	padding:5px 10px;
-	display:inline-block;
-	background:#CBCBCB;
-	color:black;
-	text-decoration:none;
-}
-
-.tabs a.active {
-                            top: 1px;
-                            position: relative;
-                            border-top: 1px solid #CBCBCB;
-                            border-left: 1px solid #CBCBCB;
-                            border-right: 1px solid #CBCBCB;
-	background:#fff;
-	color:#000;
-}
-.navbar-default {
-    background-color: #aee2df;
-    border-color: #bcd4d8;
-}
+         
+     div.tabdiv {
+        padding:15px;
+        width:auto;
+        width: 100%;
+        min-height: 150px;
+        display:inline-block;
+        background:#fff;
+        border: 1px solid #CBCBCB;
+     }
+     
+     .tabs li {
+        list-style:none;
+        display:inline;
+     }
+     
+     
+     .tabs a {
+        padding:5px 10px;
+        display:inline-block;
+        background:#CBCBCB;
+        color:black;
+        text-decoration:none;
+     }
+     
+     .tabs a.active {
+        top: 1px;
+        position: relative;
+        border-top: 1px solid #CBCBCB;
+        border-left: 1px solid #CBCBCB;
+        border-right: 1px solid #CBCBCB;
+        background:#fff;
+        color:#000;
+     }
+     .navbar-default {
+         background-color: #aee2df;
+         border-color: #bcd4d8;
+     }
 
 
     /* On small screens, set height to 'auto' for sidenav and grid */
@@ -190,3 +167,5 @@ div.tabdiv {
         width: 100%;
       } 
     }
+    
+    

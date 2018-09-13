@@ -15,7 +15,7 @@ error_reporting(0); // Turn off all error reporting (0), or enable (1)
 /////////////////////////////////////////////////////
 
 
-$version = '0.1.7';  // 2018/SEPTEMBER/13TH
+$version = '0.1.8';  // 2018/SEPTEMBER/13TH
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
@@ -40,7 +40,7 @@ $error_scan = 50000; // Number of data rows to scan in website database for miss
 
 $db_host = 'localhost';
 $db_user = 'zillexplorer';
-$db_name = 'zillexplorer';
+$db_name = 'staging';
 $db_pass = '';
  
 
