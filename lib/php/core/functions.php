@@ -5,6 +5,34 @@
 
 /////////////////////////////////////////////////////////
 
+function discover_address($pub_key) {
+
+// Derive address from public key for Zilliqa (whitepaper, page #3)...
+
+$convert = $pub_key;
+						
+// Cleanup to be safe
+$convert = (string)$convert;
+$convert = trim($convert);    
+						
+// Strip 0x prefix
+$convert = strip_0x($convert);  
+						
+// Decode hex to binary
+$convert = hex2bin($convert);  
+						
+// sha256 digest
+$convert = hash('sha256', $convert ); 	
+      				
+// strip first 24 characters
+$convert = substr($convert, 24);
+
+return $convert;
+
+}
+
+/////////////////////////////////////////////////////////
+
 function delete_all_files($dir) {
 
 $files = glob($dir.'*');

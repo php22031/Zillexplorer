@@ -139,6 +139,15 @@
       		
       				<?php
       				}
+      				elseif ( $key2 == 'senderPubKey' ) {
+      				?>
+      				
+      				<div class="stats-row"><b><?=ucfirst($key2)?>:</b> <?=$value2?></div>
+      				
+      				<div class="stats-row"><b>FromAddr:</b> <a href='/address/<?=discover_address($value2)?>'><?=discover_address($value2)?></a> </div>
+      		
+      				<?php
+      				}
       				elseif ( $key2 == 'balance' || $key2 == 'amount' ) {
       				?>
       				

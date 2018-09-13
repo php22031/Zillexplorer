@@ -110,6 +110,8 @@
 -------------------------------------------------------------------
 0.1.7:
 -Title SEO
+-More cache optimization
+-Parsing out sender address from sender public key (many thanks to iantanwx)
 -------------------------------------------------------------------
 
 
