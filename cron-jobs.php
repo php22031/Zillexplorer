@@ -151,13 +151,13 @@ else {
 	
 	
 	// Find first / oldest block
-	$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC limit 2";
+	$query = "SELECT * FROM tx_blocks ORDER BY blocknum ASC limit 10";
 	
 	if ($result = mysqli_query($db_connect, $query)) {
 		
 				while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC) ) {
 					
-					if ( $row["blocknum"] > 0 ) { // Assure a unique prevhash
+					if ( $row["blocknum"] > 8 ) { // Assure a unique prevhash, zilliqa can initiate first few blocks weird (as of 2018/9/13 testnets)
 					
 					$txblock_request = json_request('GetTxBlock', array( $row["blocknum"] )  );
 					$txblock_results = json_decode( @get_data('array', $txblock_request, 0), TRUE ); // Don't use cache
