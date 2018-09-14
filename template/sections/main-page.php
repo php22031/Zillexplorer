@@ -4,7 +4,7 @@
  */
 ?>
 
-      <h3><b><?=$title?></b></h3>
+      <h3><b><?=htmlentities($title)?></b></h3>
       <h5><!-- <span class="label label-danger">Lorem</span> --> <span class="label label-primary">Stats</span></h5>
       
       
