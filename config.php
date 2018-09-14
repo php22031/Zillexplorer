@@ -15,7 +15,9 @@ error_reporting(0); // Turn off all error reporting (0), or enable (1)
 /////////////////////////////////////////////////////
 
 
-$version = '0.1.8';  // 2018/SEPTEMBER/13TH
+$version = '0.1.9';  // 2018/SEPTEMBER/14TH
+
+$title = 'Zilliqa Scilla Testnet Block Explorer'; // Title tag prefix text, and main page title. Change for testnet etc to avoid google thinking pages are duplicate across installs
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
@@ -41,7 +43,7 @@ $coinmarketcap_ttl = 20;  // Minutes to cache coinmarketcap data...start high an
 
 $db_host = 'localhost';
 $db_user = 'zillexplorer';
-$db_name = 'zillexplorer';
+$db_name = 'scilla_testnet';
 $db_pass = '';
  
 
