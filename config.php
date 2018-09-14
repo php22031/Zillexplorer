@@ -37,10 +37,11 @@ $stats_max = 22; // Front page limit on stats shown per section
 
 $error_scan = 50000; // Number of data rows to scan in website database for missing blockchain data
 
+$coinmarketcap_ttl = 20;  // Minutes to cache coinmarketcap data...start high and test lower, they can be strict
 
 $db_host = 'localhost';
 $db_user = 'zillexplorer';
-$db_name = 'staging';
+$db_name = 'zillexplorer';
 $db_pass = '';
  
 

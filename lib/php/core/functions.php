@@ -1310,11 +1310,12 @@ global $btc_in_usd, $coins_array;
 //////////////////////////////////////////////////////////
 
 function coinmarketcap_api() {
-	
+
+global $coinmarketcap_ttl;
 	
      	$json_string = 'https://api.coinmarketcap.com/v2/ticker/2469/';
      	     
-	  	$jsondata = @get_data('url', $json_string, 10);
+	  	$jsondata = @get_data('url', $json_string, $coinmarketcap_ttl);
 	   
    	$cmc_data = json_decode($jsondata, TRUE);
     

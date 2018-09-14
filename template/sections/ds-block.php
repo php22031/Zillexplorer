@@ -101,6 +101,13 @@ $no_prev_block = 1;
       					
       							<?php
       							}
+					      	 	elseif ( $key3 == 'leaderPubKey' || $key3 == 'minerPubKey' ) {
+      							?>
+      					
+      							<div class="stats-row is-1deep"><b> &equals;&gt;&nbsp; <?=ucfirst($key3)?>:</b> <?=$value3?> <br />(address: <a href='/address/<?=discover_address($value3)?>'><?=discover_address($value3)?></a>)</div>
+      					
+      							<?php
+      							}
 					      	 	else {
       							?>
       					
